@@ -59,3 +59,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# PostNova.AI Server
+
+Serveur backend Laravel pour la plateforme SaaS PostNova.AI - Transformez un simple prompt en campagne de contenu complète avec l'IA.
+
+## 🚀 Fonctionnalités
+
+- **Génération de contenu IA** : Création automatique de scripts pour TikTok, Reels, Shorts
+- **Posts sociaux** : Génération de contenu pour LinkedIn et X (Twitter)
+- **Landing pages** : Création de pages de destination clé en main
+- **Génération vidéo** : Montage automatique avec IA
+- **Gestion d'abonnements** : Système SaaS avec Stripe
+- **API REST** : Interface complète pour le frontend React
+
+## 🛠️
