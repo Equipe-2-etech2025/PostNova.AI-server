@@ -163,7 +163,8 @@ php artisan migrate
 
 ```env
 
-..............................................................................
+GEMINI
+HUGGING FACE
 
 ```
 
@@ -307,8 +308,7 @@ Accédez à `/telescope` pour voir les requêtes, jobs, et performances.
 
 ## 🗺️ Roadmap
 
-- [ ] Intégration Instagram API
-- [ ] Génération d'images avec DALL-E
+- [ ] Génération d'images avec Hugging Face
 - [ ] Templates personnalisables
 - [ ] Analytics avancées
 - [ ] Planification de posts
