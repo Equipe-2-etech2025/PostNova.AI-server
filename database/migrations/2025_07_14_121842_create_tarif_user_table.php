@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('tarif_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamp('date_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('expired_at');
+            $table->timestamp('expired_at')->nullable();
 
             $table->foreign('tarif_id')
                 ->references('id')
