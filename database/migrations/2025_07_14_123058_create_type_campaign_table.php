@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255);
             $table->timestamp('date_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('date_updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamp('date_updated_at')->nullable();
         });
     }
 
