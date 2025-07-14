@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('features', function (Blueprint $table) {
-            $table->id('id')->primary();
+            $table->id();
             $table->string('name',255);
             $table->timestamp('date_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });

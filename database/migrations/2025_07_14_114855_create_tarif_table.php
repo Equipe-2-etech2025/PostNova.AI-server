@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tarif', function (Blueprint $table) {
-            $table->id('id')->primary();
+            $table->id();
             $table->string('name');
             $table->float('amount');
             $table->integer('max_limit');
