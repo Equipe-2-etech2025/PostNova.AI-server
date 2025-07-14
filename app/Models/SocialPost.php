@@ -12,15 +12,21 @@ class SocialPost extends Model
 
     protected $table = 'social_post';
 
-    protected $keyType = 'string';
-    public $incrementing = false;
+    protected $keyType = 'int';
+    public $incrementing = true;
 
     public $timestamps = true;
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
     protected $fillable = [
         'content',
         'social_id',
+    ];
+    protected $casts = [
+        'id' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
     public function social()
