@@ -14,15 +14,22 @@ class TarifFeature extends Model
 
     protected $keyType = 'int';
     public $incrementing = true;
+    public $timestamps = true;
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
         'tarif_id',
         'name',
-        'date_created_at',
-        'date_updated_at',
     ];
 
-    public $timestamps = false;
+    protected $casts = [
+        'id' => 'integer',
+        'tarif_id' => 'integer',
+        'name' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
 
     public function tarif()
     {
