@@ -12,10 +12,17 @@ class TypeCampaign extends Model
     protected $table =  'type_campaign';
     protected $keyType = 'int';
     public $incrementing = true;
+    public $timestamps = true;
+    const CREATED_AT = 'created_at';
+    const  UPDATED_AT = 'updated_at';
+
     protected $fillable = [
         'name',
-        'date_created_at',
-        'date_update_at',
     ];
-    public $timestamps = false;
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }
