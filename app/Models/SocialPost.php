@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class SocialPost extends Model
 {
@@ -11,17 +12,16 @@ class SocialPost extends Model
 
     protected $table = 'social_post';
 
-    protected $keyType = 'int';
-    public $incrementing = true;
+    protected $keyType = 'string';
+    public $incrementing = false;
 
+    public $timestamps = true;
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
     protected $fillable = [
         'content',
-        'date_created_at',
-        'date_updated_at',
         'social_id',
     ];
-
-    public $timestamps = false;
 
     public function social()
     {
