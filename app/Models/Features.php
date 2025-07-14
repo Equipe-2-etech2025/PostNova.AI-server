@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Feature extends Model
+class Features extends Model
 {
     use HasFactory;
 
@@ -14,14 +14,16 @@ class Feature extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
+    public $timestamps = true;
+    const CREATED_AT = 'created_at';
+
     protected $fillable = [
         'name'
     ];
 
     protected $casts = [
         'id' => 'integer',
-        'date_created_at' => 'datetime'
+        'created_at' => 'datetime',
     ];
 
-    public $timestamps = false;
 }
