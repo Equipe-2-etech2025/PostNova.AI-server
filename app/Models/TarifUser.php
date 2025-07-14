@@ -13,15 +13,21 @@ class TarifUser extends Model
 
     protected $keyType = 'int';
     public $incrementing = true;
+    public $timestamps = true;
+    const CREATED_AT = 'created_at';
 
     protected $fillable = [
         'tarif_id',
         'user_id',
-        'date_created_at',
-        'expired_at',
     ];
 
-    public $timestamps = false;
+    protected $casts = [
+        'id' => 'integer',
+        'tarif_id' => 'integer',
+        'user_id' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     public function tarif()
     {
