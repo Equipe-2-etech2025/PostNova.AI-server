@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Campaign extends Model
 {
     use hasFactory;
-    protected $table = 'campaign';
+    protected $table = 'campaigns';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';

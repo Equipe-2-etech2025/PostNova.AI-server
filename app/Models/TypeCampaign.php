@@ -9,7 +9,7 @@ class TypeCampaign extends Model
 {
     use HasFactory;
 
-    protected $table =  'type_campaign';
+    protected $table =  'type_campaigns';
     protected $keyType = 'int';
     public $incrementing = true;
     public $timestamps = true;

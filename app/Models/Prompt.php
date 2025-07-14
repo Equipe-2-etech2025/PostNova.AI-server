@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prompt extends Model
 {
     use HasFactory;
-    protected $table = 'prompt';
+    protected $table = 'prompts';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';

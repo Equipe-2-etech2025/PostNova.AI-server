@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_campaign', function (Blueprint $table) {
+        Schema::create('tarifs', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
-            $table->timestamp('date_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('date_updated_at')->nullable();
+            $table->string('name',255);
+            $table->float('amount');
+            $table->integer('max_limit');
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_campaign');
+        Schema::dropIfExists('tarifs');
     }
 };

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prompt', function (Blueprint $table) {
+        Schema::create('prompts', function (Blueprint $table) {
             $table->id();
             $table->text('content');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')
                 ->references('id')
-                ->on('campaign');
+                ->on('campaigns');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prompt');
+        Schema::dropIfExists('prompts');
     }
 };

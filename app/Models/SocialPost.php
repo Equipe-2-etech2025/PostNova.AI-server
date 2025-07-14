@@ -10,7 +10,7 @@ class SocialPost extends Model
 {
     use HasFactory;
 
-    protected $table = 'social_post';
+    protected $table = 'social_posts';
 
     protected $keyType = 'int';
     public $incrementing = true;

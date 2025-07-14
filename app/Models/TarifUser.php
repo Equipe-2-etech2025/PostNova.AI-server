@@ -9,7 +9,7 @@ class TarifUser extends Model
 {
     use HasFactory;
 
-    protected $table = 'tarif_user';
+    protected $table = 'tarif_users';
 
     protected $keyType = 'int';
     public $incrementing = true;

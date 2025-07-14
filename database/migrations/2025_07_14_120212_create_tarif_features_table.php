@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tarif_feature', function (Blueprint $table) {
+        Schema::create('tarif_features', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tarif_id');
             $table->string('name', 255);
@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->foreign('tarif_id')
                 ->references('id')
-                ->on('tarif')
+                ->on('tarifs')
                 ->onDelete('cascade');
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tarif_feature');
+        Schema::dropIfExists('tarif_features');
     }
 };

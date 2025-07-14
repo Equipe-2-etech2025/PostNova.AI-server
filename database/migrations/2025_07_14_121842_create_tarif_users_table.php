@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('tarif_user', function (Blueprint $table) {
+        Schema::create('tarif_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tarif_id');
             $table->unsignedBigInteger('user_id');
@@ -17,7 +17,7 @@ return new class extends Migration {
 
             $table->foreign('tarif_id')
                 ->references('id')
-                ->on('tarif')
+                ->on('tarifs')
                 ->onDelete('cascade');
 
             $table->foreign('user_id')
@@ -29,6 +29,6 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists('tarif_user');
+        Schema::dropIfExists('tarif_users');
     }
 };
