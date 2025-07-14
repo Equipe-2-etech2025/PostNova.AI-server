@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('campaign', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 255);
             $table->string('description');
             $table->timestamps('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps('update_at')->default(DB::raw('CURRENT_TIMESTAMP'));
