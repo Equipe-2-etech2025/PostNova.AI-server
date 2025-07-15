@@ -26,7 +26,6 @@ class UserFactory extends Factory
             'role' => fake()->randomElement(['admin', 'user']),
             'created_at' => now(),
             'updated_at' => now(),
-            'tarif_user_id' => null,
         ];
     }
 
