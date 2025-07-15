@@ -12,13 +12,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $tarifs = Tarif::factory()->count(5)->create();
+        $tarif_users = Tarif_user::factory()->count(5)->create();
 
         User::factory()
             ->count(10)
             ->sequence(fn()  => [
                 'role' => 'user',
-                'tarif_user_id' => $tarifs->random()->id,
+                'tarif_user_id' => $tarif_users->random()->id,
             ])
             ->create();
         User::factory()->create([

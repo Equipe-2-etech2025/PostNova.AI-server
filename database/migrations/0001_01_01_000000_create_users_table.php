@@ -18,11 +18,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('role',50);
             $table->timestamps();
-
-            $table->unsignedBigInteger('tarif_user_id')->nullable();
-            $table->foreign('tarif_user_id')
-                    ->references('id')
-                    ->on('tarifs');
         });
 
     }
