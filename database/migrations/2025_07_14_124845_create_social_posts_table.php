@@ -10,14 +10,13 @@ return new class extends Migration {
         Schema::create('social_posts', function (Blueprint $table) {
             $table->id();
             $table->text('content')->nullable();
-            $table->timestamp('date_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('date_updated_at')->nullable();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
 
             $table->unsignedBigInteger('social_id');
             $table->foreign('social_id')
                 ->references('id')
-                ->on('socials')
-                ->onDelete('cascade');
+                ->on('socials');
         });
     }
 
