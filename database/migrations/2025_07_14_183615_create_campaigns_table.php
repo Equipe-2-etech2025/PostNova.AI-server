@@ -21,8 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('type_campaign_id')->nullable();
             $table->foreign('type_campaign_id')
                 ->references('id')
-                ->on('type_campaigns')
-                ->onDelete('cascade');
+                ->on('type_campaigns');
 
         });
     }

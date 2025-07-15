@@ -22,8 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('feature_id');
             $table->foreign('feature_id')
                   ->references('id')
-                  ->on('features')
-                  ->onDelete('cascade');
+                  ->on('features');
         });
     }
 

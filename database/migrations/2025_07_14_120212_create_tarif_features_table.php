@@ -20,8 +20,7 @@ return new class extends Migration
 
             $table->foreign('tarif_id')
                 ->references('id')
-                ->on('tarifs')
-                ->onDelete('cascade');
+                ->on('tarifs');
         });
     }
 
