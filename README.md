@@ -222,7 +222,7 @@ php artisan optimize
 Le projet inclut Laravel Telescope pour le monitoring en développement :
 
 ```bash
-php artisan telescope:install
+php artisan telescope:installr
 php artisan migrate
 ```
 
