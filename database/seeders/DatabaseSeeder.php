@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TarifUser;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            SocialSeeder::class,
+            TarifUserSeeder::class,
             TarifFeatureSeeder::class,
             TarifSeeder::class,
             UserSeeder::class,
