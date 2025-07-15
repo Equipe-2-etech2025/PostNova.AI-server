@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -12,21 +13,28 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $tarif_users = Tarif_user::factory()->count(5)->create();
-
-        User::factory()
-            ->count(10)
-            ->sequence(fn()  => [
-                'role' => 'user',
-                'tarif_user_id' => $tarif_users->random()->id,
-            ])
-            ->create();
-        User::factory()->create([
+        // Créer un admin par défaut
+        User::create([
             'name' => 'Admin',
             'email' => 'admin@postnova.ai',
-            'password' => bcrypt('admin123'),
-            'role' => 'admin',
-            'tarif_user_id' => null,
+            'password' => Hash::make('password'),
+            'role' => User::ROLE_ADMIN,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
+        // Créer un utilisateur normal par défaut
+        User::create([
+            'name' => 'User Test',
+            'email' => 'user@postnova.ai',
+            'password' => Hash::make('password'),
+            'role' => User::ROLE_USER,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Créer des utilisateurs aléatoires
+        User::factory(10)->create();
+        User::factory(3)->admin()->create();
     }
 }
