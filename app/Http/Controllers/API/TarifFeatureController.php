@@ -16,22 +16,18 @@ class TarifFeatureController extends Controller
     {
         $query = TarifFeature::query();
 
-        // Recherche par contenu
         if ($request->has('search')) {
             $query->searchByContent($request->search);
         }
 
-        // Filtrage par date de création
         if ($request->has('created_after')) {
             $query->createdAfter($request->created_after);
         }
 
-        // Tri
         $sortBy = $request->get('sort_by', 'created_at');
         $sortOrder = $request->get('sort_order', 'desc');
         $query->orderBy($sortBy, $sortOrder);
 
-        // Pagination
         $perPage = $request->get('per_page', 15);
         $features = $query->paginate($perPage);
 
@@ -51,7 +47,7 @@ class TarifFeatureController extends Controller
         ]);
 
         $feature = TarifFeature::create([
-            'content' => $request->content,
+            'name' => $request->name,
         ]);
 
         return response()->json([
@@ -82,7 +78,7 @@ class TarifFeatureController extends Controller
         ]);
 
         $tarifFeature->update([
-            'content' => $request->content,
+            'name' => $request->name,
         ]);
 
         return response()->json([
