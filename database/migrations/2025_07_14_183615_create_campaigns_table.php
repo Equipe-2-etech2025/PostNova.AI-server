@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('description');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('update_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users');
 
             $table->unsignedBigInteger('type_campaign_id')->nullable();
             $table->foreign('type_campaign_id')
