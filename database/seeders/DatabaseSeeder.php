@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TarifFeatureSeeder::class,
-            // Autres seeders...
+            TarifSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
