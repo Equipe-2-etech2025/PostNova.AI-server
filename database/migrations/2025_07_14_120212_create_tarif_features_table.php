@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tarif_id');
             $table->string('name', 255);
-            $table->timestamp('date_created_at')->useCurrent();
-            $table->timestamp('date_updated_at')->useCurrent()->useCurrentOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
 
             $table->foreign('tarif_id')
                 ->references('id')
-                ->on('tarifs')
-                ->onDelete('cascade');
+                ->on('tarifs');
         });
     }
 

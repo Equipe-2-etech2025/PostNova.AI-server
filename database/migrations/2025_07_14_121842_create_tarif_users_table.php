@@ -12,18 +12,16 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('tarif_id');
             $table->unsignedBigInteger('user_id');
-            $table->timestamp('date_created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('expired_at')->nullable();
 
             $table->foreign('tarif_id')
                 ->references('id')
-                ->on('tarifs')
-                ->onDelete('cascade');
+                ->on('tarifs');
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+                ->on('users');
         });
     }
 
