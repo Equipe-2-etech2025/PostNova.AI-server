@@ -15,8 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('description');
+            $table->string('status', 50);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('update_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users');
 
             $table->unsignedBigInteger('type_campaign_id')->nullable();
             $table->foreign('type_campaign_id')
@@ -31,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaign');
+        Schema::dropIfExists('campaigns');
     }
 };

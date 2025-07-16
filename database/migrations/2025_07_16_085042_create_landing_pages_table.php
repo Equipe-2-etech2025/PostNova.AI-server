@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prompts', function (Blueprint $table) {
+        Schema::create('landing_pages', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
+            $table->string('url', 255);
+            $table->json('content');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->boolean('is_published')->default(false);
 
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prompts');
+        Schema::dropIfExists('images');
     }
 };

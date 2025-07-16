@@ -13,6 +13,7 @@ class Tarif extends Model
 
     protected $keyType = 'int';
     public $incrementing = true;
+    public $timestamps = false;
 
     protected $casts = [
         'id' => 'integer',

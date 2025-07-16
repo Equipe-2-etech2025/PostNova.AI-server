@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\TarifUser;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,9 +15,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            PromptSeeder::class,
+            CampaignSeeder::class,
+            TypeCampaignSeeder::class,
+            FeatureSeeder::class,
+            SocialSeeder::class,
+            TarifUserSeeder::class,
             UserSeeder::class,
-            TarifFeatureSeeder::class,
-            // Autres seeders...
         ]);
     }
 }
