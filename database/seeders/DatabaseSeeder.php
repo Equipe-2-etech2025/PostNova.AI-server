@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            PromptSeeder::class,
             CampaignSeeder::class,
             TypeCampaignSeeder::class,
             FeatureSeeder::class,
