@@ -66,7 +66,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Password::defaults()],
-            'role' => ['required', 'in:user,admin,super_admin'],
+            'role' => ['required', 'in:user,admin'],
         ]);
 
         $user = User::create([
@@ -103,7 +103,7 @@ class UserController extends Controller
             'name' => ['sometimes', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['sometimes', Password::defaults()],
-            'role' => ['sometimes', 'in:user,admin,super_admin'],
+            'role' => ['sometimes', 'in:user,admin'],
         ]);
 
         $data = $request->only(['name', 'email', 'role']);

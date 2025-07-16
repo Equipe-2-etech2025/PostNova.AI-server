@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('prompts', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
+            $table->timestamps();
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')
                 ->references('id')
