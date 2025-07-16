@@ -12,6 +12,7 @@ class Social extends Model
     protected $table = 'socials';
     protected $primaryKey = 'id';
     public $incrementing = true;
+    public $timestamps = false;
     protected $keyType = 'int';
     protected $fillable = [
         'name',

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\TarifFeature;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\TarifFeature;
+use App\Models\Tarif;
 
 class TarifFeatureSeeder extends Seeder
 {
@@ -12,29 +14,35 @@ class TarifFeatureSeeder extends Seeder
      */
     public function run(): void
     {
-        $features = [
-            // Features Starter
-            'Génération de contenu IA pour tous les réseaux sociaux',
-            'Génération image automatique avec IA',
-            'Génération landing page inclus',
-            'Support email standard',
-            'Jusqu\'à 3 campagnes par jour',
+        TarifFeature::truncate();
 
-            // Features Pro
-            'Publication automatique sur les réseaux sociaux',
-            'Analytics avancées et rapports détaillés',
-            'Campagnes illimités',
-            'Support prioritaire',
-            'Planification de posts',
-        ];
+        $tarifs = Tarif::all();
 
-        foreach ($features as $feature) {
-            TarifFeature::create([
-                'content' => $feature,
-            ]);
+        if ($tarifs->isEmpty()) {
+            $tarifs = Tarif::factory()->count(1)->create();
         }
 
-        // Créer quelques features supplémentaires avec la factory
-        TarifFeature::factory(5)->create();
+        $tarifs = $tarifs->take(1);
+
+        $features = [
+            'Landing pages illimitées',
+            'Templates premium',
+            'Image illimitées',
+            'Campaign illimitées',
+            'Générateur IA avancé',
+            'Analytics avancées',
+            'Support prioritaire',
+            'Intégrations CRM',
+        ];
+
+        foreach ($tarifs as $tarif) {
+            foreach ($features as $featureName) {
+                TarifFeature::create([
+                    'tarif_id' => $tarif->id,
+                    'name' => $featureName,
+                ]);
+            }
+        }
     }
+
 }
