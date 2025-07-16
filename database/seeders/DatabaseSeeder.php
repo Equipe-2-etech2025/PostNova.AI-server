@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            CampaignSeeder::class,
+            TypeCampaignSeeder::class,
+            FeatureSeeder::class,
             SocialSeeder::class,
             TarifUserSeeder::class,
             TarifFeatureSeeder::class,
