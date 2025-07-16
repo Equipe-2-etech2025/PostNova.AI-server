@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
 
         // Créer un utilisateur normal par défaut
         User::create([
-            'name' => 'User Test',
+            'name' => 'Default User',
             'email' => 'user@postnova.ai',
             'password' => Hash::make('password'),
             'role' => User::ROLE_USER,
