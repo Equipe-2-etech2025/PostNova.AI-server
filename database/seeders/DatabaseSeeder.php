@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Image;
+use App\Models\LandingPage;
 use App\Models\TarifUser;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            LandingPage::class,
+            ImageSeeder::class,
             PromptSeeder::class,
             CampaignSeeder::class,
             TypeCampaignSeeder::class,
