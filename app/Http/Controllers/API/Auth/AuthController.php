@@ -46,7 +46,6 @@ class AuthController extends Controller
                     'token_type' => 'Bearer',
                 ],
             ], 201);
-
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'inscription', ['error' => $e->getMessage()]);
 
@@ -66,10 +65,10 @@ class AuthController extends Controller
             $request->authenticate();
 
             $user = Auth::user();
-            
+
             // Révoquer tous les tokens existants
             $user->tokens()->delete();
-            
+
             // Créer un nouveau token
             $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -84,7 +83,6 @@ class AuthController extends Controller
                     'token_type' => 'Bearer',
                 ],
             ]);
-
         } catch (\Exception $e) {
             Log::error('Erreur lors de la connexion', ['error' => $e->getMessage()]);
 
@@ -102,7 +100,7 @@ class AuthController extends Controller
     {
         try {
             $user = $request->user();
-            
+
             // Révoquer le token actuel
             $request->user()->currentAccessToken()->delete();
 
@@ -112,7 +110,6 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'Déconnexion réussie.',
             ]);
-
         } catch (\Exception $e) {
             Log::error('Erreur lors de la déconnexion', ['error' => $e->getMessage()]);
 
@@ -141,10 +138,10 @@ class AuthController extends Controller
     {
         try {
             $user = $request->user();
-            
+
             // Révoquer le token actuel
             $request->user()->currentAccessToken()->delete();
-            
+
             // Créer un nouveau token
             $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -156,7 +153,6 @@ class AuthController extends Controller
                     'token_type' => 'Bearer',
                 ],
             ]);
-
         } catch (\Exception $e) {
             Log::error('Erreur lors du rafraîchissement du token', ['error' => $e->getMessage()]);
 

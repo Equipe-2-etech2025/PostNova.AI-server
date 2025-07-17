@@ -21,13 +21,13 @@ Route::get('public/tarif-features', [TarifFeatureController::class, 'index']);
 
 // Routes protégées par authentification
 Route::middleware('auth:sanctum')->group(function () {
-    
+
     // Routes d'authentification
     Route::prefix('auth')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
         Route::post('refresh', [AuthController::class, 'refresh']);
-        
+
         // Vérification d'email
         Route::post('email/verification-notification', [EmailVerificationController::class, 'send']);
         Route::post('email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Routes pour les utilisateurs authentifiés
     Route::apiResource('tarif-features', TarifFeatureController::class);
-    
+
     // Routes pour les administrateurs seulement
     Route::middleware('role:admin')->group(function () {
         Route::apiResource('users', UserController::class);

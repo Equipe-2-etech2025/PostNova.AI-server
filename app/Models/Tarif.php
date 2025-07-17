@@ -26,5 +26,4 @@ class Tarif extends Model
         'amount',
         'max_limit',
     ];
-
 }

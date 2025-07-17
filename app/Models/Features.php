@@ -25,5 +25,4 @@ class Features extends Model
         'id' => 'integer',
         'created_at' => 'datetime',
     ];
-
 }
