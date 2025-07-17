@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CampaignFeatures;
 use App\Models\Image;
 use App\Models\LandingPage;
 use App\Models\TarifUser;

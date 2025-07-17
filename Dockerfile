@@ -1,6 +1,17 @@
 FROM php:8.4.2-fpm
 
-# Install system dependencies
+# Créer le fichier sources.list avec les bons dépôts HTTPS
+RUN echo "deb https://deb.debian.org/debian bookworm main" > /etc/apt/sources.list && \
+    echo "deb https://deb.debian.org/debian-security bookworm-security main" >> /etc/apt/sources.list && \
+    echo "deb https://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list
+
+# Installer et mettre à jour les certificats CA
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Installer les dépendances
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -15,6 +26,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
+
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
