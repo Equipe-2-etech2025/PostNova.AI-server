@@ -2,6 +2,10 @@
 
 default: up
 
+build:
+	@echo "Building containers..."
+	docker-compose build
+
 up:
 	@echo "Starting containers..."
 	docker-compose up -d
@@ -9,10 +13,6 @@ up:
 down:
 	@echo "Stopping containers..."
 	docker-compose down
-
-build:
-	@echo "Building containers..."
-	docker-compose build
 
 start:
 	@echo "Starting containers..."
