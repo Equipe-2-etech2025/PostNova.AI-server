@@ -26,7 +26,6 @@ class Image extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'type' => 'string',
         'path' => 'string',
         'is_published' => 'boolean',
         'created_at' => 'datetime',
