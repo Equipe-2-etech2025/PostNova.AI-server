@@ -15,7 +15,7 @@ class Prompt extends Model
     protected $keyType = 'int';
 
     public $timestamps = false;
-    const CREATED_AT = 'created_at';
+    public const CREATED_AT = 'created_at';
 
     protected $fillable = [
         'content',

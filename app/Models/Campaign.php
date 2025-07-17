@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TypeCampaign;
+use App\Models\User;
 
 class Campaign extends Model
 {
@@ -14,8 +16,8 @@ class Campaign extends Model
     public $incrementing = true;
     protected $keyType = 'int';
     public $timestamps = true;
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
         'name',
@@ -40,7 +42,7 @@ class Campaign extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function type_campaign()
+    public function typeCampaign()
     {
         return $this->belongsTo(TypeCampaign::class, 'type_campaign_id');
     }

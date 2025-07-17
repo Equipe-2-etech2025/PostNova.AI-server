@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class TarifUser extends Model
 {
@@ -14,7 +15,7 @@ class TarifUser extends Model
     protected $keyType = 'int';
     public $incrementing = true;
     public $timestamps = false;
-    const CREATED_AT = 'created_at';
+    public const CREATED_AT = 'created_at';
 
     protected $fillable = [
         'tarif_id',
