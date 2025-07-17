@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            TarifFeatureSeeder::class,
+            CampaignFeatureSeeder::class,
+            TarifSeeder::class,
+            LandingPageSeeder::class,
+            ImageSeeder::class,
             TypeCampaignSeeder::class,
             CampaignSeeder::class,
             PromptSeeder::class,
