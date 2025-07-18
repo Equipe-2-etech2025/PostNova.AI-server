@@ -90,7 +90,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la connexion.',
+                'message' => $e->getMessage(),
             ], 401);
         }
     }
