@@ -90,7 +90,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => 'Email ou mot de passe invalide',
             ], 401);
         }
     }
