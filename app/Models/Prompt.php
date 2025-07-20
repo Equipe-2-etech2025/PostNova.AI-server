@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Prompt extends Model
 {
     use HasFactory;
+
     protected $table = 'prompts';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
 
     public $timestamps = false;
-    const CREATED_AT = 'created_at';
+    public const CREATED_AT = 'created_at';
 
     protected $fillable = [
         'content',
