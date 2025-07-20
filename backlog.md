@@ -6,9 +6,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
-- [EPA-25] Création de test Unitaire et test fonctionnel avec PHP unit (laravel) (Assigné à: Mialisoa Lisa Rasoanirina)
+- [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
-  Commit: `EPA-25: configuration d'envirobbement test et implémenation de SocialTest`
+  Commit: `EPA-25: config env test et implémenation de SocialTest`
+  Commit: `EPA-25: fix nom ticket pour backlog.md`
 
 - [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)
