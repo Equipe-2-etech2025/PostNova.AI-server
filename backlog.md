@@ -11,6 +11,7 @@
   Commit: `EPA-25: config env test et implémenation de SocialTest`
   Commit: `EPA-25: fix nom ticket pour backlog.md`
   Commit: `EPA-25: implémentation de TarifTest`
+  Commit: `EPA-25: implémentation de TarifFeatureTest`
 
 - [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)
