@@ -6,6 +6,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-33-services-repositories-controllers`
+  Commit: `EPA-33: création services-repositories-controllers pour le Campaign`
+
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
   Commit: `EPA-25: config env test et implémenation de SocialTest`

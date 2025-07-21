@@ -14,6 +14,7 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('forgot-password', [PasswordResetController::class, 'sendResetLink']);
     Route::post('reset-password', [PasswordResetController::class, 'reset']);
+
 });
 
 // Routes publiques pour les features tarifaires
@@ -35,9 +36,14 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('verification.verify');
     });
 
-    // Routes pour les utilisateurs authentifiés
-    Route::apiResource('tarif-features', TarifFeatureController::class);
-
+    // Routes pour les campaigns
+    Route::prefix('campaigns')->group(function () {
+        Route::get('/', [CampaignController::class, 'index'])->name('campaigns.index');
+        Route::post('/', [CampaignController::class, 'store'])->name('campaigns.store');
+        Route::get('/{id}', [CampaignController::class, 'show'])->name('campaigns.show');
+        Route::put('/{id}', [CampaignController::class, 'update'])->name('campaigns.update');
+        Route::delete('/{id}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
+    });
     // Routes pour les administrateurs seulement
     Route::middleware('role:admin')->group(function () {
         Route::apiResource('users', UserController::class);

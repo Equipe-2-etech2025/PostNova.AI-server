@@ -51,7 +51,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Une erreur est survenue lors de l\'inscription.',
+                'message' => $e->getMessage(),
+                //'message' => 'Une erreur est survenue lors de l\'inscription.',
             ], 500);
         }
     }
