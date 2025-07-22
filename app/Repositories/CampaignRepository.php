@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Repositories\Interfaces\CampaignRepositoryInterface;
 use App\Models\Campaign;
 
 class CampaignRepository implements CampaignRepositoryInterface

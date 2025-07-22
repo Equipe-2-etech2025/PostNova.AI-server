@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Providers;
-
 use Illuminate\Support\ServiceProvider;
+use App\Services\Interfaces\CampaignServiceInterface;
+use App\Services\CampaignService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,13 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             \App\Repositories\CampaignRepositoryInterface::class,
-            \App\Repositories\CampaignRepository::class
+            \App\Repositories\CampaignRepository::class,
+
+        );
+        // Bindings des Services
+        $this->app->bind(
+            CampaignServiceInterface::class,
+            CampaignService::class
         );
     }
 

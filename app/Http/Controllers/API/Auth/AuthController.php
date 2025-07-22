@@ -22,10 +22,13 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         try {
+            $hashedPassword = Hash::make($request->password);
+            Log::info('Password hash at register: ' . $hashedPassword);
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $request->password,
                 'role' => User::ROLE_USER,
             ]);
 

@@ -9,6 +9,7 @@
 - [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-33-services-repositories-controllers`
   Commit: `EPA-33: création services-repositories-controllers pour le Campaign`
+  Commit: `EPA-33: creation ressources et requêtes pour le campaign`
 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
@@ -16,6 +17,7 @@
   Commit: `EPA-25: fix nom ticket pour backlog.md`
   Commit: `EPA-25: implémentation de TarifTest`
   Commit: `EPA-25: implémentation de TarifFeatureTest`
+ 
 
 - [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)

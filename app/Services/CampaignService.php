@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Services;
-
-use App\Repositories\CampaignRepositoryInterface;
+use App\Repositories\CampaignRepository;
 use App\Services\Interfaces\CampaignServiceInterface;
 
 class CampaignService implements CampaignServiceInterface
 {
     protected $campaignRepository;
 
-    public function __construct(CampaignRepositoryInterface $campaignRepository)
+    public function __construct(CampaignRepository $campaignRepository)
     {
         $this->campaignRepository = $campaignRepository;
     }
