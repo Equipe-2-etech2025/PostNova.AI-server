@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
+
     protected $table = 'images';
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
 
     public $timestamps = true;
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
         'type',
@@ -26,7 +27,6 @@ class Image extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'type' => 'string',
         'path' => 'string',
         'is_published' => 'boolean',
         'created_at' => 'datetime',
