@@ -33,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
             ->middleware('signed')
             ->name('verification.verify');
+        
+            Route::get('/email/verify-status',[EmailVerificationController::class],'status')
+            ->name('verification.status');
     });
 
     // Routes pour les utilisateurs authentifiés
