@@ -19,7 +19,7 @@ class CampaignRepository implements CampaignRepositoryInterface
         return $this->model->with(['user', 'typeCampaign'])->get();
     }
 
-    public function find($id)
+    public function findById($id)
     {
         return $this->model->with(['user', 'typeCampaign'])->findOrFail($id);
     }
@@ -38,7 +38,7 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function delete($id)
     {
-        return $this->find($id)->delete();
+        return $this->findById($id)->delete();
     }
 
     public function findByUser($userId)

@@ -8,7 +8,6 @@ class CreateCampaignRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // ou `return auth()->user()->isAdmin();`
         return true;
     }
 
@@ -16,9 +15,8 @@ class CreateCampaignRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'status' => 'required|string|in:draft,published,archived',
+            'status' => ['nullable', 'in:pending,processing,completed,failed'],
             'description' => 'nullable|string',
-            'user_id' => 'required|exists:users,id',
             'type_campaign_id' => 'required|exists:type_campaigns,id',
         ];
     }

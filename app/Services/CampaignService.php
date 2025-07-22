@@ -20,18 +20,20 @@ class CampaignService implements CampaignServiceInterface
 
     public function getCampaignById($id)
     {
-        return $this->campaignRepository->find($id);
+        return $this->campaignRepository->findById($id);
     }
 
     public function createCampaign(array $data)
     {
+        $data['status'] = $data['status'] ?? 'processing';
         return $this->campaignRepository->create($data);
     }
 
-    public function updateCampaign($id, array $data)
+    public function updateCampaign(int $id, array $data)
     {
         return $this->campaignRepository->update($id, $data);
     }
+
 
     public function deleteCampaign($id)
     {

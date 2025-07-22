@@ -13,21 +13,27 @@ class CampaignResource extends JsonResource
             'name' => $this->name,
             'status' => $this->status,
             'description' => $this->description,
-            'user' => $this->whenLoaded('user', [
-                'id' => $this->user->id,
-                'name' => $this->user->name
-            ]),
-            'type' => $this->whenLoaded('typeCampaign', [
-                'id' => $this->typeCampaign->id,
-                'name' => $this->typeCampaign->name
-            ]),
+            'user' => $this->whenLoaded('user', function () {
+                return $this->user ? [
+                    'id' => $this->user->id,
+                    'name' => $this->user->name,
+                ] : null;
+            }),
+            'type' => $this->whenLoaded('typeCampaign', function () {
+                return $this->typeCampaign ? [
+                    'id' => $this->typeCampaign->id,
+                    'name' => $this->typeCampaign->name,
+                ] : null;
+            }),
             'dates' => [
-                'created_at' => $this->created_at->format('Y-m-d H:i'),
-                'updated_at' => $this->updated_at->format('Y-m-d H:i'),
+                'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i') : null,
+                'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d H:i') : null,
             ],
+
+            /*
             'links' => [
                 'self' => route('campaigns.show', $this->id),
-            ]
+            ]*/
         ];
     }
 }

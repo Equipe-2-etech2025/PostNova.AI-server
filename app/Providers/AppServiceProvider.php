@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Repositories\CampaignRepositoryInterface::class,
+            \App\Repositories\Interfaces\CampaignRepositoryInterface::class,
             \App\Repositories\CampaignRepository::class,
 
         );
