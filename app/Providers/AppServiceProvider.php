@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(SocialServiceInterface::class, SocialService::class);
+        $this->app->bind(SocialServiceInterface::class, SocialService::class);
 
         $this->app->bind(
             \App\Repositories\Interfaces\CampaignRepositoryInterface::class,

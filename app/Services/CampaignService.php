@@ -34,7 +34,6 @@ class CampaignService implements CampaignServiceInterface
         return $this->campaignRepository->update($id, $data);
     }
 
-
     public function deleteCampaign($id)
     {
         return $this->campaignRepository->delete($id);

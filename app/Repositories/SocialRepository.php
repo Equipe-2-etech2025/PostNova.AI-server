@@ -43,12 +43,11 @@ class SocialRepository implements SocialRepositoryInterface
 
     public function findBy(array $criteria)
     {
-        $query = $this->model->query();
+        $query = $this->model->query(); // creation de requête vide
 
-        foreach ($criteria as $field => $value) {
-            $query->where($field, $value);
+        foreach ($criteria as $column => $value) {
+            $query->where($column, $value);
         }
-
         return $query->get();
     }
 }

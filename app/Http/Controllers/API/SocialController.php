@@ -26,7 +26,7 @@ class SocialController extends Controller
 
     public function show(int $id)
     {
-        return $this->socialService->getById($id);
+        return $this->socialService->getSocialById($id);
     }
 
     public function store(Request $request)
@@ -42,5 +42,10 @@ class SocialController extends Controller
 
     public function destroy(int $id){
         return $this->socialService->deleteSocial($id);
+    }
+
+    public function showByCriteria(Request $request) {
+        $criteria = $request->all();
+        return $this->socialService->getSocialByCriteria($criteria);
     }
 }

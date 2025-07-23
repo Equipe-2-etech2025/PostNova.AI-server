@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\FeatureController;
 use App\Http\Controllers\API\SocialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [SocialController::class, 'store']);
         Route::put('/{id}', [SocialController::class, 'update']);
         Route::delete('/{id}', [SocialController::class, 'destroy']);
+        Route::get('/', [SocialController::class, 'showByCriteria']);
+    });
+
+    //Route pour features
+    Route::prefix('features')->group(function () {
+        Route::get('/', [FeatureController::class, 'index']);
+        Route::get('/{id}', [FeatureController::class, 'show']);
+        Route::post('/', [FeatureController::class, 'store']);
+        Route::put('/{id}', [FeatureController::class, 'update']);
+        Route::delete('/{id}', [FeatureController::class, 'destroy']);
+        Route::get('/', [FeatureController::class, 'showByCriteria']);
     });
 
     // Routes pour les administrateurs seulement

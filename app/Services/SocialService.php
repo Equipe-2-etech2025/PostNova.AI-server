@@ -17,7 +17,7 @@ class SocialService implements SocialServiceInterface
         return $this->socialRepository->all();
     }
 
-    public function getById(int $id)
+    public function getSocialById(int $id)
     {
         return $this->socialRepository->find($id);
     }
@@ -32,7 +32,14 @@ class SocialService implements SocialServiceInterface
         return $this->socialRepository->create($data);
     }
 
-    public function deleteSocial(int $id){
+    public function deleteSocial(int $id)
+    {
         return $this->socialRepository->delete($id);
+    }
+
+
+    public function getSocialByCriteria(array $criteria)
+    {
+        return $this->socialRepository->findBy($criteria);
     }
 }
