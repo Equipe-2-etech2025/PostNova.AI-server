@@ -24,6 +24,17 @@ class SocialRepository implements SocialRepositoryInterface
         return $this->model->find($id);
     }
 
+    public function findBy(array $criteria)
+    {
+        $query = $this->model->query();
+
+        foreach ($criteria as $field => $value) {
+            $query->where($field, $value);
+        }
+
+        return $query->get();
+    }
+
     public function create(array $data)
     {
         return $this->model->create($data);
@@ -39,15 +50,5 @@ class SocialRepository implements SocialRepositoryInterface
     public function delete(int $id)
     {
         return $this->model->destroy($id);
-    }
-
-    public function findBy(array $criteria)
-    {
-        $query = $this->model->query(); // creation de requête vide
-
-        foreach ($criteria as $column => $value) {
-            $query->where($column, $value);
-        }
-        return $query->get();
     }
 }

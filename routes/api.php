@@ -55,7 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [SocialController::class, 'store']);
         Route::put('/{id}', [SocialController::class, 'update']);
         Route::delete('/{id}', [SocialController::class, 'destroy']);
-        Route::get('/', [SocialController::class, 'showByCriteria']);
+        Route::post('/search', [SocialController::class, 'showByCriteria']);
     });
 
     //Route pour features
