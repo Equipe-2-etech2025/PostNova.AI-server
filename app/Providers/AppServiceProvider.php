@@ -12,10 +12,12 @@ use App\Repositories\Interfaces\FeaturesRepositoryInterface;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\Repositories\Interfaces\LandingPageRepositoryInterface;
 use App\Repositories\Interfaces\PromptRepositoryInterface;
+use App\Repositories\Interfaces\SocialPostRepositoryInterface;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 use App\Repositories\Interfaces\TypeCampaignRepositoryInterface;
 use App\Repositories\LandingPageRepository;
 use App\Repositories\PromptRepository;
+use App\Repositories\SocialPostRepository;
 use App\Repositories\SocialRepository;
 use App\Repositories\TypeCampaignRepository;
 use App\Services\CampaignFeaturesService;
@@ -26,10 +28,12 @@ use App\Services\Interfaces\FeaturesServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
 use App\Services\Interfaces\LandingPageServiceInterface;
 use App\Services\Interfaces\PromptServiceInterface;
+use App\Services\Interfaces\SocialPostServiceInterface;
 use App\Services\Interfaces\SocialServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\LandingPageService;
 use App\Services\PromptService;
+use App\Services\SocialPostService;
 use App\Services\SocialService;
 use App\Services\TypeCampaignService;
 use Illuminate\Support\ServiceProvider;
@@ -43,6 +47,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(SocialPostRepositoryInterface::class, SocialPostRepository::class);
+        $this->app->bind(SocialPostServiceInterface::class, SocialPostService::class);
         $this->app->bind(PromptRepositoryInterface::class, PromptRepository::class);
         $this->app->bind(PromptServiceInterface::class, PromptService::class);
         $this->app->bind(LandingPageRepositoryInterface::class, LandingPageRepository::class);

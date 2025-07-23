@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\LandingPageController;
 use App\Http\Controllers\API\PromptController;
 use App\Http\Controllers\API\SocialController;
+use App\Http\Controllers\API\SocialPostController;
 use App\Http\Controllers\API\TypeCampaignController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\AuthController;
@@ -125,6 +126,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', [PromptController::class, 'update']);
         Route::delete('/{id}', [PromptController::class, 'destroy']);
         Route::post('/search', [PromptController::class, 'showByCriteria']);
+    });
+
+    Route::prefix('social-posts')->group(function () {
+        Route::get('/', [SocialPostController::class, 'index']);
+        Route::get('/{id}', [SocialPostController::class, 'show']);
+        Route::post('/', [SocialPostController::class, 'store']);
+        Route::put('/{id}', [SocialPostController::class, 'update']);
+        Route::delete('/{id}', [SocialPostController::class, 'destroy']);
+        Route::post('/search', [SocialPostController::class, 'showByCriteria']);
     });
 
     // Routes pour les administrateurs seulement
