@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CampaignFeaturesController;
 use App\Http\Controllers\API\FeatureController;
 use App\Http\Controllers\API\FeaturesController;
 use App\Http\Controllers\API\SocialController;
@@ -85,6 +86,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', [FeaturesController::class, 'update']);
         Route::delete('/{id}', [FeaturesController::class, 'destroy']);
         Route::post('/search', [FeaturesController::class, 'showByCriteria']);
+    });
+
+    Route::prefix('campaign-features')->group(function () {
+        Route::get('/', [CampaignFeaturesController::class, 'index']);
+        Route::get('/{id}', [CampaignFeaturesController::class, 'show']);
+        Route::post('/', [CampaignFeaturesController::class, 'store']);
+        Route::put('/{id}', [CampaignFeaturesController::class, 'update']);
+        Route::delete('/{id}', [CampaignFeaturesController::class, 'destroy']);
+        Route::post('/search', [CampaignFeaturesController::class, 'showByCriteria']);
     });
 
     // Routes pour les administrateurs seulement
