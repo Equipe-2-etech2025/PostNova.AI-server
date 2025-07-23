@@ -15,12 +15,14 @@ use App\Repositories\Interfaces\PromptRepositoryInterface;
 use App\Repositories\Interfaces\SocialPostRepositoryInterface;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 use App\Repositories\Interfaces\TarifRepositoryInterface;
+use App\Repositories\Interfaces\TarifUserRepositoryInterface;
 use App\Repositories\Interfaces\TypeCampaignRepositoryInterface;
 use App\Repositories\LandingPageRepository;
 use App\Repositories\PromptRepository;
 use App\Repositories\SocialPostRepository;
 use App\Repositories\SocialRepository;
 use App\Repositories\TarifRepository;
+use App\Repositories\TarifUserRepository;
 use App\Repositories\TypeCampaignRepository;
 use App\Services\CampaignFeaturesService;
 use App\Services\FeaturesService;
@@ -33,12 +35,14 @@ use App\Services\Interfaces\PromptServiceInterface;
 use App\Services\Interfaces\SocialPostServiceInterface;
 use App\Services\Interfaces\SocialServiceInterface;
 use App\Services\Interfaces\TarifServiceInterface;
+use App\Services\Interfaces\TarifUserServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\LandingPageService;
 use App\Services\PromptService;
 use App\Services\SocialPostService;
 use App\Services\SocialService;
 use App\Services\TarifService;
+use App\Services\TarifUserService;
 use App\Services\TypeCampaignService;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Interfaces\CampaignServiceInterface;
@@ -51,6 +55,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(TarifUserRepositoryInterface::class, TarifUserRepository::class);
+        $this->app->bind(TarifUserServiceInterface::class, TarifUserService::class);
         $this->app->bind(TarifRepositoryInterface::class, TarifRepository::class);
         $this->app->bind(TarifServiceInterface::class, TarifService::class);
         $this->app->bind(SocialPostRepositoryInterface::class, SocialPostRepository::class);

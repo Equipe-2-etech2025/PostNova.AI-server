@@ -9,6 +9,7 @@ use App\Http\Controllers\API\PromptController;
 use App\Http\Controllers\API\SocialController;
 use App\Http\Controllers\API\SocialPostController;
 use App\Http\Controllers\API\TarifController;
+use App\Http\Controllers\API\TarifUserController;
 use App\Http\Controllers\API\TypeCampaignController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\AuthController;
@@ -145,6 +146,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', [TarifController::class, 'update']);
         Route::delete('/{id}', [TarifController::class, 'destroy']);
         Route::post('/search', [TarifController::class, 'showByCriteria']);
+    });
+
+    Route::prefix('tarif-users')->group(function () {
+        Route::get('/', [TarifUserController::class, 'index']);
+        Route::get('/{id}', [TarifUserController::class, 'show']);
+        Route::post('/', [TarifUserController::class, 'store']);
+        Route::put('/{id}', [TarifUserController::class, 'update']);
+        Route::delete('/{id}', [TarifUserController::class, 'destroy']);
+        Route::post('/search', [TarifUserController::class, 'showByCriteria']);
     });
 
     // Routes pour les administrateurs seulement

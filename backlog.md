@@ -23,6 +23,7 @@
   Commit: `EPA-33: mettre à jour la logique de MVC Prompt`
   Commit: `EPA-33: Creation de MVC pour le SocialPost`
   Commit: `EPA-33: Creation de MVC pour le Tarif`
+  Commit: `EPA-33: Creation de MVC pour le TarifUser`
 - 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
