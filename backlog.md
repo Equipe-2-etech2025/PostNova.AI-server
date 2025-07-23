@@ -19,6 +19,7 @@
   Commit: `EPA-33: mettre à jour la logique de MVC CampaignFeature`
   Commit: `EPA-33: mettre à jour la logique de MVC Image`
   Commit: `EPA-33: mettre à jour la logique de MVC LandingPage`
+  Commit: `EPA-33: mettre à jour la logique de MVC Prompt`
 - 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
