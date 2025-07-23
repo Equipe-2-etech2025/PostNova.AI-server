@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\SocialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\AuthController;
@@ -44,6 +45,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', [CampaignController::class, 'show']);
         Route::put('/{id}', [CampaignController::class, 'update']);
         Route::delete('/{id}', [CampaignController::class, 'destroy']);
+    });
+
+    //Route pour socials
+    Route::prefix('socials')->group(function () {
+        Route::get('/', [SocialController::class, 'index']);
+        Route::get('/{id}', [SocialController::class, 'show']);
+        Route::post('/', [SocialController::class, 'store']);
+        Route::put('/{id}', [SocialController::class, 'update']);
+        Route::delete('/{id}', [SocialController::class, 'destroy']);
     });
 
     // Routes pour les administrateurs seulement

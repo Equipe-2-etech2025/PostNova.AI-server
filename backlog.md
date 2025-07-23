@@ -11,7 +11,7 @@
   Commit: `EPA-33: création services-repositories-controllers pour le Campaign`
   Commit: `EPA-33: creation ressources et requêtes pour le campaign`
   Commit: `EPA-33: mise à jour de services-repositories-controllers pour le Campaign avec authuser dans la page protégée `
-
+  Commit: `EPA-33: création de MVC pour Social`
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
   Commit: `EPA-25: config env test et implémenation de SocialTest`
