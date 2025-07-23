@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\API\FeatureController;
 use App\Http\Controllers\API\SocialController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\TypeCampaignController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Auth\EmailVerificationController;
@@ -65,7 +65,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [FeatureController::class, 'store']);
         Route::put('/{id}', [FeatureController::class, 'update']);
         Route::delete('/{id}', [FeatureController::class, 'destroy']);
-        Route::get('/', [FeatureController::class, 'showByCriteria']);
+        Route::get('/search', [FeatureController::class, 'showByCriteria']);
+    });
+
+    Route::prefix('type-campaigns')->group(function () {
+        Route::get('/', [TypeCampaignController::class, 'index']);
+        Route::get('/{id}', [TypeCampaignController::class, 'show']);
+        Route::post('/', [TypeCampaignController::class, 'store']);
+        Route::put('/{id}', [TypeCampaignController::class, 'update']);
+        Route::delete('/{id}', [TypeCampaignController::class, 'destroy']);
+        Route::post('/search', [TypeCampaignController::class, 'showByCriteria']);
     });
 
     // Routes pour les administrateurs seulement

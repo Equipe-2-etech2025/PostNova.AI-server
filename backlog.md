@@ -13,7 +13,7 @@
   Commit: `EPA-33: mise à jour de services-repositories-controllers pour le Campaign avec authuser dans la page protégée `
   Commit: `EPA-33: création de MVC pour Social`
   Commit: `EPA-33: création de MVC pour Feature`
-
+  Commit: `EPA-33: création de MVC pour TypeCampaign`
 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
