@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CampaignFeaturesController;
 use App\Http\Controllers\API\FeatureController;
 use App\Http\Controllers\API\FeaturesController;
 use App\Http\Controllers\API\ImageController;
+use App\Http\Controllers\API\LandingPageController;
 use App\Http\Controllers\API\SocialController;
 use App\Http\Controllers\API\TypeCampaignController;
 use Illuminate\Support\Facades\Route;
@@ -105,6 +106,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', [ImageController::class, 'update']);
         Route::delete('/{id}', [ImageController::class, 'destroy']);
         Route::post('/search', [ImageController::class, 'showByCriteria']);
+    });
+
+    Route::prefix('landing-pages')->group(function () {
+        Route::get('/', [LandingPageController::class, 'index']);
+        Route::get('/{id}', [LandingPageController::class, 'show']);
+        Route::post('/', [LandingPageController::class, 'store']);
+        Route::put('/{id}', [LandingPageController::class, 'update']);
+        Route::delete('/{id}', [LandingPageController::class, 'destroy']);
+        Route::post('/search', [LandingPageController::class, 'showByCriteria']);
     });
 
     // Routes pour les administrateurs seulement
