@@ -1,18 +1,19 @@
 <?php
+
 namespace App\Repositories;
 
-use App\Models\Social;
-use App\Repositories\Interfaces\FeatureRepositoryInterface;
-use http\Env\Request;
+use App\Models\Features;
+use App\Repositories\Interfaces\FeaturesRepositoryInterface;
 
-class FeatureRepository implements FeatureRepositoryInterface
+class FeaturesRepository implements FeaturesRepositoryInterface
 {
     protected $model;
 
-    public function __construct (Social $model)
+    public function __construct(Features $model)
     {
         $this->model = $model;
     }
+
     public function all()
     {
         return $this->model->all();
@@ -27,15 +28,16 @@ class FeatureRepository implements FeatureRepositoryInterface
     {
         $query = $this->model->query();
 
-        foreach ($criteria as $column => $value) {
-            $query->where($column, $value);
+        foreach ($criteria as $field => $value) {
+            $query->where($field, $value);
         }
+
         return $query->get();
     }
 
     public function create(array $data)
     {
-       return $this->model->create($data);
+        return $this->model->create($data);
     }
 
     public function update(int $id, array $data)
@@ -44,6 +46,7 @@ class FeatureRepository implements FeatureRepositoryInterface
         $feature->update($data);
         return $feature;
     }
+
     public function delete(int $id)
     {
         return $this->model->destroy($id);

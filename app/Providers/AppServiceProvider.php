@@ -2,15 +2,16 @@
 
 namespace App\Providers;
 use App\Repositories\CampaignRepository;
-use App\Repositories\FeatureRepository;
+use App\Repositories\FeaturesRepository;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
 use App\Repositories\Interfaces\FeatureRepositoryInterface;
+use App\Repositories\Interfaces\FeaturesRepositoryInterface;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 use App\Repositories\Interfaces\TypeCampaignRepositoryInterface;
 use App\Repositories\SocialRepository;
 use App\Repositories\TypeCampaignRepository;
-use App\Services\FeatureService;
-use App\Services\Interfaces\FeatureServiceInterface;
+use App\Services\FeaturesService;
+use App\Services\Interfaces\FeaturesServiceInterface;
 use App\Services\Interfaces\SocialServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\SocialService;
@@ -26,12 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(FeaturesRepositoryInterface::class, FeaturesRepository::class);
+        $this->app->bind(FeaturesServiceInterface::class, FeaturesService::class);
         $this->app->bind(SocialRepositoryInterface::class, SocialRepository::class);
         $this->app->bind(SocialServiceInterface::class, SocialService::class);
         $this->app->bind(TypeCampaignRepositoryInterface::class, TypeCampaignRepository::class);
         $this->app->bind(TypeCampaignServiceInterface::class, TypeCampaignService::class);
-        $this->app->bind(FeatureRepositoryInterface::class, FeatureRepository::class);
-        $this->app->bind(FeatureServiceInterface::class, FeatureService::class);
         $this->app->bind(CampaignServiceInterface::class, CampaignService::class);
         $this->app->bind(CampaignRepositoryInterface::class, CampaignRepository::class);
     }

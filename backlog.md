@@ -15,6 +15,7 @@
   Commit: `EPA-33: création de MVC pour Feature`
   Commit: `EPA-33: création de MVC pour TypeCampaign`
   Commit: `EPA-33: mettre à jour la logique de MVC Social`
+  Commit: `EPA-33: mettre à jour la logique de MVC Feature`
 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
