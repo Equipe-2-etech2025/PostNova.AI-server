@@ -157,6 +157,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/search', [TarifUserController::class, 'showByCriteria']);
     });
 
+    Route::prefix('tarif-features')->group(function () {
+        Route::get('/', [TarifFeatureController::class, 'index']);
+        Route::get('/{id}', [TarifFeatureController::class, 'show']);
+        Route::post('/', [TarifFeatureController::class, 'store']);
+        Route::put('/{id}', [TarifFeatureController::class, 'update']);
+        Route::delete('/{id}', [TarifFeatureController::class, 'destroy']);
+        Route::post('/search', [TarifFeatureController::class, 'showByCriteria']);
+    });
+
     // Routes pour les administrateurs seulement
     Route::middleware('role:admin')->group(function () {
         Route::apiResource('users', UserController::class);
