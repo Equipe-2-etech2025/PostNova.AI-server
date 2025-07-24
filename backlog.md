@@ -6,12 +6,33 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-33-services-repositories-controllers`
+  Commit: `EPA-33: création services-repositories-controllers pour le Campaign`
+  Commit: `EPA-33: creation ressources et requêtes pour le campaign`
+  Commit: `EPA-33: mise à jour de services-repositories-controllers pour le Campaign avec authuser dans la page protégée `
+  Commit: `EPA-33: création de MVC pour Social`
+  Commit: `EPA-33: création de MVC pour Feature`
+  Commit: `EPA-33: création de MVC pour TypeCampaign`
+  Commit: `EPA-33: mettre à jour la logique de MVC Social`
+  Commit: `EPA-33: mettre à jour la logique de MVC Feature`
+  Commit: `EPA-33: mettre à jour la logique de MVC CampaignFeature`
+  Commit: `EPA-33: mettre à jour la logique de MVC Image`
+  Commit: `EPA-33: mettre à jour la logique de MVC LandingPage`
+  Commit: `EPA-33: mettre à jour la logique de MVC Prompt`
+  Commit: `EPA-33: mettre à jour la logique de MVC Prompt`
+  Commit: `EPA-33: Creation de MVC pour le SocialPost`
+  Commit: `EPA-33: Creation de MVC pour le Tarif`
+  Commit: `EPA-33: Creation de MVC pour le TarifUser`
+  Commit: `EPA-33: Création de MVC pour le TarifFeature`
+
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
   Commit: `EPA-25: config env test et implémenation de SocialTest`
   Commit: `EPA-25: fix nom ticket pour backlog.md`
   Commit: `EPA-25: implémentation de TarifTest`
   Commit: `EPA-25: implémentation de TarifFeatureTest`
+ 
 
 - [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)

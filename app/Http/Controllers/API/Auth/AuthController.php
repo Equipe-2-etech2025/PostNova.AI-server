@@ -22,13 +22,10 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         try {
-
-            Log::info('register ...');
-
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $request->password,
                 'role' => User::ROLE_USER,
             ]);
 
@@ -60,6 +57,7 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
+                //'message' => 'Une erreur est survenue lors de l\'inscription.',
             ], 500);
         }
     }
@@ -96,7 +94,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Email ou mot de passe invalide',
+                'message' =>  $e->getMessage(),
             ], 401);
         }
     }

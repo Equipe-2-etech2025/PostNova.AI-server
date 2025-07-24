@@ -3,101 +3,48 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\TarifFeature;
+use App\Services\Interfaces\TarifFeatureServiceInterface;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Laravel\Telescope\AuthorizesRequests;
 
 class TarifFeatureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request): JsonResponse
+    use AuthorizesRequests;
+
+    private TarifFeatureServiceInterface $tarifFeatureService;
+
+    public function __construct(TarifFeatureServiceInterface $tarifFeatureService)
     {
-        $query = TarifFeature::query();
-
-        if ($request->has('search')) {
-            $query->searchByContent($request->search);
-        }
-
-        if ($request->has('created_after')) {
-            $query->createdAfter($request->created_after);
-        }
-
-        $sortBy = $request->get('sort_by', 'created_at');
-        $sortOrder = $request->get('sort_order', 'desc');
-        $query->orderBy($sortBy, $sortOrder);
-
-        $perPage = $request->get('per_page', 15);
-        $features = $query->paginate($perPage);
-
-        return response()->json([
-            'success' => true,
-            'data' => $features,
-        ]);
+        $this->tarifFeatureService = $tarifFeatureService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): JsonResponse
+    public function index()
     {
-        $request->validate([
-            'content' => 'required|string|max:1000',
-        ]);
-
-        $feature = TarifFeature::create([
-            'name' => $request->name,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Feature créée avec succès',
-            'data' => $feature,
-        ], 201);
+        return $this->tarifFeatureService->getAllTarifFeatures();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TarifFeature $tarifFeature): JsonResponse
+    public function show(int $id)
     {
-        return response()->json([
-            'success' => true,
-            'data' => $tarifFeature,
-        ]);
+        return $this->tarifFeatureService->getTarifFeatureById($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TarifFeature $tarifFeature): JsonResponse
+    public function store(Request $request)
     {
-        $request->validate([
-            'content' => 'required|string|max:1000',
-        ]);
-
-        $tarifFeature->update([
-            'name' => $request->name,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Feature mise à jour avec succès',
-            'data' => $tarifFeature,
-        ]);
+        return $this->tarifFeatureService->createTarifFeature($request->all());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TarifFeature $tarifFeature): JsonResponse
+    public function update(Request $request, int $id)
     {
-        $tarifFeature->delete();
+        return $this->tarifFeatureService->updateTarifFeature($id, $request->all());
+    }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Feature supprimée avec succès',
-        ]);
+    public function destroy(int $id)
+    {
+        return $this->tarifFeatureService->deleteTarifFeature($id);
+    }
+
+    public function showByCriteria(Request $request)
+    {
+        return $this->tarifFeatureService->getTarifFeatureByCriteria($request->all());
     }
 }

@@ -64,7 +64,6 @@ services:
 
 volumes:
   postgres_data:
-
 networks:
   postnova-network:
     external: true
