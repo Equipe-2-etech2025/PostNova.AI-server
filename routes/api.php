@@ -30,7 +30,6 @@ Route::prefix('auth')->group(function () {
         ->name('verification.verify');
 });
 
-});
 // Routes publiques pour les features tarifaires
 Route::get('public/tarif-features', [TarifFeatureController::class, 'index']);
 
