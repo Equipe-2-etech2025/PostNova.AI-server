@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -37,78 +38,71 @@ class EmailVerificationController extends Controller
      */
     public function verify(Request $request): JsonResponse
     {
-        $request->validate([
-            'id' => 'required|integer',
-            'hash' => 'required|string',
-            'expires' => 'required|integer',
-            'signature' => 'required|string',
-        ]);
+        try{
+            $request->validate([
+                'id' => 'required|integer',
+                'hash' => 'required|string',
+                'expires' => 'required|integer',
+                'signature' => 'required|string',
+            ]);
+    
+            $user = User::find($request->input('id'));
+    
+            // Vérifier si l'utilisateur correspond à l'ID
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Utilisateur introuvable.',
+                ], 404);
+            }
+    
+            // Vérifier si l'email est déjà vérifié
+            if ($user->hasVerifiedEmail()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email déjà vérifié.',
+                ], 400);
+            }
+    
+            // Vérifier le hash
+            if (!hash_equals(sha1($user->getEmailForVerification()), $request->input('hash'))) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lien de vérification invalide.',
+                ], 400);
+            }
+    
+            // Vérifier l'expiration
+            if ($request->input('expires') < time()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Lien de vérification expiré.',
+                ], 400);
+            }
+    
+    
+            // Marquer l'email comme vérifié
+            if ($user->markEmailAsVerified()) {
+                event(new Verified($user));
+            }
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Email vérifié avec succès.',
+                'data' => [
+                    'user' => $user,
+                    'token' => $user->createToken('auth_token')->plainTextToken,
+                    'token_type' => 'Bearer',
+                ],
+            ], 200);
 
-        // Vérifier si l'utilisateur correspond à l'ID
-        if ($request->user()->getKey() != $request->input('id')) {
+        }catch(Exception $e){
+            Log::info($e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Utilisateur non autorisé.',
-            ], 403);
+                'message' => $e->getMessage(),
+            ]);
         }
-
-        // Vérifier si l'email est déjà vérifié
-        if ($request->user()->hasVerifiedEmail()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Email déjà vérifié.',
-            ], 400);
-        }
-
-        // Vérifier le hash
-        if (!hash_equals(
-            sha1($request->user()->getEmailForVerification()),
-            $request->input('hash')
-        )) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lien de vérification invalide.',
-            ], 400);
-        }
-
-        // Vérifier l'expiration
-        if ($request->input('expires') < time()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Lien de vérification expiré.',
-            ], 400);
-        }
-
-        // Vérifier la signature
-        $url = URL::temporarySignedRoute(
-            'verification.verify',
-            $request->input('expires'),
-            [
-                'id' => $request->input('id'),
-                'hash' => $request->input('hash'),
-            ]
-        );
-
-        $expectedSignature = parse_url($url, PHP_URL_QUERY);
-        parse_str($expectedSignature, $expectedParams);
-        
-        if ($expectedParams['signature'] !== $request->input('signature')) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Signature invalide.',
-            ], 400);
-        }
-
-        // Marquer l'email comme vérifié
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Email vérifié avec succès.',
-            'user' => $request->user()->fresh(),
-        ]);
     }
 
     /**

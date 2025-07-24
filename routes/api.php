@@ -14,6 +14,10 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('forgot-password', [PasswordResetController::class, 'sendResetLink']);
     Route::post('reset-password', [PasswordResetController::class, 'reset']);
+
+    //Route de vérification publique (sans authentification)
+    Route::post('email/verify', [EmailVerificationController::class, 'verify'])
+        ->name('verification.verify');
 });
 
 // Routes publiques pour les features tarifaires
@@ -28,13 +32,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', [AuthController::class, 'me']);
         Route::post('refresh', [AuthController::class, 'refresh']);
 
-        // Vérification d'email
+        // Envoi de l'email de vérification
         Route::post('email/verification-notification', [EmailVerificationController::class, 'send']);
-        Route::post('email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-            ->middleware('signed')
-            ->name('verification.verify');
-        
-            Route::get('/email/verify-status',[EmailVerificationController::class],'status')
+
+        // Vérifier le statut de vérification
+        Route::get('email/verify-status', [EmailVerificationController::class, 'status'])
             ->name('verification.status');
     });
 
