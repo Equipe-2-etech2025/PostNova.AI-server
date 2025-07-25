@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Interfaces\CampaignRepositoryInterface;
 use App\Models\Campaign;
+use App\Repositories\Interfaces\CampaignRepositoryInterface;
 
 class CampaignRepository implements CampaignRepositoryInterface
 {
@@ -16,12 +16,23 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function all()
     {
-        return $this->model->with(['user', 'typeCampaign'])->get();
+        return $this->model->all();
     }
 
-    public function findById($id)
+    public function find(int $id)
     {
-        return $this->model->with(['user', 'typeCampaign'])->findOrFail($id);
+        return $this->model->find($id);
+    }
+
+    public function findByCriteria(array $criteria)
+    {
+        $query = $this->model->query();
+
+        foreach ($criteria as $field => $value) {
+            $query->where($field, $value);
+        }
+
+        return $query->get();
     }
 
     public function create(array $data)
@@ -29,25 +40,16 @@ class CampaignRepository implements CampaignRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function update($id, array $data)
+    public function update(int $id, array $data)
     {
-        $campaign = $this->find($id);
+        $campaign = $this->model->findOrFail($id);
         $campaign->update($data);
         return $campaign;
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
-        return $this->findById($id)->delete();
+        return $this->model->destroy($id);
     }
 
-    public function findByUser($userId)
-    {
-        return $this->model->where('user_id', $userId)->with('typeCampaign')->get();
-    }
-
-    public function findByType($typeId)
-    {
-        return $this->model->where('type_campaign_id', $typeId)->with('user')->get();
-    }
 }

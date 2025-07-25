@@ -42,6 +42,8 @@ class CampaignFeaturesController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        return $this->service->getByCriteria($request->all());
+        $criteria = $request->query();
+        $features = $this->service->getByCriteria($criteria);
+        return response()->json($features);
     }
 }

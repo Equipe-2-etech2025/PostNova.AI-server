@@ -6,6 +6,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-37] Tester les routes en faisant une collection postman et fixer les bug (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-37-testRoute-bugFixies`
+  Commit: `Mettre à jour MVC campaign, campaignFeature et les routes de showBycriteria`
+
 - [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-33-services-repositories-controllers`
   Commit: `EPA-33: création services-repositories-controllers pour le Campaign`
