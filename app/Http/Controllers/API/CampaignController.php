@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\Interfaces\CampaignServiceInterface;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['user_id'] = Auth::id();
         return $this->campaignService->createCampaign($data);
     }
 
