@@ -29,7 +29,11 @@ class CampaignRepository implements CampaignRepositoryInterface
         $query = $this->model->query();
 
         foreach ($criteria as $field => $value) {
-            $query->where($field, $value);
+            if (is_numeric($value)) {
+                $query->where($field, $value);
+            } else {
+                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+            }
         }
 
         return $query->get();

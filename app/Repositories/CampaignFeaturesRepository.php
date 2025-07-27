@@ -38,8 +38,12 @@ class CampaignFeaturesRepository implements CampaignFeaturesRepositoryInterface
     public function getByCriteria(array $criteria)
     {
         $query = CampaignFeatures::query();
-        foreach ($criteria as $key => $value) {
-            $query->where($key, $value);
+        foreach ($criteria as $field => $value) {
+            if (is_numeric($value)) {
+                $query->where($field, $value);
+            } else {
+                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+            }
         }
         return $query->get();
     }
