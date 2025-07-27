@@ -10,6 +10,7 @@
   Branche: `feature/EPA-37-testRoute-bugFixies`
   Commit: `EPA-37: Mettre à jour MVC campaign, campaignFeature et les routes de showBycriteria`
   Commit: `EPA-37: feat, ajouter support auth user_id dans campaignController`
+  Commit: `EPA-37: fix, résoudre getByUserId de campaignController`
 
 - [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-33-services-repositories-controllers`

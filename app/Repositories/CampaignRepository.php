@@ -52,4 +52,10 @@ class CampaignRepository implements CampaignRepositoryInterface
         return $this->model->destroy($id);
     }
 
+    public function findByUserId(int $userId)
+    {
+        $query = $this->model->query();
+        $query->where('user_id', $userId);
+        return $query->get();
+    }
 }

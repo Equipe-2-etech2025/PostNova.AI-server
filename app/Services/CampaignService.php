@@ -40,18 +40,18 @@ class CampaignService implements CampaignServiceInterface
         return $this->repository->delete($id);
     }
 
-    public function getCampaignsByUser(int $userId)
+    public function getCampaignsByUserId(int $userId)
     {
-        return $this->repository->getByUser($userId);
+        return $this->repository->findByUserId($userId);
     }
 
     public function getCampaignsByType(int $typeId)
     {
-        return $this->repository->getByType($typeId);
+        return $this->repository->find($typeId);
     }
 
     public function getCampaignByCriteria(array $filters = [])
     {
-        return $this->repository->getByCriteria($filters);
+        return $this->repository->findByCriteria($filters);
     }
 }

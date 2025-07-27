@@ -46,8 +46,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('campaigns')->group(function () {
         Route::get('/', [CampaignController::class, 'index']);
+        Route::get('/search', [CampaignController::class, 'showByCriteria']);
         Route::post('/', [CampaignController::class, 'store']);
-        Route::get('/user/{userId}', [CampaignController::class, 'byUser'])
+        Route::get('/user/{userId}', [CampaignController::class, 'showByUserId'])
             ->middleware('can:viewAny,App\Models\Campaign');
         Route::get('/type/{typeId}', [CampaignController::class, 'byType']);
         Route::get('/{id}', [CampaignController::class, 'show']);

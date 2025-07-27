@@ -10,6 +10,6 @@ interface CampaignServiceInterface
     public function createCampaign(array $data);
     public function updateCampaign(int $campaignId, array $data);
     public function deleteCampaign(int $id);
-    public function getCampaignsByUser(int $userId);
+    public function getCampaignsByUserId(int $userId);
     public function getCampaignsByType(int $typeId);
 }

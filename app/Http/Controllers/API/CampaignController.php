@@ -49,7 +49,15 @@ class CampaignController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->campaignService->getCampaignsByCriteria($criteria);
+        $criteria = $request->query();
+        $campaign = $this->campaignService->getCampaignByCriteria($criteria);
+        return response()->json($campaign);
     }
+
+    public function showByUserId(int $id)
+    {
+        $campaign = $this->campaignService->getCampaignsByUserId($id);
+        return response()->json($campaign);
+    }
+
 }
