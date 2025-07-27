@@ -47,7 +47,6 @@ class LandingPageController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->landingPageService->getLandingPageByCriteria($criteria);
+        return $this->landingPageService->getLandingPageByCriteria($request->query());
     }
 }

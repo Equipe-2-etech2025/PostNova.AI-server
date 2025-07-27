@@ -47,7 +47,6 @@ class PromptController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->promptService->getPromptByCriteria($criteria);
+        return $this->promptService->getPromptByCriteria($request->query());
     }
 }

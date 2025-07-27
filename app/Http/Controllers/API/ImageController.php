@@ -47,7 +47,6 @@ class ImageController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->imageService->getImageByCriteria($criteria);
+        return $this->imageService->getImageByCriteria($request->query());
     }
 }

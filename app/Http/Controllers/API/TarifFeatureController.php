@@ -45,6 +45,6 @@ class TarifFeatureController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        return $this->tarifFeatureService->getTarifFeatureByCriteria($request->all());
+        return $this->tarifFeatureService->getTarifFeatureByCriteria($request->query());
     }
 }
