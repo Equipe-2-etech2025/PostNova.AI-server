@@ -24,7 +24,8 @@ Route::prefix('auth')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('forgot-password', [PasswordResetController::class, 'sendResetLink']);
-    Route::post('reset-password', [PasswordResetController::class, 'reset']);
+    Route::post('reset-password', [PasswordResetController::class, 'reset'])
+        ->name('password.reset');
     //Route de vérification publique (sans authentification)
     Route::post('email/verify', [EmailVerificationController::class, 'verify'])
         ->name('verification.verify');

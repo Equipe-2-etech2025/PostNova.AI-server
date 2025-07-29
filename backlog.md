@@ -6,6 +6,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-38-intg-mdp-reset`
+  Commit: `EPA-38: intégration réinitialiser mot de passe`
+  
 - [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-33-services-repositories-controllers`
   Commit: `EPA-33: création services-repositories-controllers pour le Campaign`
