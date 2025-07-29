@@ -22,9 +22,6 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         try {
-            $hashedPassword = Hash::make($request->password);
-            Log::info('Password hash at register: ' . $hashedPassword);
-
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -32,8 +29,13 @@ class AuthController extends Controller
                 'role' => User::ROLE_USER,
             ]);
 
+            Log::info('user created');
+
+
             // Déclencher l'événement d'inscription
             event(new Registered($user));
+
+            Log::info('user  register');
 
             // Créer un token d'authentification
             $token = $user->createToken('auth_token')->plainTextToken;
@@ -92,7 +94,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' =>  $e->getMessage(),
+                'message' =>  'email ou mot de passe invalide',
             ], 401);
         }
     }

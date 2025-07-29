@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\VerifyEmailCustom;
+use App\Notifications\ResetPasswordWithFrontendUrl;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -39,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
@@ -124,5 +127,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeVerified($query)
     {
         return $query->whereNotNull('email_verified_at');
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailCustom());
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = "http://localhost:5173/reset-password?token={$token}&email=" . urlencode($this->email);   
+        $this->notify(new ResetPasswordWithFrontendUrl($url));
     }
 }

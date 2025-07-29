@@ -49,9 +49,9 @@ use App\Services\TarifService;
 use App\Services\TarifUserService;
 use App\Services\TypeCampaignService;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use App\Services\Interfaces\CampaignServiceInterface;
 use App\Services\CampaignService;
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -90,6 +90,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (config('app.env') !== 'production') {
+            URL::forceRootUrl(config('app.url'));
+        }
     }
 }
