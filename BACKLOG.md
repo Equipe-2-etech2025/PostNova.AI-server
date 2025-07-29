@@ -6,10 +6,15 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
-- [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
-  Branche: `feature/EPA-38-intg-mdp-reset`
-  Commit: `EPA-38: intégration réinitialiser mot de passe`
-  
+- [EPA-37] Tester les routes en faisant une collection postman et fixer les bug (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-37-testRoute-bugFixies`
+  Commit: `EPA-37: Mettre à jour MVC campaign, campaignFeature et les routes de showBycriteria`
+  Commit: `EPA-37: feat, ajouter support auth user_id dans campaignController`
+  Commit: `EPA-37: fix, résoudre getByUserId de campaignController`
+  Commit: `EPA-37: fix, corriger le filtre showByCriteria avec request->query()`
+  Commit: `EPA-37: feat: ajouter SocialPostFactory et SocialPostSeeder`
+  Commit: `EPA-37: refacter, adapter la requête pour une recherche insensible à la casse`
+
 - [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-33-services-repositories-controllers`
   Commit: `EPA-33: création services-repositories-controllers pour le Campaign`

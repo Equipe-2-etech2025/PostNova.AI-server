@@ -45,6 +45,6 @@ class FeaturesController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        return $this->featuresService->getFeatureByCriteria($request->all());
+        return $this->featuresService->getFeatureByCriteria($request->query());
     }
 }

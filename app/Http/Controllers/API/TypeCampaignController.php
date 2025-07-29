@@ -47,7 +47,6 @@ class TypeCampaignController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->typeCampaignService->getTypeCampaignByCriteria($criteria);
+        return $this->typeCampaignService->getTypeCampaignByCriteria($request->query());
     }
 }

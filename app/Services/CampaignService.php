@@ -1,51 +1,57 @@
 <?php
 
 namespace App\Services;
+
+use App\Models\Campaign;
 use App\Repositories\CampaignRepository;
 use App\Services\Interfaces\CampaignServiceInterface;
 
 class CampaignService implements CampaignServiceInterface
 {
-    protected $campaignRepository;
+    protected CampaignRepository $repository;
 
-    public function __construct(CampaignRepository $campaignRepository)
+    public function __construct(CampaignRepository $repository)
     {
-        $this->campaignRepository = $campaignRepository;
+        $this->repository = $repository;
     }
 
     public function getAllCampaigns(array $filters = [])
     {
-        return $this->campaignRepository->all();
+        return $this->repository->all();
     }
 
-    public function getCampaignById($id)
+    public function getCampaignById(int $id)
     {
-        return $this->campaignRepository->findById($id);
+        return $this->repository->find($id);
     }
 
     public function createCampaign(array $data)
     {
-        $data['status'] = $data['status'] ?? 'processing';
-        return $this->campaignRepository->create($data);
+        return $this->repository->create($data);
     }
 
-    public function updateCampaign(int $id, array $data)
+    public function updateCampaign(int $campaignId, array $data)
     {
-        return $this->campaignRepository->update($id, $data);
+        return $this->repository->update($campaignId, $data);
     }
 
-    public function deleteCampaign($id)
+    public function deleteCampaign(int $id)
     {
-        return $this->campaignRepository->delete($id);
+        return $this->repository->delete($id);
     }
 
-    public function getCampaignsByUser($userId)
+    public function getCampaignsByUserId(int $userId)
     {
-        return $this->campaignRepository->findByUser($userId);
+        return $this->repository->findByUserId($userId);
     }
 
-    public function getCampaignsByType($typeId)
+    public function getCampaignsByType(int $typeId)
     {
-        return $this->campaignRepository->findByType($typeId);
+        return $this->repository->find($typeId);
+    }
+
+    public function getCampaignByCriteria(array $filters = [])
+    {
+        return $this->repository->findByCriteria($filters);
     }
 }

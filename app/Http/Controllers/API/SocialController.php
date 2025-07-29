@@ -47,7 +47,6 @@ class SocialController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->socialService->getSocialByCriteria($criteria);
+        return $this->socialService->getSocialByCriteria($request->query());
     }
 }

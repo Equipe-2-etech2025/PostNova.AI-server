@@ -47,7 +47,6 @@ class TarifUserController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $criteria = $request->all();
-        return $this->tarifUserService->getTarifUserByCriteria($criteria);
+        return $this->tarifUserService->getTarifUserByCriteria($request->query());
     }
 }

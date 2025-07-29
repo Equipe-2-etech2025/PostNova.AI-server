@@ -1,106 +1,63 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\Campaign\CreateCampaignRequest;
-use App\Http\Requests\Campaign\UpdateCampaignRequest;
-use App\Http\Resources\Campaign\CampaignResource;
-use App\Http\Resources\Campaign\CampaignCollection;
-use App\Models\Campaign;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use App\Services\Interfaces\CampaignServiceInterface;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
+use Laravel\Telescope\AuthorizesRequests;
 
 class CampaignController extends Controller
 {
     use AuthorizesRequests;
-    private CampaignServiceInterface $service;
 
-    public function __construct(CampaignServiceInterface $service)
+    private CampaignServiceInterface $campaignService;
+
+    public function __construct(CampaignServiceInterface $campaignService)
     {
-        $this->service = $service;
-        $this->middleware('auth:sanctum');
-    }
-    public function index(): JsonResponse
-    {
-        try {
-            $campaigns = $this->service->getAllCampaigns();
-            return response()->json(new CampaignCollection($campaigns));
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['message' => 'Erreur lors de la récupération des campagnes', $e->getMessage()], 500);
-        }
+        $this->campaignService = $campaignService;
     }
 
-    public function show(int $id): JsonResponse
+    public function index()
     {
-        try {
-            $campaign = $this->service->getCampaignById($id);
-        }
-        catch (\Exception $e) {
-            Log::error($e->getMessage());
-        }
-        return response()->json(new CampaignResource($campaign));
+        return $this->campaignService->getAllCampaigns();
     }
 
-    public function store(CreateCampaignRequest $request)
+    public function show(int $id)
     {
-        $user = auth()->user();
-        if (!$user) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
-
-        $campaign = Campaign::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'status'=> $request->status,
-                'user_id' => $user->id,
-        ]);
-
-        return response()->json([
-            'message' => 'Campagne créée avec succès.',
-            'campaign' => $campaign,
-            'user' => $user,
-        ]);
+        return $this->campaignService->getCampaignById($id);
     }
 
-    public function update(UpdateCampaignRequest $request, int $id): JsonResponse
+    public function store(Request $request)
     {
-        $user = auth()->user();
-        if (!$user) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
-        }
-        try {
-            $campaign = Campaign::findOrFail($id);
-
-            // Vérifier si l'utilisateur est propriétaire de la campagne
-            if ($campaign->user_id !== $user->id) {
-                return response()->json(['message' => 'Unauthorized.'], 403);
-            }
-
-            $campaign->update([
-                'name' => $request->name,
-                'description' => $request->description,
-                'status' => $request->status,
-            ]);
-
-            return response()->json([
-                'message' => 'Campagne mise à jour avec succès.',
-                'campaign' => $campaign,
-            ]);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['message' => 'Erreur lors de la mise à jour de la campagne', 'error' => $e->getMessage()], 500);
-        }
-
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+        return $this->campaignService->createCampaign($data);
     }
 
-
-    public function destroy(int $id): JsonResponse
+    public function update(Request $request, int $id)
     {
-        return $this->service->deleteCampaign($id);
+        $data = $request->all();
+        return $this->campaignService->updateCampaign($id, $data);
     }
 
+    public function destroy(int $id)
+    {
+        return $this->campaignService->deleteCampaign($id);
+    }
+
+    public function showByCriteria(Request $request)
+    {
+        $criteria = $request->query();
+        $campaign = $this->campaignService->getCampaignByCriteria($criteria);
+        return response()->json($campaign);
+    }
+
+    public function showByUserId(int $id)
+    {
+        $campaign = $this->campaignService->getCampaignsByUserId($id);
+        return response()->json($campaign);
+    }
 
 }
