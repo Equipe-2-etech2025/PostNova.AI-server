@@ -10,4 +10,5 @@ interface ImageServiceInterface
     public function updateImage(int $id, array $data);
     public function createImage(array $data);
     public function deleteImage(int $id);
+    public function getImageByUserId(int $userId);
 }

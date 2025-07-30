@@ -10,4 +10,5 @@ interface SocialPostServiceInterface
     public function createSocialPost(array $data);
     public function updateSocialPost(int $id, array $data);
     public function deleteSocialPost(int $id);
+    public function getSocialPostsByUserId(int $userId);
 }

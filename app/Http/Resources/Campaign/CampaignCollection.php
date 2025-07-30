@@ -11,14 +11,9 @@ class CampaignCollection extends ResourceCollection
     public function toArray($request): array
     {
         return [
-            'data' => $this->collection,
+            'data' => CampaignResource::collection($this->collection),
             'meta' => [
                 'total' => $this->count(),
-                'statuses' => [
-                    'draft' => 'Brouillon',
-                    'published' => 'Publiée',
-                    'archived' => 'Archivée'
-                ]
             ]
         ];
     }

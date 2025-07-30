@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\SocialPost;
 use App\Repositories\Interfaces\SocialPostRepositoryInterface;
 use App\Services\Interfaces\SocialPostServiceInterface;
 
@@ -43,4 +44,10 @@ class SocialPostService implements SocialPostServiceInterface
     {
         return $this->repository->delete($id);
     }
+    public function getSocialPostsByUserId(int $userId)
+    {
+        return $this->repository->findByUserId($userId);
+    }
+
+
 }

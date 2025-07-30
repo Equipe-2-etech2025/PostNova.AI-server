@@ -16,7 +16,7 @@ class CreateCampaignRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'status' => ['nullable', 'in:pending,processing,completed,failed'],
-            'description' => 'nullable|string',
+            'description' => 'required|string|max:1000',
             'type_campaign_id' => 'required|exists:type_campaigns,id',
         ];
     }
@@ -24,7 +24,19 @@ class CreateCampaignRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'type_campaign_id.exists' => 'Le type de campagne sélectionné est invalide.',
+            'name.required' => 'Le nom de la campaign est obligatoire.',
+            'description.required' => 'La description de la campaign est obligatoire.',
+            'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
+            'type_campaign_id.exists' => 'Type de campaign invalide.',
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'name' => trim($this->input('name')),
+            'description' => trim($this->input('description')),
+        ]);
+
     }
 }

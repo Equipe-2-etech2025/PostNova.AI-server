@@ -29,11 +29,6 @@ class CampaignResource extends JsonResource
                 'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i') : null,
                 'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d H:i') : null,
             ],
-
-            /*
-            'links' => [
-                'self' => route('campaigns.show', $this->id),
-            ]*/
         ];
     }
 }

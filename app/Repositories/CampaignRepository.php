@@ -21,7 +21,7 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function find(int $id)
     {
-        return $this->model->find($id);
+        return $this->model->findOrFail($id);
     }
 
     public function findByCriteria(array $criteria)

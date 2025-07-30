@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Social\CreateSocialRequest;
+use App\Http\Requests\Social\UpdateSocialRequest;
+use App\Http\Resources\Campaign\CampaignCollection;
+use App\Http\Resources\Social\SocialCollection;
+use App\Http\Resources\Social\SocialResource;
 use App\Services\Interfaces\SocialServiceInterface;
 use Illuminate\Http\Request;
-use Laravel\Telescope\AuthorizesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use \App\Models\Social;
 
 class SocialController extends Controller
 {
@@ -20,33 +26,52 @@ class SocialController extends Controller
 
     public function index()
     {
-        return $this->socialService->getAllSocial();
+        $this->authorize('viewAny', Social::class);
+        $social = $this->socialService->getAllSocial();
+        return new SocialCollection($social);
     }
 
     public function show(int $id)
     {
-        return $this->socialService->getSocialById($id);
+        $social = $this->socialService->getSocialById($id);
+        $this->authorize('view', $social);
+
+        return new SocialResource($social);
     }
 
-    public function store(Request $request)
+    public function store(CreateSocialRequest $request)
     {
-        $data = $request->all();
-        return $this->socialService->createSocial($data);
+        $data = $request->validated();
+        $this->authorize('create', Social::class);
+        $social = $this->socialService->createSocial($data);
+
+        return new SocialResource($social);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateSocialRequest $request, int $id)
     {
-        $data = $request->all();
-        return $this->socialService->updateSocial($id, $data);
+        $data = $request->validated();
+        $social = $this->socialService->getSocialById($id);
+        $this->authorize('update', $social);
+        $social = $this->socialService->updateSocial($id, $data);
+
+        return new SocialResource($social);
     }
 
     public function destroy(int $id)
     {
-        return $this->socialService->deleteSocial($id);
+        $social = $this->socialService->getSocialById($id);
+        $this->authorize('delete', $social);
+        $this->socialService->deleteSocial($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->socialService->getSocialByCriteria($request->query());
+        $this->authorize('viewAny', Social::class);
+        $social = $this->socialService->getSocialByCriteria($request->query());
+
+        return new SocialCollection($social);
     }
 }

@@ -3,8 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LandingPage\CreateLandingPageRequest;
+use App\Http\Requests\LandingPage\UpdateLandingPageRequest;
+use App\Http\Resources\LandingPage\LandingPageCollection;
+use App\Http\Resources\LandingPage\LandingPageResource;
+use App\Models\Campaign;
+use App\Models\LandingPage;
 use App\Services\Interfaces\LandingPageServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Telescope\AuthorizesRequests;
 
 class LandingPageController extends Controller
@@ -20,33 +27,57 @@ class LandingPageController extends Controller
 
     public function index()
     {
-        return $this->landingPageService->getAllLandingPages();
+        $user = Auth::user();
+
+        $this->authorize('viewAny', Campaign::class);
+
+        if ($user->hasRole('admin')) {
+            $landingPages = $this->landingPageService->getAllLandingPages();
+        } else {
+            $landingPages = $this->landingPageService->getLandingPageByUserId($user->id);
+        }
+
+        return new LandingPageCollection($landingPages);
     }
 
     public function show(int $id)
     {
-        return $this->landingPageService->getLandingPageById($id);
+        $landingPage = $this->landingPageService->getLandingPageById($id);
+        $this->authorize('view', $landingPage);
+        return new LandingPageResource($landingPage);
     }
 
-    public function store(Request $request)
+    public function store(CreateLandingPageRequest $request)
     {
-        $data = $request->all();
-        return $this->landingPageService->createLandingPage($data);
+        $data = $request->validated();
+        $this->authorize('create', [LandingPage::class, $data['campaign_id']]);
+        $landingPage = $this->landingPageService->createLandingPage($data);
+
+        return new  LandingPageResource($landingPage);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateLandingPageRequest $request, int $id)
     {
-        $data = $request->all();
-        return $this->landingPageService->updateLandingPage($id, $data);
+        $landingPage = $this->landingPageService->getLandingPageById($id);
+        $this->authorize('update', $landingPage);
+        $landingPage = $this->landingPageService->updateLandingPage($id, $request->validated());
+
+        return new LandingPageResource($landingPage);
     }
 
     public function destroy(int $id)
     {
-        return $this->landingPageService->deleteLandingPage($id);
+        $landingPage = $this->landingPageService->getLandingPageById($id);
+        $this->authorize('delete', $landingPage);
+        $this->landingPageService->deleteLandingPage($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->landingPageService->getLandingPageByCriteria($request->query());
+        $landingPages = $this->landingPageService->getLandingPageByCriteria($request->query());
+
+        return new LandingPageCollection($landingPages);
     }
 }

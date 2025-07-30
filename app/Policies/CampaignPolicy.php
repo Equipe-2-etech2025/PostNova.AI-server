@@ -6,6 +6,13 @@ use App\Models\User;
 
 class CampaignPolicy
 {
+    public function before(User $user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
+
     public function viewAny(User $user): bool
     {
         return true;
@@ -13,7 +20,7 @@ class CampaignPolicy
 
     public function view(User $user, Campaign $campaign): bool
     {
-        return $user->id === $campaign->user_id;
+        return true;
     }
 
     public function create(User $user): bool

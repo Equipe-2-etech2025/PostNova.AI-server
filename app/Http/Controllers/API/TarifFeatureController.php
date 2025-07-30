@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TarifFeatures\CreateTarifFeaturesRequest;
+use App\Http\Requests\TarifFeatures\UpdateTarifFeaturesRequest;
+use App\Http\Resources\TarifFeature\TarifFeatureCollection;
+use App\Http\Resources\TarifFeature\TarifFeatureResource;
 use App\Services\Interfaces\TarifFeatureServiceInterface;
 use Illuminate\Http\Request;
 use Laravel\Telescope\AuthorizesRequests;
+use App\Models\TarifFeature;
 
 class TarifFeatureController extends Controller
 {
@@ -20,31 +25,45 @@ class TarifFeatureController extends Controller
 
     public function index()
     {
-        return $this->tarifFeatureService->getAllTarifFeatures();
+        $tarifFeatures = $this->tarifFeatureService->getAllTarifFeatures();
+        return new TarifFeatureCollection($tarifFeatures);
     }
 
     public function show(int $id)
     {
-        return $this->tarifFeatureService->getTarifFeatureById($id);
+        $tarifFeature = $this->tarifFeatureService->getTarifFeatureById($id);
+        $this->authorize('view', $tarifFeature);
+        return new TarifFeatureResource($tarifFeature);
     }
 
-    public function store(Request $request)
+    public function store(CreateTarifFeaturesRequest $request)
     {
-        return $this->tarifFeatureService->createTarifFeature($request->all());
+        $this->authorize('create', TarifFeature::class);
+        $created = $this->tarifFeatureService->createTarifFeature($request->validated());
+        return new TarifFeatureResource($created);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateTarifFeaturesRequest $request, int $id)
     {
-        return $this->tarifFeatureService->updateTarifFeature($id, $request->all());
+        $tarifFeature = $this->tarifFeatureService->getTarifFeatureById($id);
+        $this->authorize('update', $tarifFeature);
+        $updated = $this->tarifFeatureService->updateTarifFeature($id, $request->validated());
+        return new TarifFeatureResource($updated);
     }
 
     public function destroy(int $id)
     {
-        return $this->tarifFeatureService->deleteTarifFeature($id);
+        $tarifFeature = $this->tarifFeatureService->getTarifFeatureById($id);
+        $this->authorize('delete', $tarifFeature);
+        $this->tarifFeatureService->deleteTarifFeature($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->tarifFeatureService->getTarifFeatureByCriteria($request->query());
+        $results = $this->tarifFeatureService->getTarifFeatureByCriteria($request->query());
+        return new TarifFeatureCollection($results);
     }
 }
+
