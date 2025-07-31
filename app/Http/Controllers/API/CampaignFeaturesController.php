@@ -10,6 +10,7 @@ use App\Http\Requests\CampaignFeatures\CreateCampaignFeaturesRequest;
 use App\Http\Requests\CampaignFeatures\UpdateCampaignFeaturesRequest;
 use App\Http\Resources\CampaignFeatures\CampaignFeaturesResource;
 use App\Models\CampaignFeatures;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignFeaturesController extends Controller
 {
@@ -36,8 +37,9 @@ class CampaignFeaturesController extends Controller
 
     public function store(CreateCampaignFeaturesRequest $request)
     {
-        $data = $request->validated();
-        $created = $this->campaignFeaturesService->create($data);
+        $this->authorize('create', CampaignFeatures::class); // ← ajout cohérent si tu as une policy
+        $dto = $request->toDto();
+        $created = $this->campaignFeaturesService->create($dto);
         return new CampaignFeaturesResource($created);
     }
 
@@ -45,7 +47,8 @@ class CampaignFeaturesController extends Controller
     {
         $campaignFeature = $this->campaignFeaturesService->getById($id);
         $this->authorize('update', $campaignFeature);
-        $updated = $this->campaignFeaturesService->update($id, $request->validated());
+        $dto = $request->toDto($campaignFeature); // ← si tu utilises l’existant dans ton dto
+        $updated = $this->campaignFeaturesService->update($id, $dto);
         return new CampaignFeaturesResource($updated);
     }
 
@@ -60,8 +63,17 @@ class CampaignFeaturesController extends Controller
 
     public function showByCriteria(Request $request)
     {
+        $user = Auth::user();
+        $this->authorize('viewAny', CampaignFeatures::class);
+
         $criteria = $request->query();
-        $features = $this->campaignFeaturesService->getByCriteria($criteria);
-        return new CampaignFeaturesCollection($features);
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->campaignFeaturesService->getByCriteria($criteria);
+
+        return new CampaignFeaturesCollection($results);
     }
+
 }

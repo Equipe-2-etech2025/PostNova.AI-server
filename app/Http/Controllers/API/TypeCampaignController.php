@@ -5,12 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TypeCampaign\CreateTypeCampaignRequest;
 use App\Http\Requests\TypeCampaign\UpdateTypeCampaignRequest;
-use App\Http\Resources\Campaign\CampaignResource;
+use App\Http\Resources\TypeCampaign\TypeCampaignCollection;
 use App\Http\Resources\TypeCampaign\TypeCampaignResource;
 use App\Models\TypeCampaign;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
-use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Telescope\AuthorizesRequests;
 
 class TypeCampaignController extends Controller
@@ -41,19 +41,21 @@ class TypeCampaignController extends Controller
 
     public function store(CreateTypeCampaignRequest $request)
     {
-        $data = $request->validated();
         $this->authorize('create', TypeCampaign::class);
-        $typeCampaign = $this->typeCampaignService->createTypeCampaign($data);
+        $typeCampaignDto = $request->toDto();
+        $typeCampaign = $this->typeCampaignService->createTypeCampaign($typeCampaignDto);
+
         return new TypeCampaignResource($typeCampaign);
     }
 
-    public function update( UpdateTypeCampaignRequest $request, int $id)
+    public function update(UpdateTypeCampaignRequest $request, int $id)
     {
-        $data = $request->validated();
         $typeCampaign = $this->typeCampaignService->getTypeCampaignById($id);
         $this->authorize('update', $typeCampaign);
-        $typeCampaign = $this->typeCampaignService->updateTypeCampaign($id, $data);
-        return  new TypeCampaignResource($typeCampaign);
+        $typeCampaignDto = $request->toDto($typeCampaign);
+        $updatedTypeCampaign = $this->typeCampaignService->updateTypeCampaign($id, $typeCampaignDto);
+
+        return new TypeCampaignResource($updatedTypeCampaign);
     }
 
     public function destroy(int $id)
@@ -67,7 +69,17 @@ class TypeCampaignController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $typeCampaign = $this->typeCampaignService->getTypeCampaignByCriteria($request->query());
-        return new TypeCampaignCollection($typeCampaign);
+        $user = Auth::user();
+        $this->authorize('viewAny', TypeCampaign::class);
+
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->typeCampaignService->getTypeCampaignByCriteria($criteria);
+
+        return new TypeCampaignCollection($results);
     }
+
 }

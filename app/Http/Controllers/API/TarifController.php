@@ -10,6 +10,7 @@ use App\Http\Resources\Tarif\TarifRessource;
 use App\Models\Tarif;
 use App\Services\Interfaces\TarifServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TarifController extends Controller
 {
@@ -37,19 +38,22 @@ class TarifController extends Controller
     public function store(CreateTarifRequest $request)
     {
         $this->authorize('create', Tarif::class);
-        $tarif = $this->tarifService->createTarif($request->validated());
+        $tarifDto = $request->toDto();
+        $tarif = $this->tarifService->createTarif($tarifDto);
 
-        return new TarifRessource($tarif);
+        return new TarifResource($tarif);
     }
 
     public function update(UpdateTarifRequest $request, int $id)
     {
         $tarif = $this->tarifService->getTarifById($id);
         $this->authorize('update', $tarif);
+        $tarifDto = $request->toDto($tarif);
+        $updatedTarif = $this->tarifService->updateTarif($id, $tarifDto);
 
-        $updatedTarif = $this->tarifService->updateTarif($id, $request->validated());
-        return new TarifRessource($updatedTarif);
+        return new TarifResource($updatedTarif);
     }
+
 
     public function destroy(int $id)
     {
@@ -63,7 +67,17 @@ class TarifController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $tarifs = $this->tarifService->getTarifByCriteria($request->query());
-        return new TarifCollection($tarifs);
+        $user = Auth::user();
+        $this->authorize('viewAny', Tarif::class);
+
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->tarifService->getTarifByCriteria($criteria);
+
+        return new TarifCollection($results);
     }
+
 }

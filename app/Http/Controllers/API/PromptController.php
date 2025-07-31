@@ -49,22 +49,23 @@ class PromptController extends Controller
 
     public function store(CreatePromptRequest $request)
     {
-        $data = $request->validated();
-        $this->authorize('create', [Prompt::class, $data['campaign_id']]);
-        $prompt = $this->promptService->createPrompt($data);
+        $promptDto = $request->toDto();
+        $this->authorize('create', [Prompt::class, $promptDto->campaign_id]);
+        $prompt = $this->promptService->createPrompt($promptDto);
 
-        return new  PromptResource($prompt);
+        return new PromptResource($prompt);
     }
 
     public function update(UpdatePromptRequest $request, int $id)
     {
         $prompt = $this->promptService->getPromptById($id);
         $this->authorize('update', $prompt);
+        $promptDto = $request->toDto($prompt);
+        $updatedPrompt = $this->promptService->updatePrompt($id, $promptDto);
 
-        $prompt = $this->promptService->updatePrompt($id, $request->validated());
-
-        return new PromptResource($prompt);
+        return new PromptResource($updatedPrompt);
     }
+
 
     public function destroy(int $id)
     {
@@ -77,8 +78,17 @@ class PromptController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $prompts = $this->promptService->getPromptByCriteria($request->query());
+        $user = Auth::user();
+        $this->authorize('viewAny', Prompt::class);
 
-        return new PromptCollection($prompts);
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->promptService->getPromptByCriteria($criteria);
+
+        return new PromptCollection($results);
     }
+
 }

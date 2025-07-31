@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\Campaign\CampaignDto;
 use App\Models\Campaign;
 use App\Repositories\CampaignRepository;
 use App\Services\Interfaces\CampaignServiceInterface;
@@ -25,17 +26,14 @@ class CampaignService implements CampaignServiceInterface
         return $this->repository->find($id);
     }
 
-    public function createCampaign(array $data)
+    public function createCampaign(CampaignDto $campaignDto) : Campaign
     {
-        if (!isset($data['status'])) {
-            $data['status'] = 'processing';
-        }
-        return $this->repository->create($data);
+        return $this->repository->create($campaignDto);
     }
 
-    public function updateCampaign(int $campaignId, array $data)
+    public function updateCampaign(int $campaignId, CampaignDto $campaignDto) : Campaign
     {
-        return $this->repository->update($campaignId, $data);
+        return $this->repository->update($campaignId, $campaignDto);
     }
 
     public function deleteCampaign(int $id)

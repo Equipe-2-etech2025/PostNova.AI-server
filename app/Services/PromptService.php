@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\DTOs\Prompt\PromptDto;
+use App\Models\Prompt;
 use App\Repositories\Interfaces\PromptRepositoryInterface;
 use App\Services\Interfaces\PromptServiceInterface;
 
@@ -29,14 +31,14 @@ class PromptService implements PromptServiceInterface
         return $this->repository->findBy($criteria);
     }
 
-    public function createPrompt(array $data)
+    public function createPrompt(PromptDto $promptDto)
     {
-        return $this->repository->create($data);
+        return $this->repository->create($promptDto);
     }
 
-    public function updatePrompt(int $id, array $data)
+    public function updatePrompt(int $id, PromptDto $promptDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $promptDto);
     }
 
     public function deletePrompt(int $id)

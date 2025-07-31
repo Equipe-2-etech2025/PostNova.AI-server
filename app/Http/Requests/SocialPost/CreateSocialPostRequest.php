@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\SocialPost;
 
+use App\DTOs\SocialPost\SocialPostDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateSocialPostRequest extends FormRequest
@@ -49,4 +50,15 @@ class CreateSocialPostRequest extends FormRequest
             'content' => trim($this->input('content')),
         ]);
     }
+
+    public function toDto(): SocialPostDto
+    {
+        return new SocialPostDto(
+            content: $this->input('content'),
+            image_url: $this->input('image_url'),
+            campaign_id: $this->input('campaign_id'),
+            user_id: $this->user()->id,
+        );
+    }
+
 }

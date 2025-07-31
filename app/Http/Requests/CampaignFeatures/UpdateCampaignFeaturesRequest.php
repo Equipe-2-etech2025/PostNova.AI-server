@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\CampaignFeatures;
 
+use App\DTOs\CampaignFeatures\CampaignFeaturesDto;
+use App\Models\CampaignFeatures;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCampaignFeaturesRequest extends FormRequest
@@ -45,5 +47,13 @@ class UpdateCampaignFeaturesRequest extends FormRequest
         if ($this->has('feature_id')) {
             $this->merge(['feature_id' => (int) $this->feature_id]);
         }
+    }
+
+    public function toDto(?CampaignFeatures $campaignFeatures = null ): CampaignFeaturesDto
+    {
+        return new CampaignFeaturesDto(
+            campaign_id: $this->input('campaign_id', $campaignFeatures?->campaign_id ?? null),
+            feature_id: $this->input('feature_id',  $campaignFeatures?->feature_id ?? null),
+        );
     }
 }

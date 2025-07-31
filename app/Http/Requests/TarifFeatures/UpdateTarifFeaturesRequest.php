@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\TarifFeatures;
 
+use App\DTOs\TarifFeatures\TarifFeatureDto;
+use App\Models\TarifFeature;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTarifFeaturesRequest extends FormRequest
@@ -41,5 +43,17 @@ class UpdateTarifFeaturesRequest extends FormRequest
             'name' => ucfirst(strtolower(trim($this->name))),
         ]);
     }
+
+    public function toDto(?TarifFeature $tarifFeature = null): TarifFeatureDto
+    {
+        return new TarifFeatureDto(
+            id: $tarifFeature?->id,
+            tarifId: $this->input('tarif_id', $tarifFeature?->tarif_id ?? null),
+            name: $this->input('name', $tarifFeature?->name ?? null),
+            createdAt: $tarifFeature?->created_at,
+            updatedAt: now(),
+        );
+    }
+
 
 }

@@ -9,6 +9,7 @@ use App\Http\Resources\Feature\FeatureCollection;
 use App\Http\Resources\Feature\FeatureResource;
 use App\Services\Interfaces\FeaturesServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Telescope\AuthorizesRequests;
 use App\Models\Features;
 
@@ -39,20 +40,21 @@ class FeaturesController extends Controller
 
     public function store(CreateFeatureRequest $request)
     {
-        $data = $request->validated();
         $this->authorize('create', Features::class);
-        $features = $this->featuresService->createFeature($data);
-        return  new FeatureResource($features);
+        $featureDto = $request->toDto();
+        $feature = $this->featuresService->createFeature($featureDto);
+        return new FeatureResource($feature);
     }
 
     public function update(UpdateFeatureRequest $request, int $id)
     {
-        $data = $request->validated();
-        $features = $this->featuresService->getFeatureById($id);
-        $this->authorize('update', $features);
-        $features = $this->featuresService->updateFeature($id, $data);
-        return  new FeatureResource($features);
+        $feature = $this->featuresService->getFeatureById($id);
+        $this->authorize('update', $feature);
+        $featureDto = $request->toDto($feature);
+        $updatedFeature = $this->featuresService->updateFeature($id, $featureDto);
+        return new FeatureResource($updatedFeature);
     }
+
 
     public function destroy(int $id)
     {
@@ -65,7 +67,17 @@ class FeaturesController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $feature = $this->featuresService->getFeatureByCriteria($request->query());
-        return new FeatureCollection($feature);
+        $user = Auth::user();
+        $this->authorize('viewAny', Feature::class);
+
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->featuresService->getFeatureByCriteria($criteria);
+
+        return new FeatureCollection($results);
     }
+
 }

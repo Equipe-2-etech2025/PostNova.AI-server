@@ -48,9 +48,9 @@ class ImageController extends Controller
 
     public function store(CreateImageRequest $request)
     {
-        $data = $request->validated();
-        $this->authorize('create', [Image::class, $data['campaign_id']]);
-        $image = $this->imageService->createImage($data);
+        $imageDto = $request->toDto();
+        $this->authorize('create', [Image::class, $imageDto->campaign_id]);
+        $image = $this->imageService->createImage($imageDto);
 
         return new ImageResource($image);
     }
@@ -59,11 +59,12 @@ class ImageController extends Controller
     {
         $image = $this->imageService->getImageById($id);
         $this->authorize('update', $image);
+        $imageDto = $request->toDto($image);
+        $updatedImage = $this->imageService->updateImage($id, $imageDto);
 
-        $image = $this->imageService->updateImage($id, $request->validated());
-
-        return new ImageResource($image);
+        return new ImageResource($updatedImage);
     }
+
 
     public function destroy(int $id)
     {
@@ -76,8 +77,17 @@ class ImageController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $images = $this->imageService->getImageByCriteria($request->query());
+        $user = Auth::user();
+        $this->authorize('viewAny', Image::class);
 
-        return new ImageCollection($images);
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->imageService->getImageByCriteria($criteria);
+
+        return new ImageCollection($results);
     }
+
 }

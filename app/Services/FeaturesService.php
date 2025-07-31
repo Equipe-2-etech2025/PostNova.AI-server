@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\Features\FeaturesDto;
 use App\Repositories\Interfaces\FeaturesRepositoryInterface;
 use App\Services\Interfaces\FeaturesServiceInterface;
 
@@ -29,14 +30,15 @@ class FeaturesService implements FeaturesServiceInterface
         return $this->featuresRepository->findBy($criteria);
     }
 
-    public function updateFeature(int $id, array $data)
+
+    public function updateFeature(int $id, FeaturesDto $featuresDto)
     {
-        return $this->featuresRepository->update($id, $data);
+        return $this->featuresRepository->update($id, $featuresDto);
     }
 
-    public function createFeature(array $data)
+    public function createFeature(FeaturesDto $featuresDto)
     {
-        return $this->featuresRepository->create($data);
+        return $this->featuresRepository->create($featuresDto);
     }
 
     public function deleteFeature(int $id)

@@ -9,6 +9,7 @@ use App\Http\Resources\TarifFeature\TarifFeatureCollection;
 use App\Http\Resources\TarifFeature\TarifFeatureResource;
 use App\Services\Interfaces\TarifFeatureServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Telescope\AuthorizesRequests;
 use App\Models\TarifFeature;
 
@@ -39,7 +40,9 @@ class TarifFeatureController extends Controller
     public function store(CreateTarifFeaturesRequest $request)
     {
         $this->authorize('create', TarifFeature::class);
-        $created = $this->tarifFeatureService->createTarifFeature($request->validated());
+        $tarifFeatureDto = $request->toDto();
+        $created = $this->tarifFeatureService->createTarifFeature($tarifFeatureDto);
+
         return new TarifFeatureResource($created);
     }
 
@@ -47,9 +50,12 @@ class TarifFeatureController extends Controller
     {
         $tarifFeature = $this->tarifFeatureService->getTarifFeatureById($id);
         $this->authorize('update', $tarifFeature);
-        $updated = $this->tarifFeatureService->updateTarifFeature($id, $request->validated());
+        $tarifFeatureDto = $request->toDto($tarifFeature);
+        $updated = $this->tarifFeatureService->updateTarifFeature($id, $tarifFeatureDto);
+
         return new TarifFeatureResource($updated);
     }
+
 
     public function destroy(int $id)
     {
@@ -62,8 +68,18 @@ class TarifFeatureController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $results = $this->tarifFeatureService->getTarifFeatureByCriteria($request->query());
+        $user = Auth::user();
+        $this->authorize('viewAny', TarifFeature::class);
+
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->tarifFeatureService->getTarifFeatureByCriteria($criteria);
+
         return new TarifFeatureCollection($results);
     }
+
 }
 

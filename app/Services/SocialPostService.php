@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\SocialPost\SocialPostDto;
 use App\Models\SocialPost;
 use App\Repositories\Interfaces\SocialPostRepositoryInterface;
 use App\Services\Interfaces\SocialPostServiceInterface;
@@ -30,14 +31,14 @@ class SocialPostService implements SocialPostServiceInterface
         return $this->repository->findBy($criteria);
     }
 
-    public function createSocialPost(array $data)
+    public function createSocialPost(SocialPostDto $socialPostDto)
     {
-        return $this->repository->create($data);
+        return $this->repository->create($socialPostDto);
     }
 
-    public function updateSocialPost(int $id, array $data)
+    public function updateSocialPost(int $id, SocialPostDto $socialPostDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $socialPostDto);
     }
 
     public function deleteSocialPost(int $id)

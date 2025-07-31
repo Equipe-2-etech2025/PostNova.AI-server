@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Social;
 
+use App\DTOs\Social\SocialDto;
+use App\Models\Social;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -49,4 +51,13 @@ class UpdateSocialRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(?Social $social = null): SocialDto
+    {
+        return new SocialDto(
+            id: $social?->id,
+            name: $this->input('name', $social?->name ?? null),
+        );
+    }
+
 }

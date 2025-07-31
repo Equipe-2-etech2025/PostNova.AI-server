@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\LandingPage\LandingPageDto;
 use App\Repositories\Interfaces\LandingPageRepositoryInterface;
 use App\Services\Interfaces\LandingPageServiceInterface;
 
@@ -29,17 +30,14 @@ class LandingPageService implements LandingPageServiceInterface
         return $this->repository->findBy($criteria);
     }
 
-    public function createLandingPage(array $data)
+    public function createLandingPage(LandingPageDto $landingPageDto)
     {
-        if (!isset($data['is_publised'])) {
-            $data['status'] = 'false';
-        }
-        return $this->repository->create($data);
+        return $this->repository->create($landingPageDto);
     }
 
-    public function updateLandingPage(int $id, array $data)
+    public function updateLandingPage(int $id, LandingPageDto $landingPageDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $landingPageDto);
     }
 
     public function deleteLandingPage(int $id)

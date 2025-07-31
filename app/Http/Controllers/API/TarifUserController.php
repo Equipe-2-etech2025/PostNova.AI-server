@@ -10,6 +10,7 @@ use App\Http\Resources\TarifUser\TarifUserCollection;
 use App\Services\Interfaces\TarifUserServiceInterface;
 use Illuminate\Http\Request;
 use App\Models\TarifUser;
+use Illuminate\Support\Facades\Auth;
 
 class TarifUserController extends Controller
 {
@@ -27,13 +28,6 @@ class TarifUserController extends Controller
         return new TarifUserCollection($tarifUsers);
     }
 
-    public function store(CreateTarifUserRequest $request)
-    {
-        $this->authorize('create', TarifUser::class);
-        $tarifUser = $this->tarifUserService->createTarifUser($request->validated());
-        return new TarifUserResource($tarifUser);
-    }
-
     public function show(int $id)
     {
         $tarifUser = $this->tarifUserService->getTarifUserById($id);
@@ -41,13 +35,27 @@ class TarifUserController extends Controller
         return new TarifUserResource($tarifUser);
     }
 
+    public function store(CreateTarifUserRequest $request)
+    {
+        $this->authorize('create', TarifUser::class);
+
+        $tarifUserDto = $request->toDto();
+        $tarifUser = $this->tarifUserService->createTarifUser($tarifUserDto);
+
+        return new TarifUserResource($tarifUser);
+    }
+
     public function update(UpdateTarifUserRequest $request, int $id)
     {
         $tarifUser = $this->tarifUserService->getTarifUserById($id);
         $this->authorize('update', $tarifUser);
-        $updated = $this->tarifUserService->updateTarifUser($id, $request->validated());
+
+        $tarifUserDto = $request->toDto($tarifUser);
+        $updated = $this->tarifUserService->updateTarifUser($id, $tarifUserDto);
+
         return new TarifUserResource($updated);
     }
+
 
     public function destroy(int $id)
     {
@@ -60,7 +68,17 @@ class TarifUserController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $results = $this->tarifUserService->getTarifUserByCriteria($request->query());
+        $user = Auth::user();
+        $this->authorize('viewAny', TarifUser::class);
+
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->tarifUserService->getTarifUserByCriteria($criteria);
+
         return new TarifUserCollection($results);
     }
+
 }

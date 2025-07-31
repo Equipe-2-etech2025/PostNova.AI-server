@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\CampaignFeatures\CampaignFeaturesDto;
 use App\Repositories\Interfaces\CampaignFeaturesRepositoryInterface;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
 
@@ -24,14 +25,14 @@ class CampaignFeaturesService implements CampaignFeaturesServiceInterface
         return $this->repository->getById($id);
     }
 
-    public function create(array $data)
+    public function create(CampaignFeaturesDto $campaignFeaturesDto)
     {
-        return $this->repository->create($data);
+        return $this->repository->create($campaignFeaturesDto);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, CampaignFeaturesDto $campaignFeaturesDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $campaignFeaturesDto);
     }
 
     public function delete(int $id)
@@ -43,4 +44,5 @@ class CampaignFeaturesService implements CampaignFeaturesServiceInterface
     {
         return $this->repository->getByCriteria($criteria);
     }
+
 }

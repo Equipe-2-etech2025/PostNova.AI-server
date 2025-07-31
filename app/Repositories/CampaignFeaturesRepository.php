@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\CampaignFeatures\CampaignFeaturesDto;
 use App\Models\CampaignFeatures;
 use App\Repositories\Interfaces\CampaignFeaturesRepositoryInterface;
 
@@ -17,17 +18,19 @@ class CampaignFeaturesRepository implements CampaignFeaturesRepositoryInterface
         return CampaignFeatures::findOrFail($id);
     }
 
-    public function create(array $data)
+    public function create(CampaignFeaturesDto $campaignFeaturesDto) : CampaignFeatures
     {
-        return CampaignFeatures::create($data);
+        return $this->model->create($campaignFeaturesDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, CampaignFeaturesDto $campaignFeaturesDto) :  CampaignFeatures
     {
-        $item = CampaignFeatures::findOrFail($id);
-        $item->update($data);
+        $item = $this->model->findOrFail($id);
+        $item->update($campaignFeaturesDto->toArray());
         return $item;
     }
+
+
 
     public function delete(int $id)
     {

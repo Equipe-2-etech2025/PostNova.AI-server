@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\TypeCampaign\TypeCampaignDto;
 use App\Repositories\TypeCampaignRepository;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 
@@ -29,14 +30,14 @@ class TypeCampaignService implements TypeCampaignServiceInterface
         return $this->typeCampaignRepository->findBy($criteria);
     }
 
-    public function updateTypeCampaign(int $id, array $data)
+    public function updateTypeCampaign(int $id, TypeCampaignDto $typeCampaignDto)
     {
-        return $this->typeCampaignRepository->update($id, $data);
+        return $this->typeCampaignRepository->update($id, $typeCampaignDto);
     }
 
-    public function createTypeCampaign(array $data)
+    public function createTypeCampaign(TypeCampaignDto $typeCampaignDto)
     {
-        return $this->typeCampaignRepository->create($data);
+        return $this->typeCampaignRepository->create($typeCampaignDto);
     }
 
     public function deleteTypeCampaign(int $id)
