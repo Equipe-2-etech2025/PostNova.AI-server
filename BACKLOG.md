@@ -3,17 +3,12 @@
 ## À faire
 
 ## En cours
+- [EPA-45] Modifier en données réels pour les seeders et factories (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-45-seeders-factories`
+  Commit: `EPA-45: refactor replace fake data with real data`  
+
 - [EPA-36] Création de "request et ressources" , API laravel (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-36-requests-ressources-policies`
-  Commit: `EPA-36 refactor: update CreateCampaignRequest & UpdateCampaignRequest (rules, messages, prepareForValidation)`
-  Commit: `EPA-36 refactor: Adapt CampaignController to use CampaignPolicy`
-  Commit: `EPA-36 refactor: use and adapt UpdateCampaignRequest into function update from CampaignController`
-  Commit: `EPA-36 feat(social): add Create/Update requests and authorization policy`
-  Commit: `EPA-36 feat(feature): add Create/Update requests and authorization policy`
-  Commit: `EPA-36 refactor(feature): update Campaign|Social,Features(Controller, policy) to match route with admin or public user`
-  Commit: `EPA-36 feat(typeCampaign): add Create/Update requests and authorization policy`
-  Commit: `EPA-36 feat(tarif): add Create/Update requests, resources and authorization policy`
-  Commit: `EPA-36 feat(campaignFeatures): add Create/Update requests, resources and authorization policy`
   Commit: `EPA-36 feat: add Create/Update requests, resources and authorization policy`
 
 - [EPA-37] Tester les routes en faisant une collection postman et fixer les bug (Assigné à: Mialisoa Lisa Rasoanirina)

@@ -23,7 +23,7 @@ class ImageFactory extends Factory
         return [
             'path' => 'https://picsum.photos/seed/' . fake()->uuid . '/640/480',
             'is_published' => fake()->boolean(),
-            'campaign_id' => \App\Models\Campaign::inRandomOrder()->first()?->id ?? \App\Models\Campaign::factory(),
+            'campaign_id' => rand(1, 10),
             'created_at' => now(),
             'updated_at' => now(),
         ];

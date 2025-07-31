@@ -21,9 +21,7 @@ class PromptFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => fake()->paragraph(),
-            'campaign_id' => Campaign::inRandomOrder()->first()?->id ?? Campaign::factory(),
-            'created_at' => now(),
+
         ];
     }
 }
