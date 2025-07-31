@@ -31,6 +31,9 @@ class LandingPageService implements LandingPageServiceInterface
 
     public function createLandingPage(array $data)
     {
+        if (!isset($data['is_publised'])) {
+            $data['status'] = 'false';
+        }
         return $this->repository->create($data);
     }
 
@@ -43,4 +46,10 @@ class LandingPageService implements LandingPageServiceInterface
     {
         return $this->repository->delete($id);
     }
+
+    public function getLandingPageByUserId(int $userId)
+    {
+        return $this->repository->findByUserId($userId);
+    }
 }
+

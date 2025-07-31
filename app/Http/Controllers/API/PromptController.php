@@ -3,8 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Prompt\CreatePromptRequest;
+use App\Http\Requests\Prompt\UpdatePromptRequest;
+use App\Http\Resources\Prompt\PromptCollection;
+use App\Http\Resources\Prompt\PromptResource;
+use App\Models\Campaign;
+use App\Models\Prompt;
 use App\Services\Interfaces\PromptServiceInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Telescope\AuthorizesRequests;
 
 class PromptController extends Controller
@@ -20,33 +27,58 @@ class PromptController extends Controller
 
     public function index()
     {
-        return $this->promptService->getAllPrompts();
+        $user = Auth::user();
+
+        $this->authorize('viewAny', Campaign::class);
+
+        if ($user->hasRole('admin')) {
+            $prompts = $this->promptService->getAllPrompts();
+        } else {
+            $prompts = $this->promptService->getPromptByUserId($user->id);
+        }
+
+        return new PromptCollection($prompts);
     }
 
     public function show(int $id)
     {
-        return $this->promptService->getPromptById($id);
+        $prompt = $this->promptService->getPromptById($id);
+        $this->authorize('view', $prompt);
+        return new PromptResource($prompt);
     }
 
-    public function store(Request $request)
+    public function store(CreatePromptRequest $request)
     {
-        $data = $request->all();
-        return $this->promptService->createPrompt($data);
+        $data = $request->validated();
+        $this->authorize('create', [Prompt::class, $data['campaign_id']]);
+        $prompt = $this->promptService->createPrompt($data);
+
+        return new  PromptResource($prompt);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdatePromptRequest $request, int $id)
     {
-        $data = $request->all();
-        return $this->promptService->updatePrompt($id, $data);
+        $prompt = $this->promptService->getPromptById($id);
+        $this->authorize('update', $prompt);
+
+        $prompt = $this->promptService->updatePrompt($id, $request->validated());
+
+        return new PromptResource($prompt);
     }
 
     public function destroy(int $id)
     {
-        return $this->promptService->deletePrompt($id);
+        $prompt = $this->promptService->getPromptById($id);
+        $this->authorize('delete', $prompt);
+        $this->promptService->deletePrompt($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->promptService->getPromptByCriteria($request->query());
+        $prompts = $this->promptService->getPromptByCriteria($request->query());
+
+        return new PromptCollection($prompts);
     }
 }

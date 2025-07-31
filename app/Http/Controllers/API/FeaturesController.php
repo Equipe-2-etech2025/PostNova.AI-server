@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Feature\CreateFeatureRequest;
+use App\Http\Requests\Feature\UpdateFeatureRequest;
+use App\Http\Resources\Feature\FeatureCollection;
+use App\Http\Resources\Feature\FeatureResource;
 use App\Services\Interfaces\FeaturesServiceInterface;
 use Illuminate\Http\Request;
 use Laravel\Telescope\AuthorizesRequests;
+use App\Models\Features;
 
 class FeaturesController extends Controller
 {
@@ -20,31 +25,47 @@ class FeaturesController extends Controller
 
     public function index()
     {
-        return $this->featuresService->getAllFeatures();
+        $this->authorize('viewAny', Features::class);
+        $features = $this->featuresService->getAllFeatures();
+        return new FeatureCollection($features);
     }
 
     public function show(int $id)
     {
-        return $this->featuresService->getFeatureById($id);
+        $features = $this->featuresService->getFeatureById($id);
+        $this->authorize('view', $features);
+        return new FeatureResource($features);
     }
 
-    public function store(Request $request)
+    public function store(CreateFeatureRequest $request)
     {
-        return $this->featuresService->createFeature($request->all());
+        $data = $request->validated();
+        $this->authorize('create', Features::class);
+        $features = $this->featuresService->createFeature($data);
+        return  new FeatureResource($features);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateFeatureRequest $request, int $id)
     {
-        return $this->featuresService->updateFeature($id, $request->all());
+        $data = $request->validated();
+        $features = $this->featuresService->getFeatureById($id);
+        $this->authorize('update', $features);
+        $features = $this->featuresService->updateFeature($id, $data);
+        return  new FeatureResource($features);
     }
 
     public function destroy(int $id)
     {
-        return $this->featuresService->deleteFeature($id);
+        $features = $this->featuresService->getFeatureById($id);
+        $this->authorize('delete', $features);
+        $this->featuresService->deleteFeature($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->featuresService->getFeatureByCriteria($request->query());
+        $feature = $this->featuresService->getFeatureByCriteria($request->query());
+        return new FeatureCollection($feature);
     }
 }

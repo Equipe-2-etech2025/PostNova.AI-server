@@ -18,10 +18,12 @@ class SocialPostFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => $this->faker->paragraph,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'social_id' => Social::factory(),
+//            'content' => $this->faker->paragraph,
+            'is_published' => $this->faker->boolean,
+//            'campaign_id' => $this->faker->numberBetween(1, 10),
+//            'created_at' => now(),
+//            'updated_at' => now(),
+//            'social_id' => Social::factory(),
         ];
     }
 }

@@ -19,7 +19,6 @@ class Image extends Model
     public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
-        'type',
         'path',
         'is_published',
         'campaign_id',

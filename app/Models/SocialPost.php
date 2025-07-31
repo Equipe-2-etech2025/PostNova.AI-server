@@ -21,10 +21,15 @@ class SocialPost extends Model
 
     protected $fillable = [
         'content',
+        'is_published',
         'social_id',
+        'campaign_id'
+
     ];
     protected $casts = [
         'id' => 'integer',
+        'is_published' => 'boolean',
+        'campaign_id'=> 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
@@ -33,4 +38,10 @@ class SocialPost extends Model
     {
         return $this->belongsTo(Social::class, 'social_id');
     }
+
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'campaign_id');
+    }
+
 }

@@ -101,6 +101,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Check if user is public client.
+     */
+    public function isPublic(): bool
+    {
+        return $this->role === self::ROLE_USER;
+    }
+
+    /**
      * Get user's initials.
      */
     public function getInitialsAttribute(): string

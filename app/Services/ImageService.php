@@ -31,7 +31,9 @@ class ImageService implements ImageServiceInterface
 
     public function createImage(array $data)
     {
-
+        if (!isset($data['is_published'])) {
+            $data['is_published'] = false;
+        }
         return $this->repository->create($data);
     }
 
@@ -43,5 +45,10 @@ class ImageService implements ImageServiceInterface
     public function deleteImage(int $id)
     {
         return $this->repository->delete($id);
+    }
+
+    public function getImageByUserId(int $userId)
+    {
+        return $this->repository->findByUserId($userId);
     }
 }

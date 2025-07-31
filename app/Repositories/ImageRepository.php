@@ -29,7 +29,9 @@ class ImageRepository implements ImageRepositoryInterface
         $query = $this->model->query();
 
         foreach ($criteria as $field => $value) {
-            if (is_numeric($value)) {
+            if ($field === 'is_published') {
+                $query->where('is_published', filter_var($value, FILTER_VALIDATE_BOOLEAN));
+            } elseif (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
                 $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
@@ -54,5 +56,13 @@ class ImageRepository implements ImageRepositoryInterface
     public function delete(int $id)
     {
         return $this->model->destroy($id);
+    }
+
+    public function findByUserId(int $userId)
+    {
+        return Image::whereHas('campaign', function ($query) use ($userId)
+        {
+            $query->where('user_id', $userId);
+        })->get();
     }
 }

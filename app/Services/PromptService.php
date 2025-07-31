@@ -43,4 +43,9 @@ class PromptService implements PromptServiceInterface
     {
         return $this->repository->delete($id);
     }
+
+    public function getPromptByUserId(int $userId)
+    {
+        return $this->repository->findByUserId($userId);
+    }
 }
