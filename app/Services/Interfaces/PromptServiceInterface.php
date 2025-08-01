@@ -13,4 +13,5 @@ interface PromptServiceInterface
     public function updatePrompt(int $id, PromptDto $promptDto);
     public function deletePrompt(int $id);
     public function getPromptByUserId(int $userId);
+    public function countTodayPromptsByUser(int $userId);
 }

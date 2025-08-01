@@ -17,6 +17,7 @@ use App\Http\Controllers\API\Auth\PasswordResetController;
 use App\Http\Controllers\API\TarifFeatureController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\CampaignController;
+use App\Http\Controllers\API\DashboardController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -124,6 +125,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [PromptController::class, 'store']);
         Route::put('/{id}', [PromptController::class, 'update']);
         Route::delete('/{id}', [PromptController::class, 'destroy']);
+        Route::get('/quota/user/{userId}', [PromptController::class, 'getQuotaByUserId']);
     });
 
     Route::prefix('social-posts')->group(function () {
@@ -151,6 +153,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [TarifUserController::class, 'store']);
         Route::put('/{id}', [TarifUserController::class, 'update']);
         Route::delete('/{id}', [TarifUserController::class, 'destroy']);
+        Route::get('/latest/user/{userId}', [TarifUserController::class, 'getLatestByUserId']);
     });
 
     Route::prefix('tarif-features')->group(function () {
@@ -161,6 +164,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', [TarifFeatureController::class, 'update']);
         Route::delete('/{id}', [TarifFeatureController::class, 'destroy']);
     });
+
+    Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 
     // Routes pour les administrateurs seulement
     Route::middleware('role:admin')->group(function () {

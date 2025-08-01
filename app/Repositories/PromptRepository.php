@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTOs\Prompt\PromptDto;
 use App\Models\Prompt;
 use App\Repositories\Interfaces\PromptRepositoryInterface;
+use Illuminate\Support\Carbon;
 
 class PromptRepository implements PromptRepositoryInterface
 {
@@ -65,5 +66,15 @@ class PromptRepository implements PromptRepositoryInterface
         {
             $query->where('user_id', $userId);
         })->get();
+    }
+
+    public function countTodayPromptsByUser(int $userId): int
+    {
+        return $this->model
+            ->whereHas('campaign', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->whereDate('created_at', Carbon::today())
+            ->count();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Campaign;
 
 class Prompt extends Model
 {
@@ -27,4 +28,10 @@ class Prompt extends Model
         'campaign_id' => 'string',
         'created_at' => 'datetime',
     ];
+
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'campaign_id');
+    }
+
 }

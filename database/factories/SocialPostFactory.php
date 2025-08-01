@@ -21,6 +21,7 @@ class SocialPostFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
             'social_id' => Social::factory(),
+            'campaign_id' => \App\Models\Campaign::inRandomOrder()->first()?->id ?? \App\Models\Campaign::factory(),
         ];
     }
 }

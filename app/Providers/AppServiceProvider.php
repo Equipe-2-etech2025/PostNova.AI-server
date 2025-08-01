@@ -52,6 +52,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 use App\Services\Interfaces\CampaignServiceInterface;
 use App\Services\CampaignService;
+use App\Services\Interfaces\DashboardServiceInterface;
+use App\Services\DashboardService;
+use App\Repositories\Interfaces\DashboardRepositoryInterface;
+use App\Repositories\DashboardRepository;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -83,6 +88,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TypeCampaignServiceInterface::class, TypeCampaignService::class);
         $this->app->bind(CampaignServiceInterface::class, CampaignService::class);
         $this->app->bind(CampaignRepositoryInterface::class, CampaignRepository::class);
+        $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
+        $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
+        $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
     }
 
     /**

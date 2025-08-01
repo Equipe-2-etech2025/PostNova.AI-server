@@ -80,5 +80,9 @@ class TarifUserController extends Controller
 
         return new TarifUserCollection($results);
     }
-
+  
+    public function getLatestByUserId(int $userId)
+    {
+        return $this->tarifUserService->getLatestByUserId($userId);
+    }
 }

@@ -90,5 +90,10 @@ class PromptController extends Controller
 
         return new PromptCollection($results);
     }
+  
+    public function getQuotaByUserId(int $userId)
+    {
+        return $this->promptService->countTodayPromptsByUser($userId);
+    }
 
 }
