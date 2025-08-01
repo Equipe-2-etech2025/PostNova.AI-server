@@ -24,6 +24,11 @@ class TarifUserService implements TarifUserServiceInterface
         return $this->repository->find($id);
     }
 
+    public function getLatestByUserId(int $id)
+    {
+        return $this->repository->findLatestByUserId($id);
+    }
+
     public function getTarifUserByCriteria(array $criteria)
     {
         return $this->repository->findBy($criteria);

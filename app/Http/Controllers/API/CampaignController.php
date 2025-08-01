@@ -33,10 +33,10 @@ class CampaignController extends Controller
         if ($user->hasRole('admin')) {
             $campaigns = $this->campaignService->getAllCampaigns();
         } else {
-            $campaigns = $this->campaignService->getCampaignsByUserId($user->id);
+            $campaigns = $this->campaignService->getAllCampaigns();
         }
 
-        return new CampaignCollection($campaigns);
+        return $campaigns;
     }
 
     public function show(int $id)

@@ -10,6 +10,10 @@
 - [EPA-36] Création de "request et ressources" , API laravel (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-36-requests-ressources-policies`
   Commit: `EPA-36 feat: add Create/Update requests, resources and authorization policy`
+  
+- [EPA-47] Intégration dashboard (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-47-integration-dashboard`
+  Commit: `EPA-47: integration back dashboard`
 
 - [EPA-37] Tester les routes en faisant une collection postman et fixer les bug (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-37-testRoute-bugFixies`
