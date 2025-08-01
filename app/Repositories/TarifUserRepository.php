@@ -24,6 +24,15 @@ class TarifUserRepository implements TarifUserRepositoryInterface
         return $this->model->find($id);
     }
 
+    public function findLatestByUserId(int $userId)
+    {
+        return $this->model
+            ->with('tarif')
+            ->where('user_id', $userId)
+            ->orderByDesc('created_at')
+            ->first();
+    }
+
     public function findBy(array $criteria)
     {
         $query = $this->model->query();

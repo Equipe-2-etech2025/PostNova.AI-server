@@ -16,7 +16,14 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function all()
     {
-        return $this->model->all();
+        return $this->model
+            ->withCount(['images', 'landingPages', 'socialPosts'])
+            ->withSum('interactions as total_views', 'views')
+            ->withSum('interactions as total_likes', 'likes')
+            ->withSum('interactions as total_shares', 'shares')
+            ->orderByDesc('created_at')
+            ->limit(3)
+            ->get();
     }
 
     public function find(int $id)

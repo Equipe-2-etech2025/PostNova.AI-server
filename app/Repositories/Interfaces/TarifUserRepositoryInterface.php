@@ -6,6 +6,7 @@ interface TarifUserRepositoryInterface
 {
     public function all();
     public function find(int $id);
+    public function findLatestByUserId(int $id);
     public function findBy(array $criteria);
     public function create(array $data);
     public function update(int $id, array $data);

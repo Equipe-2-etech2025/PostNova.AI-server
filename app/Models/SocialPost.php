@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class SocialPost extends Model
 {
     use HasFactory;
 
     protected $table = 'social_posts';
-
     protected $keyType = 'int';
     public $incrementing = true;
 
@@ -23,15 +21,16 @@ class SocialPost extends Model
         'content',
         'is_published',
         'social_id',
-        'campaign_id'
-
+        'campaign_id',
     ];
+
     protected $casts = [
         'id' => 'integer',
         'is_published' => 'boolean',
         'campaign_id'=> 'integer',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
+        'campaign_id' => 'integer',
     ];
 
     public function social()
@@ -43,5 +42,4 @@ class SocialPost extends Model
     {
         return $this->belongsTo(Campaign::class, 'campaign_id');
     }
-
 }
