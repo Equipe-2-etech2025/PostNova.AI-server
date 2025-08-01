@@ -26,14 +26,17 @@ class SocialPostRepository implements SocialPostRepositoryInterface
 
     public function findBy(array $criteria)
     {
-        $query = $this->model->query();
+        $query = SocialPost::query()->with('campaign');
+
+        if (isset($criteria['user_id'])) {
+            $query->whereHas('campaign', function ($q) use ($criteria) {
+                $q->where('user_id', $criteria['user_id']);
+            });
+            unset($criteria['user_id']);
+        }
 
         foreach ($criteria as $field => $value) {
-            if (is_numeric($value)) {
-                $query->where($field, $value);
-            } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
-            }
+            $query->where($field, $value);
         }
 
         return $query->get();
@@ -55,4 +58,13 @@ class SocialPostRepository implements SocialPostRepositoryInterface
     {
         return $this->model->destroy($id);
     }
+
+    public function findByUserId(int $userId)
+    {
+        return SocialPost::whereHas('campaign', function ($query) use ($userId)
+        {
+            $query->where('user_id', $userId);
+        })->get();
+    }
+
 }

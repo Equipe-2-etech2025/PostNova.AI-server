@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TarifUser\CreateTarifUserRequest;
+use App\Http\Requests\TarifUser\UpdateTarifUserRequest;
+use App\Http\Resources\TarifUser\TarifUserResource;
+use App\Http\Resources\TarifUser\TarifUserCollection;
 use App\Services\Interfaces\TarifUserServiceInterface;
 use Illuminate\Http\Request;
-use Laravel\Telescope\AuthorizesRequests;
+use App\Models\TarifUser;
 
 class TarifUserController extends Controller
 {
-    use AuthorizesRequests;
-
     private TarifUserServiceInterface $tarifUserService;
 
     public function __construct(TarifUserServiceInterface $tarifUserService)
@@ -20,33 +22,45 @@ class TarifUserController extends Controller
 
     public function index()
     {
-        return $this->tarifUserService->getAllTarifUsers();
+        $this->authorize('viewAny', TarifUser::class);
+        $tarifUsers = $this->tarifUserService->getAllTarifUsers();
+        return new TarifUserCollection($tarifUsers);
+    }
+
+    public function store(CreateTarifUserRequest $request)
+    {
+        $this->authorize('create', TarifUser::class);
+        $tarifUser = $this->tarifUserService->createTarifUser($request->validated());
+        return new TarifUserResource($tarifUser);
     }
 
     public function show(int $id)
     {
-        return $this->tarifUserService->getTarifUserById($id);
+        $tarifUser = $this->tarifUserService->getTarifUserById($id);
+        $this->authorize('view', $tarifUser);
+        return new TarifUserResource($tarifUser);
     }
 
-    public function store(Request $request)
+    public function update(UpdateTarifUserRequest $request, int $id)
     {
-        $data = $request->all();
-        return $this->tarifUserService->createTarifUser($data);
-    }
-
-    public function update(Request $request, int $id)
-    {
-        $data = $request->all();
-        return $this->tarifUserService->updateTarifUser($id, $data);
+        $tarifUser = $this->tarifUserService->getTarifUserById($id);
+        $this->authorize('update', $tarifUser);
+        $updated = $this->tarifUserService->updateTarifUser($id, $request->validated());
+        return new TarifUserResource($updated);
     }
 
     public function destroy(int $id)
     {
-        return $this->tarifUserService->deleteTarifUser($id);
+        $tarifUser = $this->tarifUserService->getTarifUserById($id);
+        $this->authorize('delete', $tarifUser);
+        $this->tarifUserService->deleteTarifUser($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->tarifUserService->getTarifUserByCriteria($request->query());
+        $results = $this->tarifUserService->getTarifUserByCriteria($request->query());
+        return new TarifUserCollection($results);
     }
 }

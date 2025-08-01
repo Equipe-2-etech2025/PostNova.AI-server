@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Tarif\CreateTarifRequest;
+use App\Http\Requests\Tarif\UpdateTarifRequest;
+use App\Http\Resources\Tarif\TarifCollection;
+use App\Http\Resources\Tarif\TarifRessource;
+use App\Models\Tarif;
 use App\Services\Interfaces\TarifServiceInterface;
 use Illuminate\Http\Request;
-use Laravel\Telescope\AuthorizesRequests;
 
 class TarifController extends Controller
 {
-    use AuthorizesRequests;
-
     private TarifServiceInterface $tarifService;
 
     public function __construct(TarifServiceInterface $tarifService)
@@ -20,33 +22,48 @@ class TarifController extends Controller
 
     public function index()
     {
-        return $this->tarifService->getAllTarifs();
+        $tarifs = $this->tarifService->getAllTarifs();
+        return new TarifCollection($tarifs);
     }
 
     public function show(int $id)
     {
-        return $this->tarifService->getTarifById($id);
+        $tarif = $this->tarifService->getTarifById($id);
+        $this->authorize('view', $tarif);
+
+        return new TarifRessource($tarif);
     }
 
-    public function store(Request $request)
+    public function store(CreateTarifRequest $request)
     {
-        $data = $request->all();
-        return $this->tarifService->createTarif($data);
+        $this->authorize('create', Tarif::class);
+        $tarif = $this->tarifService->createTarif($request->validated());
+
+        return new TarifRessource($tarif);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateTarifRequest $request, int $id)
     {
-        $data = $request->all();
-        return $this->tarifService->updateTarif($id, $data);
+        $tarif = $this->tarifService->getTarifById($id);
+        $this->authorize('update', $tarif);
+
+        $updatedTarif = $this->tarifService->updateTarif($id, $request->validated());
+        return new TarifRessource($updatedTarif);
     }
 
     public function destroy(int $id)
     {
-        return $this->tarifService->deleteTarif($id);
+        $tarif = $this->tarifService->getTarifById($id);
+        $this->authorize('delete', $tarif);
+        $this->tarifService->deleteTarif($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
+
     }
 
     public function showByCriteria(Request $request)
     {
-        return $this->tarifService->getTarifByCriteria($request->query());
+        $tarifs = $this->tarifService->getTarifByCriteria($request->query());
+        return new TarifCollection($tarifs);
     }
 }

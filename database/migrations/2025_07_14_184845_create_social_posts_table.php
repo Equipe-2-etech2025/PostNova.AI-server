@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('social_posts', function (Blueprint $table) {
             $table->id();
             $table->text('content')->nullable();
+            $table->boolean('is_published')->default(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
 
@@ -17,6 +18,12 @@ return new class extends Migration {
             $table->foreign('social_id')
                 ->references('id')
                 ->on('socials');
+
+            $table->unsignedBigInteger('campaign_id');
+            $table->foreign('campaign_id')
+                ->references('id')
+                ->on('campaigns');
+
         });
     }
 

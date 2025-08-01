@@ -12,7 +12,7 @@ class UpdateCampaignRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->route('campaign'));
+        return true;
     }
 
     /**
@@ -27,26 +27,12 @@ class UpdateCampaignRequest extends FormRequest
                 'max:255',
                 Rule::unique('campaigns')->ignore($this->route('campaign'))
             ],
-            'status' => [
-                'sometimes',
-                'string',
-                Rule::in(['draft', 'published', 'archived'])
-            ],
-            'description' => 'nullable|string|max:1000',
+            'description' => 'sometimes|string|max:1000',
+            'user_id' => 'sometimes|integer|exists:users,id',
             'type_campaign_id' => [
                 'sometimes',
                 'integer',
                 'exists:type_campaigns,id'
-            ],
-            'start_date' => [
-                'sometimes',
-                'date',
-                'before_or_equal:end_date'
-            ],
-            'end_date' => [
-                'sometimes',
-                'date',
-                'after_or_equal:start_date'
             ]
         ];
     }
@@ -58,9 +44,10 @@ class UpdateCampaignRequest extends FormRequest
     {
         return [
             'name.unique' => 'Ce nom de campagne est déjà utilisé',
-            'status.in' => 'Le statut doit être parmi : draft, published, archived',
-            'type_campaign_id.exists' => 'Le type de campagne sélectionné est invalide',
-            'end_date.after_or_equal' => 'La date de fin doit être postérieure ou égale à la date de début'
+            'name.required' => 'Le nom de la campaign est obligatoire.',
+            'description.required' => 'La description de la campaign est obligatoire.',
+            'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
+            'type_campaign_id.exists' => 'Type de campaign invalide.',
         ];
     }
 
@@ -71,7 +58,14 @@ class UpdateCampaignRequest extends FormRequest
     {
         if ($this->has('name')) {
             $this->merge([
-                'name' => trim($this->name)
+                'name' => trim($this->name),
+                'description'
+            ]);
+        }
+
+        if ($this->has('description')) {
+            $this->merge([
+                'description' => trim($this->description),
             ]);
         }
     }

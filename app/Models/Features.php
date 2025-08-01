@@ -14,8 +14,8 @@ class Features extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
-    public $timestamps = false;
     public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = null;
 
     protected $fillable = [
         'name'

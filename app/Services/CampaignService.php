@@ -27,6 +27,9 @@ class CampaignService implements CampaignServiceInterface
 
     public function createCampaign(array $data)
     {
+        if (!isset($data['status'])) {
+            $data['status'] = 'processing';
+        }
         return $this->repository->create($data);
     }
 

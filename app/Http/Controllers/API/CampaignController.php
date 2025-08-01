@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\Campaign\CreateCampaignRequest;
+use App\Http\Requests\Campaign\UpdateCampaignRequest;
+use App\Http\Resources\Campaign\CampaignCollection;
+use App\Http\Resources\Campaign\CampaignResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\Interfaces\CampaignServiceInterface;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use Laravel\Telescope\AuthorizesRequests;
+use App\Models\Campaign;
 
 class CampaignController extends Controller
 {
@@ -21,43 +26,63 @@ class CampaignController extends Controller
 
     public function index()
     {
-        return $this->campaignService->getAllCampaigns();
+        $user = Auth::user();
+
+        $this->authorize('viewAny', Campaign::class);
+
+        if ($user->hasRole('admin')) {
+            $campaigns = $this->campaignService->getAllCampaigns();
+        } else {
+            $campaigns = $this->campaignService->getCampaignsByUserId($user->id);
+        }
+
+        return new CampaignCollection($campaigns);
     }
 
     public function show(int $id)
     {
-        return $this->campaignService->getCampaignById($id);
+        $campaign = $this->campaignService->getCampaignById($id);
+        $this->authorize('view', $campaign);
+        return new CampaignResource($campaign);
     }
 
-    public function store(Request $request)
+    public function store(CreateCampaignRequest $request)
     {
-        $data = $request->all();
+        $this->authorize('create', Campaign::class);
+        $data = $request->validated();
         $data['user_id'] = Auth::id();
-        return $this->campaignService->createCampaign($data);
+        $campaign = $this->campaignService->createCampaign($data);
+        return new CampaignResource($campaign);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateCampaignRequest $request, int $id)
     {
-        $data = $request->all();
-        return $this->campaignService->updateCampaign($id, $data);
+        $campaign = $this->campaignService->getCampaignById($id);
+        $this->authorize('update', $campaign);
+        $data = $request->validated();
+        $updatedCampaign = $this->campaignService->updateCampaign($id, $data);
+        return new CampaignResource($updatedCampaign);
     }
 
     public function destroy(int $id)
     {
-        return $this->campaignService->deleteCampaign($id);
+        $campaign = $this->campaignService->getCampaignById($id);
+        $this->authorize('delete', $campaign);
+        $this->campaignService->deleteCampaign($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
         $criteria = $request->query();
-        $campaign = $this->campaignService->getCampaignByCriteria($criteria);
-        return response()->json($campaign);
+        $campaigns = $this->campaignService->getCampaignByCriteria($criteria);
+        return new CampaignCollection($campaigns);
     }
 
     public function showByUserId(int $id)
     {
-        $campaign = $this->campaignService->getCampaignsByUserId($id);
-        return response()->json($campaign);
+        $campaigns = $this->campaignService->getCampaignsByUserId($id);
+        return response()->json($campaigns);
     }
-
 }

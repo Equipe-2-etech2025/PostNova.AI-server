@@ -3,47 +3,65 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CampaignFeatures\CampaignFeaturesCollection;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
 use Illuminate\Http\Request;
+use App\Http\Requests\CampaignFeatures\CreateCampaignFeaturesRequest;
+use App\Http\Requests\CampaignFeatures\UpdateCampaignFeaturesRequest;
+use App\Http\Resources\CampaignFeatures\CampaignFeaturesResource;
+use App\Models\CampaignFeatures;
 
 class CampaignFeaturesController extends Controller
 {
-    private CampaignFeaturesServiceInterface $service;
+    private CampaignFeaturesServiceInterface $campaignFeaturesService;
 
-    public function __construct(CampaignFeaturesServiceInterface $service)
+    public function __construct(CampaignFeaturesServiceInterface $campaignFeaturesService)
     {
-        $this->service = $service;
+        $this->campaignFeaturesService = $campaignFeaturesService;
     }
 
     public function index()
     {
-        return $this->service->getAll();
+        $this->authorize('viewAny', CampaignFeatures::class);
+        $campaignFeature = $this->campaignFeaturesService->getAll();
+        return new CampaignFeaturesCollection($campaignFeature);
     }
 
     public function show(int $id)
     {
-        return $this->service->getById($id);
+        $campaignFeature = $this->campaignFeaturesService->getById($id);
+        $this->authorize('view', $campaignFeature);
+        return new CampaignFeaturesResource($campaignFeature);
     }
 
-    public function store(Request $request)
+    public function store(CreateCampaignFeaturesRequest $request)
     {
-        return $this->service->create($request->all());
+        $data = $request->validated();
+        $created = $this->campaignFeaturesService->create($data);
+        return new CampaignFeaturesResource($created);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateCampaignFeaturesRequest $request, int $id)
     {
-        return $this->service->update($id, $request->all());
+        $campaignFeature = $this->campaignFeaturesService->getById($id);
+        $this->authorize('update', $campaignFeature);
+        $updated = $this->campaignFeaturesService->update($id, $request->validated());
+        return new CampaignFeaturesResource($updated);
     }
 
     public function destroy(int $id)
     {
-        return $this->service->delete($id);
+        $campaignFeature = $this->campaignFeaturesService->getById($id);
+        $this->authorize('delete', $campaignFeature);
+        $this->campaignFeaturesService->delete($id);
+
+        return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
     public function showByCriteria(Request $request)
     {
         $criteria = $request->query();
-        $features = $this->service->getByCriteria($criteria);
-        return response()->json($features);
+        $features = $this->campaignFeaturesService->getByCriteria($criteria);
+        return new CampaignFeaturesCollection($features);
     }
 }

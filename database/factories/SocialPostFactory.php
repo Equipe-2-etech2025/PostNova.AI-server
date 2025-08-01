@@ -18,7 +18,6 @@ class SocialPostFactory extends Factory
     public function definition(): array
     {
         return [
-            'content' => $this->faker->paragraph,
             'created_at' => now(),
             'updated_at' => now(),
             'social_id' => Social::factory(),
