@@ -1,169 +1,234 @@
 <?php
 
-use App\Http\Controllers\API\CampaignFeaturesController;
-use App\Http\Controllers\API\FeaturesController;
-use App\Http\Controllers\API\ImageController;
-use App\Http\Controllers\API\LandingPageController;
-use App\Http\Controllers\API\PromptController;
-use App\Http\Controllers\API\SocialController;
-use App\Http\Controllers\API\SocialPostController;
-use App\Http\Controllers\API\TarifController;
-use App\Http\Controllers\API\TarifUserController;
-use App\Http\Controllers\API\TypeCampaignController;
+use App\Http\Controllers\API\Auth\AuthUser\LoginController;
+use App\Http\Controllers\API\Auth\AuthUser\LogoutController;
+use App\Http\Controllers\API\Auth\AuthUser\MeController;
+use App\Http\Controllers\API\Auth\AuthUser\RefreshTokenController;
+use App\Http\Controllers\API\Auth\AuthUser\RegisterController;
+use App\Http\Controllers\API\Auth\EmailVerification\EmailVerificationStatusController;
+use App\Http\Controllers\API\Auth\EmailVerification\SendEmailVerificationController;
+use App\Http\Controllers\API\Auth\EmailVerification\VerifyEmailController;
+use App\Http\Controllers\API\Auth\PasswordReset\ResetPasswordController;
+use App\Http\Controllers\API\Auth\PasswordReset\SendPasswordResetLinkController;
+use App\Http\Controllers\API\Campaign\CampaignByTypeController;
+use App\Http\Controllers\API\Campaign\CampaignCriteriaController;
+use App\Http\Controllers\API\Campaign\CampaignDestroyController;
+use App\Http\Controllers\API\Campaign\CampaignIndexController;
+use App\Http\Controllers\API\Campaign\CampaignShowController;
+use App\Http\Controllers\API\Campaign\CampaignStoreController;
+use App\Http\Controllers\API\Campaign\CampaignUserController;
+use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesCriteriaController;
+use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesDestroyController;
+use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesIndexController;
+use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesShowController;
+use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesUpdateController;
+use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesStoreController;
+use App\Http\Controllers\API\Features\FeaturesCriteriaController;
+use App\Http\Controllers\API\Features\FeaturesDestroyController;
+use App\Http\Controllers\API\Features\FeaturesIndexController;
+use App\Http\Controllers\API\Features\FeaturesShowController;
+use App\Http\Controllers\API\Features\FeaturesStoreController;
+use App\Http\Controllers\API\Features\FeaturesUpdateController;
+use App\Http\Controllers\API\Image\ImageCriteriaController;
+use App\Http\Controllers\API\Image\ImageDestroyController;
+use App\Http\Controllers\API\Image\ImageIndexController;
+use App\Http\Controllers\API\Image\ImageShowController;
+use App\Http\Controllers\API\Image\ImageStoreController;
+use App\Http\Controllers\API\Image\ImageUpdateController;
+use App\Http\Controllers\API\LandingPage\LandingPageCriteriaController;
+use App\Http\Controllers\API\LandingPage\LandingPageDestroyController;
+use App\Http\Controllers\API\LandingPage\LandingPageIndexController;
+use App\Http\Controllers\API\LandingPage\LandingPageShowController;
+use App\Http\Controllers\API\LandingPage\LandingPageStoreController;
+use App\Http\Controllers\API\LandingPage\LandingPageUpdateController;
+use App\Http\Controllers\API\Prompt\PromptCriteriaController;
+use App\Http\Controllers\API\Prompt\PromptDestroyController;
+use App\Http\Controllers\API\Prompt\PromptIndexController;
+use App\Http\Controllers\API\Prompt\PromptShowController;
+use App\Http\Controllers\API\Prompt\PromptStoreController;
+use App\Http\Controllers\API\Prompt\PromptUpdateController;
+use App\Http\Controllers\API\Social\SocialCriteriaController;
+use App\Http\Controllers\API\Social\SocialDestroyController;
+use App\Http\Controllers\API\Social\SocialIndexController;
+use App\Http\Controllers\API\Social\SocialShowController;
+use App\Http\Controllers\API\Social\SocialStoreController;
+use App\Http\Controllers\API\Social\SocialUpdateController;
+use App\Http\Controllers\API\SocialPost\SocialPostCriteriaController;
+use App\Http\Controllers\API\SocialPost\SocialPostDestroyController;
+use App\Http\Controllers\API\SocialPost\SocialPostIndexController;
+use App\Http\Controllers\API\SocialPost\SocialPostShowController;
+use App\Http\Controllers\API\SocialPost\SocialPostStoreController;
+use App\Http\Controllers\API\SocialPost\SocialPostUpdateController;
+use App\Http\Controllers\API\Tarif\TarifCriteriaController;
+use App\Http\Controllers\API\Tarif\TarifDestroyController;
+use App\Http\Controllers\API\Tarif\TarifIndexController;
+use App\Http\Controllers\API\Tarif\TarifShowController;
+use App\Http\Controllers\API\Tarif\TarifStoreController;
+use App\Http\Controllers\API\Tarif\TarifUpdateController;
+use App\Http\Controllers\API\TarifFeature\TarifFeatureCriteriaController;
+use App\Http\Controllers\API\TarifFeature\TarifFeatureDestroyController;
+use App\Http\Controllers\API\TarifFeature\TarifFeatureIndexController;
+use App\Http\Controllers\API\TarifFeature\TarifFeatureShowController;
+use App\Http\Controllers\API\TarifFeature\TarifFeatureStoreController;
+use App\Http\Controllers\API\TarifFeature\TarifFeatureUpdateController;
+use App\Http\Controllers\API\TarifUser\TarifUserCriteriaController;
+use App\Http\Controllers\API\TarifUser\TarifUserDestroyController;
+use App\Http\Controllers\API\TarifUser\TarifUserIndexController;
+use App\Http\Controllers\API\TarifUser\TarifUserShowController;
+use App\Http\Controllers\API\TarifUser\TarifUserStoreController;
+use App\Http\Controllers\API\TarifUser\TarifUserUpdateController;
+use App\Http\Controllers\API\TypeCampaign\TypeCampaignCriteriaController;
+use App\Http\Controllers\API\TypeCampaign\TypeCampaignDestroyController;
+use App\Http\Controllers\API\TypeCampaign\TypeCampaignIndexController;
+use App\Http\Controllers\API\TypeCampaign\TypeCampaignShowController;
+use App\Http\Controllers\API\TypeCampaign\TypeCampaignUpdateController;
+use App\Http\Controllers\API\TypeCampaign\TypeCampaignStoreController;
+use App\Http\Controllers\API\User\UserDestroyController;
+use App\Http\Controllers\API\User\UserIndexController;
+use App\Http\Controllers\API\User\UserShowController;
+use App\Http\Controllers\API\User\UserStoreController;
+use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\Auth\AuthController;
-use App\Http\Controllers\API\Auth\EmailVerificationController;
-use App\Http\Controllers\API\Auth\PasswordResetController;
-use App\Http\Controllers\API\TarifFeatureController;
-use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\API\CampaignController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login'])->name('login');
-    Route::post('forgot-password', [PasswordResetController::class, 'sendResetLink']);
-    Route::post('reset-password', [PasswordResetController::class, 'reset'])
-        ->name('password.reset');
-    //Route de vérification publique (sans authentification)
-    Route::post('email/verify', [EmailVerificationController::class, 'verify'])
-        ->name('verification.verify');
+    Route::post('/register', RegisterController::class);
+    Route::post('/login', LoginController::class)->name('login');
+    Route::post('/forgot-password', SendPasswordResetLinkController::class);
+    Route::post('/reset-password', ResetPasswordController::class)->name('password.reset');
+    Route::get('/email/verify', VerifyEmailController::class)->name('verification.verify');
 });
 
-// Routes publiques pour les features tarifaires
-Route::get('public/tarif-features', [TarifFeatureController::class, 'index']);
-
-// Routes protégées par authentification
 Route::middleware(['auth:sanctum'])->group(function () {
-    // Routes d'authentification
     Route::prefix('auth')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('me', [AuthController::class, 'me']);
-        Route::post('refresh', [AuthController::class, 'refresh']);
+        Route::post('/logout', LogoutController::class);
+        Route::get('/me', MeController::class);
+        Route::post('/refresh', RefreshTokenController::class);
+        Route::post('/email/verification-notification', SendEmailVerificationController::class);
+        Route::get('/email/verification-status', EmailVerificationStatusController::class)->name('verification.status');
+    });
 
-        // Envoi de l'email de vérification
-        Route::post('email/verification-notification', [EmailVerificationController::class, 'send']);
-
-        // Vérifier le statut de vérification
-        Route::get('email/verify-status', [EmailVerificationController::class, 'status'])
-            ->name('verification.status');
+    Route::prefix('users')->group(function () {
+        Route::get('/', UserIndexController::class);
+        Route::post('/', UserStoreController::class);
+        Route::get('/{user}', UserShowController::class);
+        Route::put('/{user}', UserUpdateController::class);
+        Route::delete('/{user}', UserDestroyController::class);
     });
 
     Route::prefix('campaigns')->group(function () {
-        Route::get('/', [CampaignController::class, 'index']);
-        Route::get('/search', [CampaignController::class, 'showByCriteria']);
-        Route::post('/', [CampaignController::class, 'store']);
-        Route::get('/user/{userId}', [CampaignController::class, 'showByUserId'])
-            ->middleware('can:viewAny,App\Models\Campaign');
-        Route::get('/type/{typeId}', [CampaignController::class, 'byType']);
-        Route::get('/{id}', [CampaignController::class, 'show']);
-        Route::put('/{id}', [CampaignController::class, 'update']);
-        Route::delete('/{id}', [CampaignController::class, 'destroy']);
+        Route::get('/', CampaignIndexController::class);
+        Route::get('/search', CampaignCriteriaController::class);
+        Route::post('/', CampaignStoreController::class);
+        Route::get('/user/{userId}', CampaignUserController::class)->middleware('can:viewAny,App\Models\Campaign');
+        Route::get('/type/{typeId}', CampaignByTypeController::class);
+        Route::get('/{id}', CampaignShowController::class);
+        Route::put('/{id}', CampaignStoreController::class);
+        Route::delete('/{id}',CampaignDestroyController::class);
     });
 
-    //Route pour socials
     Route::prefix('socials')->group(function () {
-        Route::get('/', [SocialController::class, 'index']);
-        Route::get('/search', [SocialController::class, 'showByCriteria']);
-        Route::get('/{id}', [SocialController::class, 'show']);
-        Route::post('/', [SocialController::class, 'store']);
-        Route::put('/{id}', [SocialController::class, 'update']);
-        Route::delete('/{id}', [SocialController::class, 'destroy']);
+        Route::get('/', SocialIndexController::class);
+        Route::get('/{id}', SocialShowController::class);
+        Route::post('/', SocialStoreController::class);
+        Route::put('/{id}', SocialUpdateController::class);
+        Route::delete('/{id}', SocialDestroyController::class);
+        Route::get('/search', SocialCriteriaController::class);
     });
 
     Route::prefix('type-campaigns')->group(function () {
-        Route::get('/', [TypeCampaignController::class, 'index']);
-        Route::get('/search', [TypeCampaignController::class, 'showByCriteria']);
-        Route::get('/{id}', [TypeCampaignController::class, 'show']);
-        Route::post('/', [TypeCampaignController::class, 'store']);
-        Route::put('/{id}', [TypeCampaignController::class, 'update']);
-        Route::delete('/{id}', [TypeCampaignController::class, 'destroy']);
+        Route::get('/', TypeCampaignIndexController::class);
+        Route::get('/{id}', TypeCampaignShowController::class);
+        Route::post('/', TypeCampaignStoreController::class);
+        Route::put('/{id}', TypeCampaignUpdateController::class);
+        Route::delete('/{id}', TypeCampaignDestroyController::class);
+        Route::get('/search', TypeCampaignCriteriaController::class);
     });
 
     Route::prefix('features')->group(function () {
-        Route::get('/', [FeaturesController::class, 'index']);
-        Route::get('/search', [FeaturesController::class, 'showByCriteria']);
-        Route::get('/{id}', [FeaturesController::class, 'show']);
-        Route::post('/', [FeaturesController::class, 'store']);
-        Route::put('/{id}', [FeaturesController::class, 'update']);
-        Route::delete('/{id}', [FeaturesController::class, 'destroy']);
+        Route::get('/', FeaturesIndexController::class);
+        Route::get('/{id}', FeaturesShowController::class);
+        Route::post('/', FeaturesStoreController::class);
+        Route::put('/{id}', FeaturesUpdateController::class);
+        Route::delete('/{id}', FeaturesDestroyController::class);
+        Route::get('/search', FeaturesCriteriaController::class);
     });
 
     Route::prefix('campaign-features')->group(function () {
-        Route::get('/', [CampaignFeaturesController::class, 'index']);
-        Route::get('/search', [CampaignFeaturesController::class, 'showByCriteria']);
-        Route::get('/{id}', [CampaignFeaturesController::class, 'show']);
-        Route::post('/', [CampaignFeaturesController::class, 'store']);
-        Route::put('/{id}', [CampaignFeaturesController::class, 'update']);
-        Route::delete('/{id}', [CampaignFeaturesController::class, 'destroy']);
+        Route::get('/', CampaignFeaturesIndexController::class);
+        Route::get('/{id}', CampaignFeaturesShowController::class);
+        Route::post('/', CampaignFeaturesStoreController::class);
+        Route::put('/{id}', CampaignFeaturesUpdateController::class);
+        Route::delete('/{id}', CampaignFeaturesDestroyController::class);
+        Route::get('/search', CampaignFeaturesCriteriaController::class);
 
     });
 
     Route::prefix('images')->group(function () {
-        Route::get('/', [ImageController::class, 'index']);
-        Route::get('/search', [ImageController::class, 'showByCriteria']);
-        Route::get('/{id}', [ImageController::class, 'show']);
-        Route::post('/', [ImageController::class, 'store']);
-        Route::put('/{id}', [ImageController::class, 'update']);
-        Route::delete('/{id}', [ImageController::class, 'destroy']);
+        Route::get('/', ImageIndexController::class);
+        Route::get('/{id}', ImageShowController::class);
+        Route::post('/', ImageStoreController::class);
+        Route::put('/{id}', ImageUpdateController::class);
+        Route::delete('/{id}', ImageDestroyController::class);
+        Route::get('/search', ImageCriteriaController::class);
     });
 
     Route::prefix('landing-pages')->group(function () {
-        Route::get('/', [LandingPageController::class, 'index']);
-        Route::get('/search', [LandingPageController::class, 'showByCriteria']);
-        Route::get('/{id}', [LandingPageController::class, 'show']);
-        Route::post('/', [LandingPageController::class, 'store']);
-        Route::put('/{id}', [LandingPageController::class, 'update']);
-        Route::delete('/{id}', [LandingPageController::class, 'destroy']);
+        Route::get('/', LandingPageIndexController::class);
+        Route::get('/{id}', LandingPageShowController::class);
+        Route::post('/', LandingPageStoreController::class);
+        Route::put('/{id}', LandingPageUpdateController::class);
+        Route::delete('/{id}', LandingPageDestroyController::class);
+        Route::get('/search', LandingPageCriteriaController::class);
     });
 
     Route::prefix('prompts')->group(function () {
-        Route::get('/', [PromptController::class, 'index']);
-        Route::get('/search', [PromptController::class, 'showByCriteria']);
-        Route::get('/{id}', [PromptController::class, 'show']);
-        Route::post('/', [PromptController::class, 'store']);
-        Route::put('/{id}', [PromptController::class, 'update']);
-        Route::delete('/{id}', [PromptController::class, 'destroy']);
+        Route::get('/', PromptIndexController::class);
+        Route::get('/{id}', PromptShowController::class);
+        Route::post('/', PromptStoreController::class);
+        Route::put('/{id}', PromptUpdateController::class);
+        Route::delete('/{id}', PromptDestroyController::class);
+        Route::get('/search', PromptCriteriaController::class);
     });
 
     Route::prefix('social-posts')->group(function () {
-        Route::get('/', [SocialPostController::class, 'index']);
-        Route::get('/search', [SocialPostController::class, 'showByCriteria']);
-        Route::get('/{id}', [SocialPostController::class, 'show']);
-        Route::post('/', [SocialPostController::class, 'store']);
-        Route::put('/{id}', [SocialPostController::class, 'update']);
-        Route::delete('/{id}', [SocialPostController::class, 'destroy']);
+        Route::get('/', SocialPostIndexController::class);
+        Route::get('/{id}', SocialPostShowController::class);
+        Route::post('/', SocialPostStoreController::class);
+        Route::put('/{id}', SocialPostUpdateController::class);
+        Route::delete('/{id}', SocialPostDestroyController::class);
+        Route::get('/search', SocialPostCriteriaController::class);
     });
 
     Route::prefix('tarifs')->group(function () {
-        Route::get('/', [TarifController::class, 'index']);
-        Route::get('/search', [TarifController::class, 'showByCriteria']);
-        Route::get('/{id}', [TarifController::class, 'show']);
-        Route::post('/', [TarifController::class, 'store']);
-        Route::put('/{id}', [TarifController::class, 'update']);
-        Route::delete('/{id}', [TarifController::class, 'destroy']);
+        Route::get('/', TarifIndexController::class);
+        Route::get('/{id}', TarifShowController::class);
+        Route::post('/', TarifStoreController::class);
+        Route::put('/{id}', TarifUpdateController::class);
+        Route::delete('/{id}', TarifDestroyController::class);
+        Route::get('/search', TarifCriteriaController::class);
     });
 
     Route::prefix('tarif-users')->group(function () {
-        Route::get('/', [TarifUserController::class, 'index']);
-        Route::get('/search', [TarifUserController::class, 'showByCriteria']);
-        Route::get('/{id}', [TarifUserController::class, 'show']);
-        Route::post('/', [TarifUserController::class, 'store']);
-        Route::put('/{id}', [TarifUserController::class, 'update']);
-        Route::delete('/{id}', [TarifUserController::class, 'destroy']);
+        Route::get('/', TarifUserIndexController::class);
+        Route::get('/{id}', TarifUserShowController::class);
+        Route::post('/', TarifUserStoreController::class);
+        Route::put('/{id}', TarifUserUpdateController::class);
+        Route::delete('/{id}', TarifUserDestroyController::class);
+        Route::get('/search', TarifUserCriteriaController::class);
     });
 
     Route::prefix('tarif-features')->group(function () {
-        Route::get('/', [TarifFeatureController::class, 'index']);
-        Route::get('/search', [TarifFeatureController::class, 'showByCriteria']);
-        Route::get('/{id}', [TarifFeatureController::class, 'show']);
-        Route::post('/', [TarifFeatureController::class, 'store']);
-        Route::put('/{id}', [TarifFeatureController::class, 'update']);
-        Route::delete('/{id}', [TarifFeatureController::class, 'destroy']);
+        Route::get('/', TarifFeatureIndexController::class);
+        Route::get('/{id}', TarifFeatureShowController::class);
+        Route::post('/', TarifFeatureStoreController::class);
+        Route::put('/{id}', TarifFeatureUpdateController::class);
+        Route::delete('/{id}', TarifFeatureDestroyController::class);
+        Route::get('/search', TarifFeatureCriteriaController::class);
     });
 
     // Routes pour les administrateurs seulement
-    Route::middleware('role:admin')->group(function () {
-        Route::apiResource('users', UserController::class);
-    });
+//    Route::middleware('role:admin')->group(function () {
+//        Route::apiResource('users', UserController::class);
+//    });
 });
