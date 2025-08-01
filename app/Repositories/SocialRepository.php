@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\Social\SocialDto;
 use App\Models\Social;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 
@@ -39,15 +40,15 @@ class SocialRepository implements SocialRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(SocialDto $socialDto) : Social
     {
-        return $this->model->create($data);
+        return $this->model->create($socialDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, SocialDto $socialDto) : Social
     {
         $social = $this->model->findOrFail($id);
-        $social->update($data);
+        $social->update($socialDto->toArray());
         return $social;
     }
 

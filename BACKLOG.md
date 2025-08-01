@@ -3,6 +3,10 @@
 ## À faire
 
 ## En cours
+- [EPA-51] Restructuration de projet Backend en principe solid et ajout de DTO (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-51-DTO`
+  Commit: `EPA-51: feat(dto), add DTOs and integrate them into repositories, services, controllers and requests`
+  
 - [EPA-45] Modifier en données réels pour les seeders et factories (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-45-seeders-factories`
   Commit: `EPA-45: refactor replace fake data with real data`  

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\Campaign\CampaignDto;
 use App\Models\Campaign;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
 
@@ -46,15 +47,15 @@ class CampaignRepository implements CampaignRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(CampaignDto $campaignDto) : Campaign
     {
-        return $this->model->create($data);
+        return $this->model->create($campaignDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, CampaignDto $campaignDto) : Campaign
     {
         $campaign = $this->model->findOrFail($id);
-        $campaign->update($data);
+        $campaign->update($campaignDto->toArray());
         return $campaign;
     }
 

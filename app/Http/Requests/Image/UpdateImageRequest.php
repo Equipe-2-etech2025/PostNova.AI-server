@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Image;
 
+use App\DTOs\Image\ImageDto;
+use App\Models\Image;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateImageRequest extends FormRequest
@@ -43,4 +45,13 @@ class UpdateImageRequest extends FormRequest
             'path' => trim((string) $this->input('path')),
         ]);
     }
+
+    public function toDto(?Image $image = null): ImageDto
+    {
+        return new ImageDto(
+            path: $this->input('path', $image?->path ?? null),
+            campaign_id: $this->input('campaign_id', $image?->campaign_id ?? null),
+        );
+    }
+
 }

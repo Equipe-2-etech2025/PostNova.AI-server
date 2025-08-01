@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\CampaignFeatures;
 
+use App\DTOs\CampaignFeatures\CampaignFeaturesDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCampaignFeaturesRequest extends FormRequest
@@ -45,5 +46,13 @@ class CreateCampaignFeaturesRequest extends FormRequest
             'campaign_id' => (int) $this->campaign_id,
             'feature_id' => (int) $this->feature_id,
         ]);
+    }
+
+    public function toDto(): CampaignFeaturesDto
+    {
+        return new CampaignFeaturesDto(
+            campaign_id: $this->input('campaign_id'),
+            feature_id: $this->input('feature_id')
+        );
     }
 }

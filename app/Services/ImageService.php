@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\Image\ImageDto;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\Services\Interfaces\ImageServiceInterface;
 
@@ -29,17 +30,14 @@ class ImageService implements ImageServiceInterface
         return $this->repository->findBy($criteria);
     }
 
-    public function createImage(array $data)
+    public function createImage(ImageDto $imageDto)
     {
-        if (!isset($data['is_published'])) {
-            $data['is_published'] = false;
-        }
-        return $this->repository->create($data);
+        return $this->repository->create($imageDto);
     }
 
-    public function updateImage(int $id, array $data)
+    public function updateImage(int $id, ImageDto $imageDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $imageDto);
     }
 
     public function deleteImage(int $id)

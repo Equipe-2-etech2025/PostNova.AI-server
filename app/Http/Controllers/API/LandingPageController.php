@@ -49,21 +49,23 @@ class LandingPageController extends Controller
 
     public function store(CreateLandingPageRequest $request)
     {
-        $data = $request->validated();
-        $this->authorize('create', [LandingPage::class, $data['campaign_id']]);
-        $landingPage = $this->landingPageService->createLandingPage($data);
+        $landingPageDto = $request->toDto();
+        $this->authorize('create', [LandingPage::class, $landingPageDto->campaign_id]);
+        $landingPage = $this->landingPageService->createLandingPage($landingPageDto);
 
-        return new  LandingPageResource($landingPage);
+        return new LandingPageResource($landingPage);
     }
 
     public function update(UpdateLandingPageRequest $request, int $id)
     {
         $landingPage = $this->landingPageService->getLandingPageById($id);
         $this->authorize('update', $landingPage);
-        $landingPage = $this->landingPageService->updateLandingPage($id, $request->validated());
+        $landingPageDto = $request->toDto($landingPage);
+        $updatedLandingPage = $this->landingPageService->updateLandingPage($id, $landingPageDto);
 
-        return new LandingPageResource($landingPage);
+        return new LandingPageResource($updatedLandingPage);
     }
+
 
     public function destroy(int $id)
     {
@@ -76,8 +78,17 @@ class LandingPageController extends Controller
 
     public function showByCriteria(Request $request)
     {
-        $landingPages = $this->landingPageService->getLandingPageByCriteria($request->query());
+        $user = Auth::user();
+        $this->authorize('viewAny', LandingPage::class);
 
-        return new LandingPageCollection($landingPages);
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->landingPageService->getLandingPageByCriteria($criteria);
+
+        return new LandingPageCollection($results);
     }
+
 }

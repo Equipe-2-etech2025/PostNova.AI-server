@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\TypeCampaign;
 
+use App\DTOs\TypeCampaign\TypeCampaignDto;
+use App\Models\TypeCampaign;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -47,4 +49,13 @@ class UpdateTypeCampaignRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(?TypeCampaign $typeCampaign = null): TypeCampaignDto
+    {
+        return new TypeCampaignDto(
+            label: $this->input('label', $typeCampaign?->label ?? null),
+            description: $this->input('description', $typeCampaign?->description ?? null),
+        );
+    }
+
 }

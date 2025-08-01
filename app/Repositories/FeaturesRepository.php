@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\Features\FeaturesDto;
 use App\Models\Features;
 use App\Repositories\Interfaces\FeaturesRepositoryInterface;
 
@@ -39,15 +40,15 @@ class FeaturesRepository implements FeaturesRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(FeaturesDto $featuresDto) : Features
     {
-        return $this->model->create($data);
+        return $this->model->create($featuresDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, FeaturesDto $featuresDto) : Features
     {
         $feature = $this->model->findOrFail($id);
-        $feature->update($data);
+        $feature->update($featuresDto->toArray());
         return $feature;
     }
 

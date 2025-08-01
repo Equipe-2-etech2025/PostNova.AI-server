@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\Prompt\PromptDto;
 use App\Models\Prompt;
 use App\Repositories\Interfaces\PromptRepositoryInterface;
 use Illuminate\Support\Carbon;
@@ -42,15 +43,15 @@ class PromptRepository implements PromptRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(PromptDto $promptDto) :  Prompt
     {
-        return $this->model->create($data);
+        return $this->model->create($promptDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, PromptDto $promptDto) : Prompt
     {
         $prompt = $this->model->findOrFail($id);
-        $prompt->update($data);
+        $prompt->update($promptDto->toArray());
         return $prompt;
     }
 

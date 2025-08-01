@@ -12,6 +12,7 @@ use App\Services\Interfaces\SocialServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use \App\Models\Social;
+use Illuminate\Support\Facades\Auth;
 
 class SocialController extends Controller
 {
@@ -41,22 +42,23 @@ class SocialController extends Controller
 
     public function store(CreateSocialRequest $request)
     {
-        $data = $request->validated();
+        $socialDto = $request->toDto();
         $this->authorize('create', Social::class);
-        $social = $this->socialService->createSocial($data);
+        $social = $this->socialService->createSocial($socialDto);
 
         return new SocialResource($social);
     }
 
     public function update(UpdateSocialRequest $request, int $id)
     {
-        $data = $request->validated();
         $social = $this->socialService->getSocialById($id);
         $this->authorize('update', $social);
-        $social = $this->socialService->updateSocial($id, $data);
+        $socialDto = $request->toDto($social);
+        $updatedSocial = $this->socialService->updateSocial($id, $socialDto);
 
-        return new SocialResource($social);
+        return new SocialResource($updatedSocial);
     }
+
 
     public function destroy(int $id)
     {
@@ -69,9 +71,17 @@ class SocialController extends Controller
 
     public function showByCriteria(Request $request)
     {
+        $user = Auth::user();
         $this->authorize('viewAny', Social::class);
-        $social = $this->socialService->getSocialByCriteria($request->query());
 
-        return new SocialCollection($social);
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->socialService->getSocialByCriteria($criteria);
+
+        return new SocialCollection($results);
     }
+
 }
