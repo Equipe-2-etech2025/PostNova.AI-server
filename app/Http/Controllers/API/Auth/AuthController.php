@@ -13,9 +13,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\Interfaces\TarifUserRepositoryInterface;
 
 class AuthController extends Controller
 {
+    protected $tarifUserRepository;
+
+    public function __construct(TarifUserRepositoryInterface $tarifUserRepository)
+    {
+        $this->tarifUserRepository = $tarifUserRepository;
+    }
     /**
      * Register a new user.
      */
@@ -31,6 +38,7 @@ class AuthController extends Controller
 
             Log::info('user created');
 
+            $this->tarifUserRepository->assignFreeTarifToUser($user->id);
 
             // Déclencher l'événement d'inscription
             event(new Registered($user));

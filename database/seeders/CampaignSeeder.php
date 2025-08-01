@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Campaign;
@@ -15,6 +14,12 @@ class CampaignSeeder extends Seeder
      */
     public function run(): void
     {
+        // Récupère tous les IDs des utilisateurs existants
+        $userIds = User::pluck('id')->toArray();
+
+        // Récupère tous les IDs des types de campagne existants
+        $typeCampaignIds = TypeCampaign::pluck('id')->toArray();
+
         $campaigns = [
             [
                 'name' => 'Campagne pour la propreté urbaine',
@@ -70,13 +75,11 @@ class CampaignSeeder extends Seeder
 
         foreach ($campaigns as $data) {
             Campaign::create(array_merge($data, [
-                'user_id' => rand(1, 5),
-                'type_campaign_id' => rand(1,6 ),
+                'user_id' => fake()->randomElement($userIds),
+                'type_campaign_id' => fake()->randomElement($typeCampaignIds),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
         }
-
     }
-
 }

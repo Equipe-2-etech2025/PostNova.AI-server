@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTOs\TarifUser\TarifUserDto;
 use App\Models\TarifUser;
+use App\Models\Tarif;
 use App\Repositories\Interfaces\TarifUserRepositoryInterface;
 
 class TarifUserRepository implements TarifUserRepositoryInterface
@@ -62,5 +63,15 @@ class TarifUserRepository implements TarifUserRepositoryInterface
     public function delete(int $id)
     {
         return $this->model->destroy($id);
+    }
+
+    public function assignFreeTarifToUser(int $userId)
+    {
+        $freeTarif = Tarif::where('name', 'Free')->first();
+
+        return $this->model->create([
+            'user_id' => $userId,
+            'tarif_id' => $freeTarif->id,
+        ]);
     }
 }

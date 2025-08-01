@@ -14,4 +14,5 @@ interface TarifUserRepositoryInterface
     public function create(TarifUserDto $tarifUserDto) : TarifUser;
     public function update(int $id, TarifUserDto $tarifUserDto) : TarifUser;
     public function delete(int $id);
+    public function assignFreeTarifToUser(int $userId);
 }
