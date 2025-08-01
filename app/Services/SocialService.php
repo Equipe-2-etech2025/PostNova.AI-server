@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\Social\SocialDto;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 use App\Services\Interfaces\SocialServiceInterface;
 
@@ -29,14 +30,14 @@ class SocialService implements SocialServiceInterface
         return $this->socialRepository->findBy($criteria);
     }
 
-    public function updateSocial(int $id, array $data)
+    public function updateSocial(int $id, SocialDto $socialDto)
     {
-        return $this->socialRepository->update($id, $data);
+        return $this->socialRepository->update($id, $socialDto);
     }
 
-    public function createSocial(array $data)
+    public function createSocial(SocialDto $socialDto)
     {
-        return $this->socialRepository->create($data);
+        return $this->socialRepository->create($socialDto);
     }
 
     public function deleteSocial(int $id)

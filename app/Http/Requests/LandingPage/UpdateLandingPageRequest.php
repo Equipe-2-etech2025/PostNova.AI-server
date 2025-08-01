@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\LandingPage;
 
+use App\DTOs\LandingPage\LandingPageDto;
+use App\Models\LandingPage;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateLandingPageRequest extends FormRequest
@@ -48,4 +50,14 @@ class UpdateLandingPageRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(?LandingPage $landingPage = null): LandingPageDto
+    {
+        return new LandingPageDto(
+            title: $this->input('title', $landingPage?->title ?? null),
+            content: $this->input('content', $landingPage?->content ?? null),
+            campaign_id: $this->input('campaign_id', $landingPage?->campaign_id ?? null),
+        );
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\TarifFeatures;
 
+use App\DTOs\TarifFeatures\TarifFeatureDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateTarifFeaturesRequest extends FormRequest
@@ -48,4 +49,16 @@ class CreateTarifFeaturesRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(): TarifFeatureDto
+    {
+        return new TarifFeatureDto(
+            id: null,
+            tarifId: $this->input('tarif_id'),
+            name: $this->input('name'),
+            createdAt: now(),
+            updatedAt: now(),
+        );
+    }
+
 }

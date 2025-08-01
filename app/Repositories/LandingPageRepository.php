@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\LandingPage\LandingPageDto;
 use App\Models\LandingPage;
 use App\Repositories\Interfaces\LandingPageRepositoryInterface;
 
@@ -41,15 +42,15 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(LandingPageDto $landingPageDto) : LandingPage
     {
-        return $this->model->create($data);
+        return $this->model->create($landingPageDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, LandingPageDto $landingPageDto) :  LandingPage
     {
         $landingPage = $this->model->findOrFail($id);
-        $landingPage->update($data);
+        $landingPage->update($landingPageDto->toArray());
         return $landingPage;
     }
 

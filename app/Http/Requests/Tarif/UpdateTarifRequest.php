@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Tarif;
 
+use App\DTOs\Tarif\TarifDto;
+use App\Models\Tarif;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -58,6 +60,14 @@ class UpdateTarifRequest extends FormRequest
             'name' => ucfirst(strtolower(trim($this->name))),
             'amount' => str_replace(',', '.', $this->amount),
         ]);
+    }
+
+    public function toDto(?Tarif $tarif = null): TarifDto
+    {
+        return new TarifDto(
+            price: $this->input('price', $tarif?->price ?? null),
+            description: $this->input('description', $tarif?->description ?? null),
+        );
     }
 
 }

@@ -49,19 +49,23 @@ class SocialPostController extends Controller
 
     public function store(CreateSocialPostRequest $request)
     {
-        $data = $request->validated();
+        $socialPostDto = $request->toDto();
         $this->authorize('create', SocialPost::class);
-        $SocialPost = $this->socialPostService->createSocialPost($data);
-        return new SocialPostResource($SocialPost);
+        $socialPost = $this->socialPostService->createSocialPost($socialPostDto);
+
+        return new SocialPostResource($socialPost);
     }
 
     public function update(UpdateSocialPostRequest $request, int $id)
     {
         $socialPost = $this->socialPostService->getSocialPostById($id);
         $this->authorize('update', $socialPost);
-        $socialPost = $this->socialPostService->updateSocialPost($id, $request->validated());
-        return new SocialPostResource($socialPost);
+        $socialPostDto = $request->toDto($socialPost);
+        $updatedSocialPost = $this->socialPostService->updateSocialPost($id, $socialPostDto);
+
+        return new SocialPostResource($updatedSocialPost);
     }
+
 
     public function destroy(int $id)
     {
@@ -72,22 +76,20 @@ class SocialPostController extends Controller
         return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 
-
     public function showByCriteria(Request $request)
     {
         $user = Auth::user();
-
         $this->authorize('viewAny', SocialPost::class);
 
-        if ($user->isAdmin()) {
-            $socialPosts = $this->socialPostService->getSocialPostByCriteria($request->query());
-        } else {
-            $criteria = $request->query();
+        $criteria = $request->query();
+        if (!$user->isAdmin()) {
             $criteria['user_id'] = $user->id;
-            $socialPosts = $this->socialPostService->getSocialPostByCriteria($criteria);
         }
 
-        return new SocialPostCollection($socialPosts);
+        $results = $this->socialPostService->getSocialPostByCriteria($criteria);
+
+        return new SocialPostCollection($results);
     }
+
 
 }

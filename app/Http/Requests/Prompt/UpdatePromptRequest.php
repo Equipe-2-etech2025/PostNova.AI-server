@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Prompt;
 
+use App\DTOs\Prompt\PromptDto;
+use App\Models\Prompt;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePromptRequest extends FormRequest
@@ -44,5 +46,14 @@ class UpdatePromptRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(?Prompt $prompt = null): PromptDto
+    {
+        return new PromptDto(
+            content: $this->input('content', $prompt?->content ?? null),
+            campaign_id: $this->input('campaign_id', $prompt?->campaign_id ?? null),
+        );
+    }
+
 }
 

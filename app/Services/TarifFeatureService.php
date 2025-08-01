@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\DTOs\TarifFeatures\TarifFeatureDto;
+use App\DTOs\TarifUser\TarifUserDto;
+use App\Models\TarifFeature;
 use App\Repositories\Interfaces\TarifFeatureRepositoryInterface;
 use App\Services\Interfaces\TarifFeatureServiceInterface;
 
@@ -29,14 +32,14 @@ class TarifFeatureService implements TarifFeatureServiceInterface
         return $this->repository->findBy($criteria);
     }
 
-    public function createTarifFeature(array $data)
+    public function createTarifFeature(TarifFeatureDto  $tarifFeatureDto)
     {
-        return $this->repository->create($data);
+        return $this->repository->create($tarifFeatureDto);
     }
 
-    public function updateTarifFeature(int $id, array $data)
+    public function updateTarifFeature(int $id, tarifFeatureDto $tarifFeatureDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $tarifFeatureDto);
     }
 
     public function deleteTarifFeature(int $id)

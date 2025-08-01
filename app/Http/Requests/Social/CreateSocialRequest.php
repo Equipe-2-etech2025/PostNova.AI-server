@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Social;
 
+use App\DTOs\Social\SocialDto;
 use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -36,4 +37,13 @@ class CreateSocialRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(): SocialDto
+    {
+        return new SocialDto(
+            id: null,
+            name: $this->input('name'),
+        );
+    }
+
 }

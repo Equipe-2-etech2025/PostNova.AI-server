@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Campaign\CreateCampaignRequest;
 use App\Http\Requests\Campaign\UpdateCampaignRequest;
 use App\Http\Resources\Campaign\CampaignCollection;
 use App\Http\Resources\Campaign\CampaignResource;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Services\Interfaces\CampaignServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
-use App\Models\Campaign;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignController extends Controller
 {
@@ -49,9 +49,8 @@ class CampaignController extends Controller
     public function store(CreateCampaignRequest $request)
     {
         $this->authorize('create', Campaign::class);
-        $data = $request->validated();
-        $data['user_id'] = Auth::id();
-        $campaign = $this->campaignService->createCampaign($data);
+        $campaignDto = $request->toDto();
+        $campaign = $this->campaignService->createCampaign($campaignDto);
         return new CampaignResource($campaign);
     }
 
@@ -59,10 +58,11 @@ class CampaignController extends Controller
     {
         $campaign = $this->campaignService->getCampaignById($id);
         $this->authorize('update', $campaign);
-        $data = $request->validated();
-        $updatedCampaign = $this->campaignService->updateCampaign($id, $data);
-        return new CampaignResource($updatedCampaign);
+        $campaignDto = $request->toDto($campaign);
+        $updated = $this->campaignService->updateCampaign($id, $campaignDto);
+        return new CampaignResource($updated);
     }
+
 
     public function destroy(int $id)
     {
@@ -75,9 +75,18 @@ class CampaignController extends Controller
 
     public function showByCriteria(Request $request)
     {
+        $user = Auth::user();
+        $this->authorize('viewAny', Campaign::class);
+
         $criteria = $request->query();
-        $campaigns = $this->campaignService->getCampaignByCriteria($criteria);
-        return new CampaignCollection($campaigns);
+
+        if (!$user->isAdmin()) {
+            $criteria['user_id'] = $user->id;
+        }
+
+        $results = $this->campaignService->getCampaignByCriteria($criteria);
+
+        return new CampaignCollection($results);
     }
 
     public function showByUserId(int $id)

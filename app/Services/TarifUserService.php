@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\TarifUser\TarifUserDto;
 use App\Repositories\Interfaces\TarifUserRepositoryInterface;
 use App\Services\Interfaces\TarifUserServiceInterface;
 
@@ -34,14 +35,14 @@ class TarifUserService implements TarifUserServiceInterface
         return $this->repository->findBy($criteria);
     }
 
-    public function createTarifUser(array $data)
+    public function createTarifUser(TarifUserDto $tarifUserDto)
     {
-        return $this->repository->create($data);
+        return $this->repository->create($tarifUserDto);
     }
 
-    public function updateTarifUser(int $id, array $data)
+    public function updateTarifUser(int $id, TarifUserDto $tarifUserDto)
     {
-        return $this->repository->update($id, $data);
+        return $this->repository->update($id, $tarifUserDto);
     }
 
     public function deleteTarifUser(int $id)

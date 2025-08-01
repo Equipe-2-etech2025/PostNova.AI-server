@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Image;
 
+use App\DTOs\Image\ImageDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateImageRequest extends FormRequest
@@ -42,4 +43,13 @@ class CreateImageRequest extends FormRequest
             'path' => trim($this->input('path')),
         ]);
     }
+
+    public function toDto(): ImageDto
+    {
+        return new ImageDto(
+            path: $this->input('path'),
+            campaign_id: $this->input('campaign_id'),
+        );
+    }
+
 }

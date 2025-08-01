@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\SocialPost\SocialPostDto;
 use App\Models\SocialPost;
 use App\Repositories\Interfaces\SocialPostRepositoryInterface;
 
@@ -42,15 +43,15 @@ class SocialPostRepository implements SocialPostRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(SocialPostDto $socialPostDto) : SocialPost
     {
-        return $this->model->create($data);
+        return $this->model->create($socialPostDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, SocialPostDto $socialPostDto) : SocialPost
     {
         $post = $this->model->findOrFail($id);
-        $post->update($data);
+        $post->update($socialPostDto->toArray());
         return $post;
     }
 
