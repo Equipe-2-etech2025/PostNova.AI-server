@@ -46,7 +46,7 @@ class Campaign extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function typeCampaign()
+    public function campaign()
     {
         return $this->belongsTo(TypeCampaign::class, 'type_campaign_id');
     }

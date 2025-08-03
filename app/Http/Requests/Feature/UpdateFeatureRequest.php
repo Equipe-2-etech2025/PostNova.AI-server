@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Feature;
 
+use App\DTOs\Features\FeaturesDto;
+use App\Models\Features;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -47,4 +49,12 @@ class UpdateFeatureRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(?Features $features = null): FeaturesDto
+    {
+        return new FeaturesDto(
+            name: $this->input('name', $features?->name ?? null),
+        );
+    }
+
 }

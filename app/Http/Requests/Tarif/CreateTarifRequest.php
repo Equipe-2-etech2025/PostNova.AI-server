@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Tarif;
 
+use App\DTOs\Tarif\TarifDto;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -56,5 +57,11 @@ class CreateTarifRequest extends FormRequest
         ]);
     }
 
-
+    public function toDto(): TarifDto
+    {
+        return new TarifDto(
+            price: $this->input('price'),
+            description: $this->input('description'),
+        );
+    }
 }

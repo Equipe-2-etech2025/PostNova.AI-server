@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\Image\ImageDto;
 use App\Models\Image;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 
@@ -41,15 +42,15 @@ class ImageRepository implements ImageRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(ImageDto $imageDto) : Image
     {
-        return $this->model->create($data);
+        return $this->model->create($imageDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, ImageDto $imageDto) : Image
     {
         $image = $this->model->findOrFail($id);
-        $image->update($data);
+        $image->update($imageDto->toArray());
         return $image;
     }
 

@@ -69,4 +69,9 @@ class PromptPolicy
     {
         return false;
     }
+
+    public function viewQuota(User $user, int $userId): bool
+    {
+        return $user->id === $userId;
+    }
 }

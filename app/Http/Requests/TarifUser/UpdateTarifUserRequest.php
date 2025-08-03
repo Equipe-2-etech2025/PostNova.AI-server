@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\TarifUser;
 
+use App\DTOs\TarifUser\TarifUserDto;
+use App\Models\TarifUser;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTarifUserRequest extends FormRequest
@@ -42,4 +44,13 @@ class UpdateTarifUserRequest extends FormRequest
             $this->merge(['expired_at' => null]);
         }
     }
+
+    public function toDto(?TarifUser $tarifUser = null): TarifUserDto
+    {
+        return new TarifUserDto(
+            tarif_id: $this->input('tarif_id', $tarifUser?->tarif_id ?? null),
+            user_id: $this->input('user_id', $tarifUser?->user_id ?? null),
+        );
+    }
+
 }

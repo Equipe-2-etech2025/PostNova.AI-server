@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DTOs\TypeCampaign\TypeCampaignDto;
 use App\Models\TypeCampaign;
 use App\Repositories\Interfaces\TypeCampaignRepositoryInterface;
 
@@ -39,15 +40,15 @@ class TypeCampaignRepository implements TypeCampaignRepositoryInterface
         return $query->get();
     }
 
-    public function create(array $data)
+    public function create(TypeCampaignDto $typeCampaignDto): TypeCampaign
     {
-        return $this->model->create($data);
+        return $this->model->create($typeCampaignDto->toArray());
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, TypeCampaignDto $typeCampaignDto): TypeCampaign
     {
         $typeCampaign = $this->model->findOrFail($id);
-        $typeCampaign->update($data);
+        $typeCampaign->update($typeCampaignDto->toArray());
         return $typeCampaign;
     }
 

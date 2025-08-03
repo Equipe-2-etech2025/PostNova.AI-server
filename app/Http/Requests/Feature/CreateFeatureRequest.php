@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Feature;
 
+use App\DTOs\Features\FeaturesDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateFeatureRequest extends FormRequest
@@ -34,4 +35,12 @@ class CreateFeatureRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(): FeaturesDto
+    {
+        return new FeaturesDto(
+            name: $this->input('name'),
+        );
+    }
+
 }

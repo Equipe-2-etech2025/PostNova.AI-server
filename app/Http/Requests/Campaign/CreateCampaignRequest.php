@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Campaign;
 
+use App\DTOs\Campaign\CampaignDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCampaignRequest extends FormRequest
@@ -38,5 +39,16 @@ class CreateCampaignRequest extends FormRequest
             'description' => trim($this->input('description')),
         ]);
 
+    }
+
+    public function toDto(): CampaignDto
+    {
+        return new CampaignDto(
+            name: $this->input('name'),
+            description: $this->input('description'),
+            type_campaign_id: $this->input('type_campaign_id'),
+            user_id: $this->user()->id,
+            status: $this->input('status')
+        );
     }
 }

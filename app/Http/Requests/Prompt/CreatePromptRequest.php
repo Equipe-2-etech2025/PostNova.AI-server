@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Prompt;
 
+use App\DTOs\Prompt\PromptDto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePromptRequest extends FormRequest
@@ -46,5 +47,14 @@ class CreatePromptRequest extends FormRequest
             ]);
         }
     }
+
+    public function toDto(): PromptDto
+    {
+        return new PromptDto(
+            content: $this->input('content'),
+            campaign_id: $this->input('campaign_id'),
+        );
+    }
+
 }
 
