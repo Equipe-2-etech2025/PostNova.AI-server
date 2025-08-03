@@ -12,12 +12,12 @@ class TarifCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public $collects = TarifResource::class;
+    public $collects = TarifRessource::class;
 
     public function toArray(Request $request): array
     {
         return [
-            'data' => TarifResource::collection($this->collection),
+            'data' => TarifRessource::collection($this->collection),
         ];
     }
 }
