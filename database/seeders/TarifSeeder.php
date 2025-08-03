@@ -2,19 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Tarif;
-use Nette\Utils\Random;
 
 class TarifSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Tarif::factory()->count(10)->create();
+        Tarif::updateOrCreate(
+            ['name' => 'Free'],
+            ['amount' => 0.00, 'max_limit' => 3]
+        );
+
+        Tarif::updateOrCreate(
+            ['name' => 'Pro'],
+            ['amount' => 14.99, 'max_limit' => 30]
+        );
     }
 }

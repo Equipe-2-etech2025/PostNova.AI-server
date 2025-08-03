@@ -69,4 +69,9 @@ class TarifUserPolicy
     {
         return false;
     }
+
+    public function viewLatest(User $user, int $targetUserId): bool
+    {
+        return $user->id === $targetUserId;
+    }
 }

@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TypeCampaign;
 use App\Models\User;
+use App\Models\Image;
+use App\Models\LandingPage;
+use App\Models\SocialPost;
+use App\Models\CampaignInteraction;
 
 class Campaign extends Model
 {
-    use hasFactory;
+    use HasFactory;
 
     protected $table = 'campaigns';
     protected $primaryKey = 'id';
@@ -26,6 +30,7 @@ class Campaign extends Model
         'user_id',
         'type_campaign_id',
     ];
+
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -34,7 +39,6 @@ class Campaign extends Model
         'updated_at' => 'datetime',
         'user_id' => 'integer',
         'type_campaign_id' => 'integer',
-
     ];
 
     public function user()
@@ -45,5 +49,25 @@ class Campaign extends Model
     public function campaign()
     {
         return $this->belongsTo(TypeCampaign::class, 'type_campaign_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'campaign_id');
+    }
+
+    public function landingPages()
+    {
+        return $this->hasMany(LandingPage::class, 'campaign_id');
+    }
+
+    public function socialPosts()
+    {
+        return $this->hasMany(SocialPost::class, 'campaign_id');
+    }
+
+    public function interactions()
+    {
+        return $this->hasMany(CampaignInteraction::class);
     }
 }

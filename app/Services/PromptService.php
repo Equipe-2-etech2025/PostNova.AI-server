@@ -50,4 +50,9 @@ class PromptService implements PromptServiceInterface
     {
         return $this->repository->findByUserId($userId);
     }
+    
+    public function countTodayPromptsByUser(int $userId)
+    {
+        return $this->repository->countTodayPromptsByUser($userId);
+    }
 }

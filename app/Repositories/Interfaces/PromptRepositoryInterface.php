@@ -14,4 +14,5 @@ interface PromptRepositoryInterface
     public function update(int $id, PromptDto $promptDto) : Prompt;
     public function delete(int $id);
     public function findByUserId(int $userId);
+    public function countTodayPromptsByUser(int $userId);
 }

@@ -22,13 +22,18 @@ class CampaignFactory extends Factory
     public function definition(): array
     {
         return [
-//            'name' => fake()->sentence(3),
-//            'description' => fake()->paragraph(),
-//            'status' => fake()->randomElement(['pending', 'processing', 'completed', 'failed']),
-//            'user_id' => User::inRandomOrder()->first()?->id ?? User::factory(),
-//            'type_campaign_id' => TypeCampaign::inRandomOrder()->first()?->id ?? TypeCampaign::factory(),
-//            'created_at' => now(),
-//            'updated_at' => now(),
+            'name' => fake()->sentence(3),
+            'description' => fake()->paragraph(),
+            'status' => fake()->randomElement(['pending', 'processing', 'completed', 'failed']),
+            'user_id' => User::count() > 0 
+                ? User::inRandomOrder()->value('id') 
+                : User::factory(),
+            'type_campaign_id' => TypeCampaign::count() > 0 
+                ? TypeCampaign::inRandomOrder()->value('id') 
+                : TypeCampaign::factory(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
+
 }
