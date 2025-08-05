@@ -90,6 +90,34 @@ php artisan migrate
 # Migration des données
 php artisan db:seed
 ```
+### Installation avec Docker
+
+```bash
+# Cloner le repository
+git clone https://github.com/Equipe-2-etech2025/PostNova.AI-server.git
+cd PostNova.AI-server
+
+# Configuration d'environement
+cp .env.example .env
+
+# Construction des images docker
+make build 
+
+# Lance les conteneurs
+make up
+
+# Migration
+make artisan
+make migrate
+
+# Creation de Network
+make network
+
+# Permission et creation de stockage cache (linux)
+make storage
+
+```
+
 
 ### Configuration
 

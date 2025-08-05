@@ -1,8 +1,7 @@
 # 📝 Backlog Jira Sync
 
 ## À faire
-- [EPA-28] Interface politique de confidentialité et règles d'utilisation (Assigné à: Tahiry Houlder RATERAHAJA)
-- [EPA-27] Interface mot de passe oublié + vérification email* (Assigné à: Tahiry Houlder RATERAHAJA)
+
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
@@ -42,10 +41,11 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-28] Interface politique de confidentialité et règles d'utilisation (Assigné à: Tahiry Houlder RATERAHAJA)
+- [EPA-27] Interface mot de passe oublié + vérification email* (Assigné à: Tahiry Houlder RATERAHAJA)
 - [EPA-29] Création de fichier backlog.md (Assigné à: Mialisoa Lisa Rasoanirina)  
   Branche : `feature/EPA-29-backlog`  
   Commit : `EPA-29: création de fichier backlog.md`
-
 - [EPA-24] Création de test Unitaire avec PHP unit pour les fonctionnalités d'user et authentification (Assigné à: Nathan Rakotoarimanana)
 - [EPA-21] Integration auth front+back (Assigné à: Nathan Rakotoarimanana)
 - [EPA-20] Backend Inscription et authentification user/admin avec gestion des tokens, validation, vérification (Assigné à: Nathan Rakotoarimanana)

@@ -1,6 +1,7 @@
-.PHONY: up down build start stop restart shell logs composer install update require dump-autoload test artisan migrate fresh seed tinker npm yarn dev watch
+.PHONY: \
+	build up down  start stop restart shell logs composer install update require dump-autoload test artisan migrate fresh seed tinker npm yarn dev watch help storage network
 
-default: up
+default: help
 
 build:
 	@echo "Building containers..."
@@ -65,6 +66,17 @@ artisan:
 migrate:
 	@echo "Running migrations..."
 	docker-compose exec app php artisan migrate
+	
+storage:
+	@echo "Setting up storage permissions..."
+	docker exec -it postnova-app mkdir -p storage bootstrap/cache	
+	docker exec -it postnova-app chmod -R 775 storage bootstrap/cache
+	docker exec -it postnova-app chown -R www-data:www-data storage bootstrap/cache
+
+network:
+	@echo "creating postnova network"
+	docker network create postnova-network
+
 
 fresh:
 	@echo "Fresh migrations..."
@@ -96,3 +108,40 @@ watch:
 
 %:
 	@:
+
+help:
+	@echo "\033[34mPostNova - Commandes disponibles:\033[0m"
+	@echo ""
+	@echo "\033[32mDocker:\033[0m"
+	@echo "  \033[33mmake up\033[0m\t\t\t- Lance les conteneurs Docker en arrière-plan"
+	@echo "  \033[33mmake down\033[0m\t\t\t- Arrête et supprime les conteneurs"
+	@echo "  \033[33mmake build\033[0m\t\t\t- Reconstruit les images Docker"
+	@echo "  \033[33mmake restart\033[0m\t\t\t- Redémarre les conteneurs"
+	@echo "  \033[33mmake logs\033[0m\t\t\t- Affiche les logs des conteneurs (mode suivi)"
+	@echo "  \033[33mmake shell\033[0m\t\t\t- Ouvre un shell Bash dans le conteneur 'app'"
+	@echo ""
+	@echo "\033[32mComposer:\033[0m"
+	@echo "  \033[33mmake install\033[0m\t\t\t- Installe les dépendances PHP"
+	@echo "  \033[33mmake update\033[0m\t\t\t- Met à jour les dépendances PHP"
+	@echo "  \033[33mmake require <pkg>\033[0m\t\t- Ajoute un package Composer (ex: make require laravel/sanctum)"
+	@echo "  \033[33mmake dump-autoload\033[0m\t\t- Régénère l'autoloader"
+	@echo ""
+	@echo "\033[32mArtisan (Laravel):\033[0m"
+	@echo "  \033[33mmake migrate\033[0m\t\t\t- Exécute les migrations de base de données"
+	@echo "  \033[33mmake fresh\033[0m\t\t\t- Réinitialise la BDD (drop + migrations)"
+	@echo "  \033[33mmake seed\033[0m\t\t\t- Exécute les seeders"
+	@echo "  \033[33mmake tinker\033[0m\t\t\t- Lance Tinker (REPL Laravel)"
+	@echo "  \033[33mmake test\033[0m\t\t\t- Lance les tests PHPUnit"
+	@echo ""
+	@echo "\033[32mFrontend:\033[0m"
+	@echo "  \033[33mmake npm <cmd>\033[0m\t\t- Exécute une commande npm (ex: make npm install)"
+	@echo "  \033[33mmake yarn <cmd>\033[0m\t\t- Exécute une commande yarn"
+	@echo "  \033[33mmake dev\033[0m\t\t\t- Compile les assets en mode développement"
+	@echo "  \033[33mmake watch\033[0m\t\t\t- Surveille les changements des assets"
+	@echo ""
+	@echo "\033[32mConfiguration:\033[0m"
+	@echo "  \033[33mmake storage\033[0m\t\t\t- Configure les permissions des dossiers Laravel"
+	@echo "  \033[33mmake network\033[0m\t\t\t- Crée le réseau Docker postnova-network"
+	@echo ""
+	@echo "\033[31mNote:\033[0m Pour les commandes avec arguments (composer/artisan/npm), utilisez:"
+	@echo "  \033[33mmake <cible> <arguments>\033[0m (ex: make artisan queue:work)"
