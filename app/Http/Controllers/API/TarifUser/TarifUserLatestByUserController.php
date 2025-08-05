@@ -22,9 +22,8 @@ class TarifUserLatestByUserController extends Controller
     {
         User::findOrFail($userId);
 
-        $this->authorize('viewLatest', [TarifUser::class, $userId]);
-
         $latestTarif = $this->service->getLatestByUserId($userId);
+        $this->authorize('viewLatest', $latestTarif);
 
         if (!$latestTarif) {
             return response()->json([

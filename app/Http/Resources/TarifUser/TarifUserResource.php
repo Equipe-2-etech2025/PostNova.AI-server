@@ -18,9 +18,13 @@ class TarifUserResource extends JsonResource
             'id' => $this->id,
             'tarif_id' => $this->tarif_id,
             'user_id' => $this->user_id,
-            'status' => $this->status,
             'created_at' => $this->created_at?->format('Y-m-d H:i'),
-            'updated_at' => $this->updated_at?->format('Y-m-d H:i'),
+            'tarif' => [
+                'id' => $this->tarif->id,
+                'name' => $this->tarif->name,
+                'max_limit' => $this->tarif->max_limit,
+                'amount' => $this->tarif->amount,
+            ],
         ];
     }
 }
