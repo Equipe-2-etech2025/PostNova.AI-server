@@ -29,9 +29,6 @@ class PromptQuotaByUserController extends Controller
             'data' => [
                 'user_id' => $userId,
                 'daily_quota_used' => $quota,
-               'daily_limit' => $dailyLimit,
-//                'quota_remaining' => max(0, $dailyLimit - $quota),
-//                'percentage_used' => round(($quota / $dailyLimit) * 100, 2)
             ]
         ]);
     }

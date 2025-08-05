@@ -13,6 +13,7 @@ class TarifUserPolicy
         if ($user->isAdmin()) {
             return true;
         }
+        return null;
     }
     /**
      * Determine whether the user can view any models.
@@ -25,7 +26,7 @@ class TarifUserPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, TarifUser $tarifUser): bool
+    public function view(User $user, TarifUser $tarifUser)
     {
         return $user->id === $tarifUser->user_id;
     }
@@ -70,8 +71,8 @@ class TarifUserPolicy
         return false;
     }
 
-    public function viewLatest(User $user, int $targetUserId): bool
+    public function viewLatest(User $user, TarifUser $targetUserId)
     {
-        return $user->id === $targetUserId;
+        return $user->id === $targetUserId->user_id;
     }
 }

@@ -23,7 +23,7 @@ class CampaignRepository implements CampaignRepositoryInterface
             ->withSum('interactions as total_likes', 'likes')
             ->withSum('interactions as total_shares', 'shares')
             ->orderByDesc('created_at')
-            ->limit(3)
+            ->limit(2)
             ->get();
     }
 
