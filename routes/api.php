@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Campaign\CampaignDestroyController;
 use App\Http\Controllers\API\Campaign\CampaignIndexController;
 use App\Http\Controllers\API\Campaign\CampaignShowController;
 use App\Http\Controllers\API\Campaign\CampaignStoreController;
+use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\CampaignUserController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesCriteriaController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesDestroyController;
@@ -127,7 +128,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/{userId}', CampaignUserController::class)->middleware('can:viewAny,App\Models\Campaign');
         Route::get('/type/{typeId}', CampaignByTypeController::class);
         Route::get('/{id}', CampaignShowController::class);
-        Route::put('/{id}', CampaignStoreController::class);
+        Route::put('/{id}', CampaignUpdateController::class);
         Route::delete('/{id}',CampaignDestroyController::class);
         Route::get('/popular/content', PopularCampaignController::class);
     });

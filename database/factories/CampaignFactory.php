@@ -24,12 +24,12 @@ class CampaignFactory extends Factory
         return [
             'name' => fake()->sentence(3),
             'description' => fake()->paragraph(),
-            'status' => fake()->randomElement(['pending', 'processing', 'completed', 'failed']),
-            'user_id' => User::count() > 0 
-                ? User::inRandomOrder()->value('id') 
+            'status' => fake()->randomElement([1,2,3,4,5]),
+            'user_id' => User::count() > 0
+                ? User::inRandomOrder()->value('id')
                 : User::factory(),
-            'type_campaign_id' => TypeCampaign::count() > 0 
-                ? TypeCampaign::inRandomOrder()->value('id') 
+            'type_campaign_id' => TypeCampaign::count() > 0
+                ? TypeCampaign::inRandomOrder()->value('id')
                 : TypeCampaign::factory(),
             'created_at' => now(),
             'updated_at' => now(),

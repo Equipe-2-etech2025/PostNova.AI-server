@@ -52,7 +52,8 @@ class CreateLandingPageRequest extends FormRequest
     public function toDto(): LandingPageDto
     {
         return new LandingPageDto(
-            title: $this->input('title'),
+            null,
+            path: $this->input('path'),
             content: $this->input('content'),
             campaign_id: $this->input('campaign_id'),
         );

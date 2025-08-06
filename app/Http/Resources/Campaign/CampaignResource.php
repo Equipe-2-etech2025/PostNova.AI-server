@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Campaign;
 
+use App\Enums\StatusEnum;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CampaignResource extends JsonResource
@@ -11,7 +12,10 @@ class CampaignResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'status' => $this->status,
+            'status' => [
+                'value' => $this->status,
+                'label' => StatusEnum::from($this->status)->label(),
+            ],
             'description' => $this->description,
     
             'user' => $this->whenLoaded('user', function () {

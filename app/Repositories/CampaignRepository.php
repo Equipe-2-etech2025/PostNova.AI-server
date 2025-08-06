@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTOs\Campaign\CampaignDto;
+use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
 
@@ -37,6 +38,11 @@ class CampaignRepository implements CampaignRepositoryInterface
         $query = $this->model->query();
 
         foreach ($criteria as $field => $value) {
+            if ($field === 'status') {
+                $this->applyStatusFilter($query, $value);
+                continue;
+            }
+
             if (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
@@ -45,6 +51,22 @@ class CampaignRepository implements CampaignRepositoryInterface
         }
 
         return $query->get();
+    }
+
+    protected function applyStatusFilter($query, $value)
+    {
+        if (is_numeric($value)) {
+            $query->where('status', $value);
+            return;
+        }
+
+        try {
+            $statusEnum = StatusEnum::fromLabel(strtolower($value));
+            $query->where('status', $statusEnum->value);
+        } catch (\ValueError $e) {
+
+            throw new \InvalidArgumentException("Invalid status value: {$value}");
+        }
     }
 
     public function create(CampaignDto $campaignDto) : Campaign
@@ -68,6 +90,17 @@ class CampaignRepository implements CampaignRepositoryInterface
     {
         $query = $this->model->query();
         $query->where('user_id', $userId);
+        return $query->get();
+    }
+
+    public function findByTypeCampaignId(int $typeCampaignId, ?int $userId = null)
+    {
+        $query = $this->model->where('type_campaign_id', $typeCampaignId);
+
+        if ($userId && !auth()->user()->isAdmin()) {
+            $query->where('user_id', $userId);
+        }
+
         return $query->get();
     }
 }

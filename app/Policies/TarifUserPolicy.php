@@ -31,6 +31,11 @@ class TarifUserPolicy
         return $user->id === $tarifUser->user_id;
     }
 
+    public function viewLatest(User $user, TarifUser $tarifUser)
+    {
+        return $user->id === $tarifUser->user_id;
+    }
+
     /**
      * Determine whether the user can create models.
      */
@@ -69,10 +74,5 @@ class TarifUserPolicy
     public function forceDelete(User $user, TarifUser $tarifUser): bool
     {
         return false;
-    }
-
-    public function viewLatest(User $user, TarifUser $targetUserId)
-    {
-        return $user->id === $targetUserId->user_id;
     }
 }

@@ -39,8 +39,10 @@ class CreateTypeCampaignRequest extends FormRequest
     public function toDto(): TypeCampaignDto
     {
         return new TypeCampaignDto(
-            label: $this->input('label'),
-            description: $this->input('description'),
+            null,
+            name: $this->input('name'),
+            createdAt: $this->input('created_at'),
+            updatedAt: $this->input('updated_at'),
         );
     }
 

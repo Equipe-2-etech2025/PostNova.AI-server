@@ -47,6 +47,7 @@ class CreateImageRequest extends FormRequest
     public function toDto(): ImageDto
     {
         return new ImageDto(
+            null,
             path: $this->input('path'),
             campaign_id: $this->input('campaign_id'),
         );

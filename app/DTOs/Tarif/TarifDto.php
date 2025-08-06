@@ -5,15 +5,19 @@ namespace App\DTOs\Tarif;
 class TarifDto
 {
     public function __construct(
-        public readonly ?float $price,
-        public readonly ?string $description,
+        public readonly ?int $id,
+        public readonly ?string $name,
+        public readonly ?float $amount,
+        public readonly ?int $max_limit,
     ) {}
 
     public function toArray(): array
     {
         return [
-            'price' => $this->price,
-            'description' => $this->description,
+            'id' => $this->id,
+            'name' => $this->name,
+            'amount' => $this->amount,
+            'max_limit' => $this->max_limit,
         ];
     }
 }

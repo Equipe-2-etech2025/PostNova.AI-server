@@ -22,9 +22,10 @@ class CampaignStoreController extends Controller
 
     public function __invoke(CreateCampaignRequest $request)
     {
-        $this->authorize('create', Campaign::class);
         $campaignDto = $request->toDto();
         $campaign = $this->campaignService->createCampaign($campaignDto);
+        $this->authorize('create', $campaign);
+
         return new CampaignResource($campaign);
     }
 }

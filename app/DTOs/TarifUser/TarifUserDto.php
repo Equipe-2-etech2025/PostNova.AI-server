@@ -2,9 +2,12 @@
 
 namespace App\DTOs\TarifUser;
 
+use App\Models\Tarif;
+
 class TarifUserDto
 {
     public function __construct(
+        public readonly ?int $id,
         public readonly ?int $tarif_id,
         public readonly ?int $user_id,
     ) {}
@@ -12,6 +15,7 @@ class TarifUserDto
     public function toArray(): array
     {
         return [
+            'id' => $this->id,
             'tarif_id' => $this->tarif_id,
             'user_id' => $this->user_id,
         ];

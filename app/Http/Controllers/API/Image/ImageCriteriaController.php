@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Image;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Image\ImageCollection;
+use App\Http\Resources\SocialPost\SocialPostCollection;
 use App\Models\Image;
 use App\Services\Interfaces\ImageServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

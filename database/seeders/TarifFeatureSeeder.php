@@ -38,7 +38,7 @@ class TarifFeatureSeeder extends Seeder
         foreach ($tarifs as $tarif) {
             foreach ($features as $featureName) {
                 TarifFeature::create([
-                    'tarif_id' => rand(2,10),
+                    'tarif_id' => rand(1,2),
                     'name' => $featureName,
                 ]);
             }

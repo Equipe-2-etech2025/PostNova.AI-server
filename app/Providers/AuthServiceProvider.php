@@ -10,6 +10,7 @@ use App\Models\Tarif;
 use App\Models\TarifFeature;
 use App\Models\TarifUser;
 use App\Models\TypeCampaign;
+use App\Models\User;
 use App\Policies\CampaignFeaturesPolicy;
 use App\Policies\ImagePolicy;
 use App\Policies\LandingPagePolicy;
@@ -19,6 +20,7 @@ use App\Policies\TarifFeaturePolicy;
 use App\Policies\TarifPolicy;
 use App\Policies\TarifUserPolicy;
 use App\Policies\TypeCampaignPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Campaign;
 use App\Policies\CampaignPolicy;
@@ -28,6 +30,7 @@ use App\Policies\FeaturesPolicy;
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
+        User::class => UserPolicy::class,
         Campaign::class => CampaignPolicy::class,
         Social::class => SocialPolicy::class,
         Features::class => FeaturesPolicy::class,

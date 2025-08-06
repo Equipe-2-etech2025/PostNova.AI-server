@@ -18,9 +18,8 @@ class TypeCampaignStoreController extends Controller
 
     public function __invoke(CreateTypeCampaignRequest $request)
     {
-        $this->authorize('create', TypeCampaign::class);
-        return new TypeCampaignResource(
-            $this->service->createTypeCampaign($request->toDto())
-        );
+        $typeCampaign = $this->service->createTypeCampaign($request->toDto());
+        $this->authorize('create', $typeCampaign);
+        return new TypeCampaignResource($typeCampaign);
     }
 }

@@ -53,8 +53,8 @@ class UpdateTypeCampaignRequest extends FormRequest
     public function toDto(?TypeCampaign $typeCampaign = null): TypeCampaignDto
     {
         return new TypeCampaignDto(
-            label: $this->input('label', $typeCampaign?->label ?? null),
-            description: $this->input('description', $typeCampaign?->description ?? null),
+            null,
+            name: $this->input('name', $typeCampaign?->name ?? null),
         );
     }
 

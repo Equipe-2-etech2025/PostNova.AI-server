@@ -48,6 +48,7 @@ class UpdateTarifUserRequest extends FormRequest
     public function toDto(?TarifUser $tarifUser = null): TarifUserDto
     {
         return new TarifUserDto(
+            null,
             tarif_id: $this->input('tarif_id', $tarifUser?->tarif_id ?? null),
             user_id: $this->input('user_id', $tarifUser?->user_id ?? null),
         );

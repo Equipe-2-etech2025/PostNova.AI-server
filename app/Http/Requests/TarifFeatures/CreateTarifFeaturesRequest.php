@@ -53,11 +53,9 @@ class CreateTarifFeaturesRequest extends FormRequest
     public function toDto(): TarifFeatureDto
     {
         return new TarifFeatureDto(
-            id: null,
+            null,
             tarifId: $this->input('tarif_id'),
-            name: $this->input('name'),
-            createdAt: now(),
-            updatedAt: now(),
+            name: $this->input('name')
         );
     }
 

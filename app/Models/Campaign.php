@@ -34,6 +34,7 @@ class Campaign extends Model
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
+        'status' => 'integer',
         'description' => 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

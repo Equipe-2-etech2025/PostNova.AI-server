@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -11,15 +12,16 @@ class UserIndexController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $query = User::query();
-
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%");
-            });
+        try {
+            $this->authorize('viewAny', User::class);
+        } catch (AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Accès non autorisé.',
+            ], 403);
         }
+
+        $query = User::query();
 
         if ($request->has('role')) {
             $query->withRole($request->role);

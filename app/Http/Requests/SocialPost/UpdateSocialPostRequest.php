@@ -59,10 +59,11 @@ class UpdateSocialPostRequest extends FormRequest
     public function toDto(?SocialPost $socialPost = null): SocialPostDto
     {
         return new SocialPostDto(
+            null,
             content: $this->input('content', $socialPost?->content ?? null),
-            image_url: $this->input('image_url', $socialPost?->image_url ?? null),
             campaign_id: $this->input('campaign_id', $socialPost?->campaign_id ?? null),
-            user_id: $this->user()->id,
+            social_id: $this->input('social_id', $socialPost?->social_id ?? null),
+            is_published: $this->input('is_published', $socialPost?->is_published ?? null),
         );
     }
 

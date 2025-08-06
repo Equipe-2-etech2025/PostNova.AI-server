@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\SocialPost;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SocialPostPolicy
+class UserPolicy
 {
-    public function before(User $user, $ability)
+    public function before($user, $ability)
     {
         if ($user->isAdmin()) {
             return true;
@@ -19,45 +18,45 @@ class SocialPostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, SocialPost $socialPost): bool
+    public function view(User $user, User $model): bool
     {
-        return $socialPost->campaign->user_id === $user->id;
+        return $user->isAdmin() || $user->id === $model->id;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user, SocialPost $socialPost): bool
+    public function create(User $user): bool
     {
-        return $socialPost->campaign->user_id === $user->id;
+        return false;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, SocialPost $socialPost): bool
+    public function update(User $user, User $model): bool
     {
-        return $socialPost->campaign->user_id === $user->id;
+        return $user->isAdmin() || $user->id === $model->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, SocialPost $socialPost): bool
+    public function delete(User $user, User $model): bool
     {
-        return $socialPost->campaign->user_id === $user->id;
+        return $user->isAdmin();
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, SocialPost $socialPost): bool
+    public function restore(User $user, User $model): bool
     {
         return false;
     }
@@ -65,7 +64,7 @@ class SocialPostPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, SocialPost $socialPost): bool
+    public function forceDelete(User $user, User $model): bool
     {
         return false;
     }

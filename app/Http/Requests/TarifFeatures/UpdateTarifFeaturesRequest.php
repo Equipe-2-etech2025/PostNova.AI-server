@@ -47,11 +47,9 @@ class UpdateTarifFeaturesRequest extends FormRequest
     public function toDto(?TarifFeature $tarifFeature = null): TarifFeatureDto
     {
         return new TarifFeatureDto(
-            id: $tarifFeature?->id,
+            null,
             tarifId: $this->input('tarif_id', $tarifFeature?->tarif_id ?? null),
-            name: $this->input('name', $tarifFeature?->name ?? null),
-            createdAt: $tarifFeature?->created_at,
-            updatedAt: now(),
+            name: $this->input('name', $tarifFeature?->name ?? null)
         );
     }
 

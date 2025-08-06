@@ -50,6 +50,7 @@ class UpdatePromptRequest extends FormRequest
     public function toDto(?Prompt $prompt = null): PromptDto
     {
         return new PromptDto(
+            null,
             content: $this->input('content', $prompt?->content ?? null),
             campaign_id: $this->input('campaign_id', $prompt?->campaign_id ?? null),
         );

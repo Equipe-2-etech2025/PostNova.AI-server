@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Requests\Campaign;
-
+use Illuminate\Validation\Rule;
 use App\DTOs\Campaign\CampaignDto;
+use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCampaignRequest extends FormRequest
@@ -16,7 +17,7 @@ class CreateCampaignRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'status' => ['nullable', 'in:pending,processing,completed,failed'],
+            'status' => ['nullable', Rule::in(StatusEnum::values())],
             'description' => 'required|string|max:1000',
             'type_campaign_id' => 'required|exists:type_campaigns,id',
         ];
@@ -26,7 +27,7 @@ class CreateCampaignRequest extends FormRequest
     {
         return [
             'name.required' => 'Le nom de la campaign est obligatoire.',
-            'description.required' => 'La description de la campaign est obligatoire.',
+            'description.required' => 'La description de la campaign kkkkkk est obligatoire.',
             'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
             'type_campaign_id.exists' => 'Type de campaign invalide.',
         ];
@@ -44,11 +45,12 @@ class CreateCampaignRequest extends FormRequest
     public function toDto(): CampaignDto
     {
         return new CampaignDto(
+            null,
             name: $this->input('name'),
             description: $this->input('description'),
             type_campaign_id: $this->input('type_campaign_id'),
             user_id: $this->user()->id,
-            status: $this->input('status')
+            status: $this->input('status', StatusEnum::Created->value)
         );
     }
 }

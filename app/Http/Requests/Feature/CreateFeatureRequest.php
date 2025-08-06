@@ -39,6 +39,7 @@ class CreateFeatureRequest extends FormRequest
     public function toDto(): FeaturesDto
     {
         return new FeaturesDto(
+            null,
             name: $this->input('name'),
         );
     }

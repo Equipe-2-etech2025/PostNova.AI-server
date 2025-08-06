@@ -34,10 +34,9 @@ class ImagePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user, int $campaignId)
+    public function create(User $user, Image $image): bool
     {
-        $campaign = Campaign::find($campaignId);
-        return $campaign && $campaign->user_id === $user->id;
+        return $image->campaign->user_id === $user->id;
     }
 
     /**

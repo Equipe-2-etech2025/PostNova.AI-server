@@ -60,8 +60,10 @@ class CreateTarifRequest extends FormRequest
     public function toDto(): TarifDto
     {
         return new TarifDto(
-            price: $this->input('price'),
-            description: $this->input('description'),
+            null,
+            name: $this->input('name'),
+            amount: $this->input('amount'),
+            max_limit: $this->input('max_limit'),
         );
     }
 }

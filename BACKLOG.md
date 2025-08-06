@@ -3,6 +3,12 @@
 ## À faire
 
 ## En cours
+- 
+## Terminé non testé
+- [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
+
+## Terminé(e)
+
 - [EPA-56] Intégration page d'acceuil
   Branche : `feature/EPA-56-intg-page-accueil`
   Commit: `EPA-56: integration page acceuil de base`
@@ -14,15 +20,15 @@
 - [EPA-51] Restructuration de projet Backend en principe solid et ajout de DTO (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-51-DTO`
   Commit: `EPA-51: feat(dto), add DTOs and integrate them into repositories, services, controllers and requests`
-  
+
 - [EPA-45] Modifier en données réels pour les seeders et factories (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-45-seeders-factories`
-  Commit: `EPA-45: refactor replace fake data with real data`  
+  Commit: `EPA-45: refactor replace fake data with real data`
 
 - [EPA-36] Création de "request et ressources" , API laravel (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-36-requests-ressources-policies`
   Commit: `EPA-36 feat: add Create/Update requests, resources and authorization policy`
-  
+
 - [EPA-47] Intégration dashboard (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-47-integration-dashboard`
   Commit: `EPA-47: integration back dashboard`
@@ -44,16 +50,12 @@
   Commit: `EPA-25: fix nom ticket pour backlog.md`
   Commit: `EPA-25: implémentation de TarifTest`
   Commit: `EPA-25: implémentation de TarifFeatureTest`
- 
+
 
 - [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
-## Terminé non testé
-- [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
-
-## Terminé(e)
 
 - [EPA-33] Création de service, repositories et controllers (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-33-services-repositories-controllers`
