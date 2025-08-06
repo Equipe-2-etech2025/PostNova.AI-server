@@ -3,6 +3,10 @@
 ## À faire
 
 ## En cours
+- [EPA-56] Intégration page d'acceuil
+  Branche : `feature/EPA-56-intg-page-accueil`
+  Commit: `EPA-56: integration page acceuil de base`
+  
 - [EPA-54] Restructuration de projet Backend en principe solid (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-54-SOLID`
   Commit: `EPA-54: refactor(controller): apply SOLID principles to controller structure`

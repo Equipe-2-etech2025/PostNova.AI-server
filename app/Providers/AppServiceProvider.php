@@ -56,6 +56,10 @@ use App\Services\Interfaces\DashboardServiceInterface;
 use App\Services\DashboardService;
 use App\Repositories\Interfaces\DashboardRepositoryInterface;
 use App\Repositories\DashboardRepository;
+use App\Services\Interfaces\ContentServiceInterface;
+use App\Services\ContentService;
+use App\Repositories\Interfaces\ContentRepositoryInterface;
+use App\Repositories\ContentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -89,8 +93,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CampaignServiceInterface::class, CampaignService::class);
         $this->app->bind(CampaignRepositoryInterface::class, CampaignRepository::class);
         $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
-        $this->app->bind(DashboardServiceInterface::class, DashboardService::class);
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
+        $this->app->bind(ContentServiceInterface::class, ContentService::class);
+        $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
     }
 
     /**
