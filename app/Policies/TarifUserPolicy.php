@@ -26,7 +26,7 @@ class TarifUserPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, TarifUser $tarifUser): bool
+    public function view(User $user, TarifUser $tarifUser)
     {
         return $user->id === $tarifUser->user_id;
     }
@@ -75,5 +75,4 @@ class TarifUserPolicy
     {
         return false;
     }
-
 }

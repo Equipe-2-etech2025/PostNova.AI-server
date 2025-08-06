@@ -93,6 +93,7 @@ use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\Campaign\PopularCampaignController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -129,6 +130,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', CampaignShowController::class);
         Route::put('/{id}', CampaignUpdateController::class);
         Route::delete('/{id}',CampaignDestroyController::class);
+        Route::get('/popular/content', PopularCampaignController::class);
     });
 
     Route::prefix('socials')->group(function () {
