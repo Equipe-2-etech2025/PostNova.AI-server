@@ -33,9 +33,9 @@ class SocialPostPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, SocialPost $socialPost): bool
     {
-        return true;
+        return $socialPost->campaign->user_id === $user->id;
     }
 
     /**

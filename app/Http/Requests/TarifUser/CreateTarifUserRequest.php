@@ -51,6 +51,7 @@ class CreateTarifUserRequest extends FormRequest
     public function toDto(): TarifUserDto
     {
         return new TarifUserDto(
+            null,
             tarif_id: $this->input('tarif_id'),
             user_id: $this->input('user_id'),
         );

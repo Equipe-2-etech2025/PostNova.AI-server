@@ -41,7 +41,7 @@ class CreateSocialRequest extends FormRequest
     public function toDto(): SocialDto
     {
         return new SocialDto(
-            id: null,
+            null,
             name: $this->input('name'),
         );
     }

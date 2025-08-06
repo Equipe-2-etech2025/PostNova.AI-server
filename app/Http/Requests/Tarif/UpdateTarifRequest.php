@@ -65,8 +65,10 @@ class UpdateTarifRequest extends FormRequest
     public function toDto(?Tarif $tarif = null): TarifDto
     {
         return new TarifDto(
-            price: $this->input('price', $tarif?->price ?? null),
-            description: $this->input('description', $tarif?->description ?? null),
+            null,
+            name: $this->input('name', $tarif?->name?? null),
+            amount: $this->input('amount', $tarif?->amount?? null),
+            max_limit: $this->input('max_limit', $tarif?->max_limit?? null),
         );
     }
 

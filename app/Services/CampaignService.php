@@ -48,7 +48,7 @@ class CampaignService implements CampaignServiceInterface
 
     public function getCampaignsByType(int $typeId)
     {
-        return $this->repository->find($typeId);
+        return $this->repository->findByTypeCampaignId($typeId);
     }
 
     public function getCampaignByCriteria(array $filters = [])

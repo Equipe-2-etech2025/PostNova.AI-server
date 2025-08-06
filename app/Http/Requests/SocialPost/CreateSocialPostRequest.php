@@ -54,10 +54,10 @@ class CreateSocialPostRequest extends FormRequest
     public function toDto(): SocialPostDto
     {
         return new SocialPostDto(
+            null,
             content: $this->input('content'),
-            image_url: $this->input('image_url'),
             campaign_id: $this->input('campaign_id'),
-            user_id: $this->user()->id,
+            social_id: $this->input('social_id')
         );
     }
 

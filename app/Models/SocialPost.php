@@ -28,9 +28,9 @@ class SocialPost extends Model
         'id' => 'integer',
         'is_published' => 'boolean',
         'campaign_id'=> 'integer',
+        'social_id'=> 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'campaign_id' => 'integer',
     ];
 
     public function social()

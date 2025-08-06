@@ -55,7 +55,7 @@ class UpdateSocialRequest extends FormRequest
     public function toDto(?Social $social = null): SocialDto
     {
         return new SocialDto(
-            id: $social?->id,
+            null,
             name: $this->input('name', $social?->name ?? null),
         );
     }

@@ -53,6 +53,7 @@ class UpdateFeatureRequest extends FormRequest
     public function toDto(?Features $features = null): FeaturesDto
     {
         return new FeaturesDto(
+            null,
             name: $this->input('name', $features?->name ?? null),
         );
     }

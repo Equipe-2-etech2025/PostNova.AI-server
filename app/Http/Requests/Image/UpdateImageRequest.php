@@ -49,6 +49,7 @@ class UpdateImageRequest extends FormRequest
     public function toDto(?Image $image = null): ImageDto
     {
         return new ImageDto(
+            null,
             path: $this->input('path', $image?->path ?? null),
             campaign_id: $this->input('campaign_id', $image?->campaign_id ?? null),
         );

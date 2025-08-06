@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\TarifUser;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TarifUser\TarifUserResource;
+use App\Http\Resources\Tarif\TarifResource;
 use App\Models\TarifUser;
 use App\Models\User;
 use App\Services\Interfaces\TarifUserServiceInterface;
@@ -18,13 +18,12 @@ class TarifUserLatestByUserController extends Controller
         private readonly TarifUserServiceInterface $service
     ) {}
 
-    public function __invoke(int $userId): JsonResponse|TarifUserResource
+    public function __invoke(int $userId): JsonResponse|TarifResource
     {
         User::findOrFail($userId);
 
-        $this->authorize('viewLatest', [TarifUser::class, $userId]);
-
         $latestTarif = $this->service->getLatestByUserId($userId);
+        $this->authorize('viewLatest', $latestTarif);
 
         if (!$latestTarif) {
             return response()->json([
@@ -33,6 +32,6 @@ class TarifUserLatestByUserController extends Controller
                 'message' => 'Aucun tarif trouvé pour cet utilisateur.'
             ], 200);
         }
-        return new TarifUserResource($latestTarif);
+        return new TarifResource($latestTarif);
     }
 }

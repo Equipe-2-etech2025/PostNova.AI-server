@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Campaign;
 
 use App\DTOs\Campaign\CampaignDto;
+use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -29,6 +30,7 @@ class UpdateCampaignRequest extends FormRequest
                 'max:255',
                 Rule::unique('campaigns')->ignore($this->route('campaign'))
             ],
+            'status' => ['sometimes', Rule::in(StatusEnum::values())],
             'description' => 'sometimes|string|max:1000',
             'user_id' => 'sometimes|integer|exists:users,id',
             'type_campaign_id' => [
@@ -46,8 +48,6 @@ class UpdateCampaignRequest extends FormRequest
     {
         return [
             'name.unique' => 'Ce nom de campagne est déjà utilisé',
-            'name.required' => 'Le nom de la campaign est obligatoire.',
-            'description.required' => 'La description de la campaign est obligatoire.',
             'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
             'type_campaign_id.exists' => 'Type de campaign invalide.',
         ];
@@ -61,7 +61,6 @@ class UpdateCampaignRequest extends FormRequest
         if ($this->has('name')) {
             $this->merge([
                 'name' => trim($this->name),
-                'description'
             ]);
         }
 
@@ -75,11 +74,12 @@ class UpdateCampaignRequest extends FormRequest
     public function toDto(?Campaign $campaign = null): CampaignDto
     {
         return new CampaignDto(
+            null,
             name: $this->input('name', $campaign?->name ?? null),
             description: $this->input('description', $campaign?->description ?? null),
             type_campaign_id: $this->input('type_campaign_id', $campaign?->type_campaign_id ?? null),
             user_id: $this->input('user_id', $campaign?->user_id ?? null),
-            status: $this->input('status', $campaign?->status ?? 'processing')
+            status: $this->input('status', $campaign?->status ?? StatusEnum::Created->value)
         );
     }
 

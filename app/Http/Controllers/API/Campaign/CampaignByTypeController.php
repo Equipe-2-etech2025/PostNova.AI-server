@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API\Campaign;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Campaign\CampaignCollection;
 use App\Models\TypeCampaign;
+use App\Models\Campaign;
 use App\Services\Interfaces\CampaignServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class CampaignByTypeController extends Controller
 {
@@ -29,6 +31,11 @@ class CampaignByTypeController extends Controller
 
         $campaigns = $this->campaignService->getCampaignsByType($typeId);
 
-        return new CampaignCollection($campaigns);
+        $filteredCampaigns = $campaigns->filter(function ($campaign) {
+            return Gate::allows('view', $campaign);
+        });
+
+        return new CampaignCollection($filteredCampaigns);
+
     }
 }

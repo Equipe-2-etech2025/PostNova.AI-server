@@ -52,6 +52,7 @@ class UpdateCampaignFeaturesRequest extends FormRequest
     public function toDto(?CampaignFeatures $campaignFeatures = null ): CampaignFeaturesDto
     {
         return new CampaignFeaturesDto(
+            null,
             campaign_id: $this->input('campaign_id', $campaignFeatures?->campaign_id ?? null),
             feature_id: $this->input('feature_id',  $campaignFeatures?->feature_id ?? null),
         );

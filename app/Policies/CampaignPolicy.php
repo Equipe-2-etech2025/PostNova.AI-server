@@ -20,7 +20,7 @@ class CampaignPolicy
 
     public function view(User $user, Campaign $campaign): bool
     {
-        return true;
+        return $user->id === $campaign->user_id;
     }
 
     public function create(User $user): bool

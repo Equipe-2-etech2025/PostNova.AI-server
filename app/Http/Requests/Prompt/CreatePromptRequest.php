@@ -51,6 +51,7 @@ class CreatePromptRequest extends FormRequest
     public function toDto(): PromptDto
     {
         return new PromptDto(
+            null,
             content: $this->input('content'),
             campaign_id: $this->input('campaign_id'),
         );
