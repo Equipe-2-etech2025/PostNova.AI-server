@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTOs\Social\SocialDto;
+use App\Enums\StatusEnum;
 use App\Models\Social;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 
@@ -29,11 +30,18 @@ class SocialRepository implements SocialRepositoryInterface
     {
         $query = $this->model->query();
 
+        $availableFields = ['id', 'name'];
+        $searchableFields = ['name'];
+
         foreach ($criteria as $field => $value) {
-            if (is_numeric($value)) {
-                $query->where($field, $value);
+            if (empty($value) || !in_array($field, $availableFields)) {
+                continue;
+            }
+
+            if (in_array($field, $searchableFields)) {
+                $query->whereRaw('LOWER('.$field.') LIKE ?', ['%'.strtolower($value).'%']);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->where($field, $value);
             }
         }
 

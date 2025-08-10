@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Tarif;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\TarifFeature;
 
@@ -20,6 +21,7 @@ class TarifFeatureFactory extends Factory
     public function definition(): array
     {
         return [
+            'tarif_id' => Tarif::factory(),
             'name' => fake()->sentence(4),
         ];
     }

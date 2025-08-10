@@ -28,5 +28,4 @@ class ImageFactory extends Factory
             'updated_at' => now(),
         ];
     }
-
 }

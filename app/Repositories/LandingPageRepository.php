@@ -27,21 +27,32 @@ class LandingPageRepository implements LandingPageRepositoryInterface
 
     public function findBy(array $criteria)
     {
-        $query = LandingPage::query()->with('campaign');
-
-        if (isset($criteria['user_id'])) {
-            $query->whereHas('campaign', function ($q) use ($criteria) {
-                $q->where('user_id', $criteria['user_id']);
-            });
-            unset($criteria['user_id']);
-        }
+        $query = $this->model->query();
 
         foreach ($criteria as $field => $value) {
-            $query->where($field, $value);
+            if ($field === 'user_id') {
+                $query->whereHas('campaign', function($q) use ($value) {
+                    $q->where('user_id', $value);
+                });
+                continue;
+            }
+
+            if ($field === 'is_published') {
+                $boolValue = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                $query->where('is_published', $boolValue);
+                continue;
+            }
+
+            if (is_numeric($value)) {
+                $query->where($field, $value);
+            } else {
+                $query->where($field, 'ilike', '%'.$value.'%');
+            }
         }
 
         return $query->get();
     }
+
 
     public function create(LandingPageDto $landingPageDto) : LandingPage
     {

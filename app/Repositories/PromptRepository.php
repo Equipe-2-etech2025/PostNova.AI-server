@@ -31,12 +31,17 @@ class PromptRepository implements PromptRepositoryInterface
         $query = $this->model->query();
 
         foreach ($criteria as $field => $value) {
-            if ($field === 'is_published') {
-                $query->where('is_published', filter_var($value, FILTER_VALIDATE_BOOLEAN));
-            } elseif (is_numeric($value)) {
+            if ($field === 'user_id') {
+                $query->whereHas('campaign', function($q) use ($value) {
+                    $q->where('user_id', $value);
+                });
+                continue;
+            }
+
+            if (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->where($field, 'ilike', '%'.$value.'%');
             }
         }
 

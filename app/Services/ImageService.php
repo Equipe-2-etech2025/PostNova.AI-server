@@ -27,7 +27,7 @@ class ImageService implements ImageServiceInterface
 
     public function getImageByCriteria(array $criteria)
     {
-        return $this->repository->findByCriteria($criteria);
+        return $this->repository->findBy($criteria);
     }
 
     public function createImage(ImageDto $imageDto)

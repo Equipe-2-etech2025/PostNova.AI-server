@@ -21,8 +21,15 @@ class ImageStoreController extends Controller
     public function __invoke(CreateImageRequest $request)
     {
         $imageDto = $request->toDto();
+
+        $fakeImage = new Image([
+            'path' => $imageDto->path,
+            'campaign_id' => $imageDto->campaign_id,
+        ]);
+
+        $this->authorize('create', $fakeImage);
+
         $image = $this->service->createImage($imageDto);
-        $this->authorize('create', Campaign::class);
 
         return new ImageResource($image);
     }

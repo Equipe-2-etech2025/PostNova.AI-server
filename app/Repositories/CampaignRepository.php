@@ -6,6 +6,7 @@ use App\DTOs\Campaign\CampaignDto;
 use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
+use Illuminate\Support\Facades\Schema;
 
 class CampaignRepository implements CampaignRepositoryInterface
 {
@@ -35,38 +36,32 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function findByCriteria(array $criteria)
     {
-        $query = $this->model->query();
+        $query = $this->model->newQuery();
+
+        $availableFields = ['id', 'name', 'description', 'user_id', 'type_campaign_id', 'status'];
+        $searchableFields = ['name', 'description'];
 
         foreach ($criteria as $field => $value) {
-            if ($field === 'status') {
-                $this->applyStatusFilter($query, $value);
+            if (empty($value) || !in_array($field, $availableFields)) {
                 continue;
             }
 
-            if (is_numeric($value)) {
-                $query->where($field, $value);
+            if ($field === 'status') {
+                if (is_string($value)) {
+                    $value = StatusEnum::fromLabel($value)->value;
+                }
+                $query->where('status', $value);
+                continue;
+            }
+
+            if (in_array($field, $searchableFields)) {
+                $query->whereRaw('LOWER('.$field.') LIKE ?', ['%'.strtolower($value).'%']);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->where($field, $value);
             }
         }
 
         return $query->get();
-    }
-
-    protected function applyStatusFilter($query, $value)
-    {
-        if (is_numeric($value)) {
-            $query->where('status', $value);
-            return;
-        }
-
-        try {
-            $statusEnum = StatusEnum::fromLabel(strtolower($value));
-            $query->where('status', $statusEnum->value);
-        } catch (\ValueError $e) {
-
-            throw new \InvalidArgumentException("Invalid status value: {$value}");
-        }
     }
 
     public function create(CampaignDto $campaignDto) : Campaign

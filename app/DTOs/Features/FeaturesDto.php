@@ -8,8 +8,7 @@ class FeaturesDto
 {
     public function __construct(
         public readonly ?int $id,
-        public readonly ?string $name,
-        public readonly ?DateTimeInterface $createdAt,
+        public readonly ?string $name
     ) {}
 
     public function toArray(): array

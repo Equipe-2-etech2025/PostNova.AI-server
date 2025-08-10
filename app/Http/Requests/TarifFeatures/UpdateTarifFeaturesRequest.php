@@ -40,7 +40,7 @@ class UpdateTarifFeaturesRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'name' => ucfirst(strtolower(trim($this->name))),
+            'name' => trim($this->input('name')),
         ]);
     }
 

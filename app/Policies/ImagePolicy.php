@@ -36,8 +36,9 @@ class ImagePolicy
      */
     public function create(User $user, Image $image): bool
     {
-        return $image->campaign->user_id === $user->id;
+        return $user->isAdmin() || $user->campaigns()->where('id', $image->campaign_id)->exists();
     }
+
 
     /**
      * Determine whether the user can update the model.

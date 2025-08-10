@@ -13,7 +13,7 @@ class UpdateTarifUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()?->isAdmin();
     }
 
     /**
@@ -40,8 +40,14 @@ class UpdateTarifUserRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if ($this->has('expired_at') && $this->expired_at === '') {
-            $this->merge(['expired_at' => null]);
+        if ($this->has('expired_at')) {
+            if ($this->expired_at === '') {
+                $this->merge(['expired_at' => null]);
+            } else {
+                $this->merge([
+                    'expired_at' => \Carbon\Carbon::parse($this->expired_at)
+                ]);
+            }
         }
     }
 
@@ -51,6 +57,7 @@ class UpdateTarifUserRequest extends FormRequest
             null,
             tarif_id: $this->input('tarif_id', $tarifUser?->tarif_id ?? null),
             user_id: $this->input('user_id', $tarifUser?->user_id ?? null),
+            expired_at:   $this->input('expired_at', $tarifUser?->expired_at ?? null),
         );
     }
 

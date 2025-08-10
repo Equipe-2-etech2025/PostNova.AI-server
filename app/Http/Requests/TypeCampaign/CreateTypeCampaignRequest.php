@@ -41,8 +41,6 @@ class CreateTypeCampaignRequest extends FormRequest
         return new TypeCampaignDto(
             null,
             name: $this->input('name'),
-            createdAt: $this->input('created_at'),
-            updatedAt: $this->input('updated_at'),
         );
     }
 

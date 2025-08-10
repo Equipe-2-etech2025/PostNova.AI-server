@@ -8,12 +8,18 @@ use Illuminate\Auth\Access\Response;
 
 class SocialPolicy
 {
+    public function before($user, $ability)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -21,7 +27,7 @@ class SocialPolicy
      */
     public function view(User $user, Social $social): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -29,7 +35,7 @@ class SocialPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -37,7 +43,7 @@ class SocialPolicy
      */
     public function update(User $user, Social $social): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -45,7 +51,7 @@ class SocialPolicy
      */
     public function delete(User $user, Social $social): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -53,7 +59,7 @@ class SocialPolicy
      */
     public function restore(User $user, Social $social): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 
     /**
@@ -61,6 +67,6 @@ class SocialPolicy
      */
     public function forceDelete(User $user, Social $social): bool
     {
-        return $user->isAdmin();
+        return false;
     }
 }
