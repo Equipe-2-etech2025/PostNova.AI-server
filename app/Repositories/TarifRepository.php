@@ -34,7 +34,7 @@ class TarifRepository implements TarifRepositoryInterface
             if (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->whereRaw('LOWER(' . $field . ') LIKE ?', [ '%'. strtolower($value). '%']);
             }
         }
 

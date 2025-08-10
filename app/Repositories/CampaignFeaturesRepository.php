@@ -8,6 +8,13 @@ use App\Repositories\Interfaces\CampaignFeaturesRepositoryInterface;
 
 class CampaignFeaturesRepository implements CampaignFeaturesRepositoryInterface
 {
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new CampaignFeatures();
+    }
+
     public function getAll()
     {
         return CampaignFeatures::all();

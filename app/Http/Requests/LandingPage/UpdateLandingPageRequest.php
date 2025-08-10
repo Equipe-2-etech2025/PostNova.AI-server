@@ -54,10 +54,11 @@ class UpdateLandingPageRequest extends FormRequest
     public function toDto(?LandingPage $landingPage = null): LandingPageDto
     {
         return new LandingPageDto(
-            null,
-            path:$this->input('path', $landingPage?->content ?? null),
-            content: $this->input('content', $landingPage?->content ?? null),
-            campaign_id: $this->input('campaign_id', $landingPage?->campaign_id ?? null),
+            id: $landingPage?->id,
+            path: $this->input('path', $landingPage?->path),
+            content: $this->input('content', $landingPage?->content) ?? [],
+            campaign_id: $this->input('campaign_id', $landingPage?->campaign_id),
+            is_published: (bool)$this->input('is_published', $landingPage?->is_published ?? false)
         );
     }
 

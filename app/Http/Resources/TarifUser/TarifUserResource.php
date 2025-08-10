@@ -19,6 +19,7 @@ class TarifUserResource extends JsonResource
             'tarif_id' => $this->tarif_id,
             'user_id' => $this->user_id,
             'created_at' => $this->created_at?->format('Y-m-d H:i'),
+            'expired_at' => $this->expired_at?->format('Y-m-d H:i'),
             'tarif' => [
                 'id' => $this->tarif->id,
                 'name' => $this->tarif->name,

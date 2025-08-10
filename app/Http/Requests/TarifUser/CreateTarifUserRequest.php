@@ -43,10 +43,18 @@ class CreateTarifUserRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if ($this->has('expired_at') && $this->expired_at === '') {
-            $this->merge(['expired_at' => null]);
+        if ($this->has('expired_at')) {
+            if ($this->expired_at === '') {
+                $this->merge(['expired_at' => null]);
+            } else {
+                $this->merge([
+                    'expired_at' => \Carbon\Carbon::parse($this->expired_at)
+                ]);
+            }
         }
     }
+
+
 
     public function toDto(): TarifUserDto
     {
@@ -54,6 +62,7 @@ class CreateTarifUserRequest extends FormRequest
             null,
             tarif_id: $this->input('tarif_id'),
             user_id: $this->input('user_id'),
+            expired_at: $this->expired_at
         );
     }
 

@@ -7,7 +7,7 @@ interface CampaignServiceInterface
 {
     public function getAllCampaigns(array $filters = []);
     public function getCampaignById(int $id);
-    public function getCampaignByCriteria(array $filters = []);
+    public function getCampaignByCriteria(array $criteria = []);
     public function createCampaign(CampaignDto $campaignDto);
     public function updateCampaign(int $campaignId, CampaignDto $campaignDto);
     public function deleteCampaign(int $id);

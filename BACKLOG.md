@@ -3,7 +3,10 @@
 ## À faire
 
 ## En cours
-- 
+- [EPA-55] Création de fonctionnels (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche : `feature/EPA-55-test`
+  Commit: `EPA-55: feat: ajout des tests fonctionnels pour le CRUD`
+
 ## Terminé non testé
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 

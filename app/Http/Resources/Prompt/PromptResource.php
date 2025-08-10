@@ -18,7 +18,8 @@ class PromptResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
-            'campaign_id' => $this->$this->campaign_id,
+            'updated_at' =>  $this->updated_at?->format('Y-m-d H:i:s'),
+            'campaign_id' => (int)$this->campaign_id,
         ];
     }
 }

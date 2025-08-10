@@ -3,12 +3,13 @@
 namespace App\Http\Requests\Image;
 
 use App\DTOs\Image\ImageDto;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateImageRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Détermine si l'utilisateur est autorisé à faire cette requête.
      */
     public function authorize(): bool
     {
@@ -16,7 +17,7 @@ class CreateImageRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Règles de validation.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
@@ -24,19 +25,54 @@ class CreateImageRequest extends FormRequest
     {
         return [
             'path' => 'required|string|max:255',
-            'campaign_id' => 'required|integer|exists:campaigns,id',
+            'campaign_id' => [
+                'required',
+                'integer',
+                'exists:campaigns,id',
+                function ($attribute, $value, $fail) {
+                    $user = auth()->user();
+
+                    if (!$user) {
+                        return $fail("Vous devez être connecté.");
+                    }
+
+                    // Si l'utilisateur est admin, il a accès à toutes les campagnes
+                    if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                        return;
+                    }
+
+                    // Vérifie que la méthode campaigns() existe
+                    if (!method_exists($user, 'campaigns')) {
+                        return $fail("Relation campaigns() manquante dans le modèle User.");
+                    }
+
+                    // Vérifie que la campagne appartient à l'utilisateur
+                    if (!$user->campaigns()->where('id', $value)->exists()) {
+                        return $fail("La campagne sélectionnée ne vous appartient pas.");
+                    }
+                }
+            ]
         ];
     }
 
+    /**
+     * Messages de validation personnalisés.
+     */
     public function messages(): array
     {
         return [
             'path.required' => 'Le chemin de l\'image est obligatoire.',
+            'path.string' => 'Le chemin de l\'image doit être une chaîne de caractères.',
+            'path.max' => 'Le chemin de l\'image ne doit pas dépasser 255 caractères.',
             'campaign_id.required' => 'La campagne est obligatoire.',
+            'campaign_id.integer' => 'L\'ID de la campagne doit être un entier.',
             'campaign_id.exists' => 'La campagne sélectionnée est invalide.',
         ];
     }
 
+    /**
+     * Préparation des données avant validation.
+     */
     public function prepareForValidation(): void
     {
         $this->merge([
@@ -44,6 +80,9 @@ class CreateImageRequest extends FormRequest
         ]);
     }
 
+    /**
+     * Conversion en DTO.
+     */
     public function toDto(): ImageDto
     {
         return new ImageDto(
@@ -52,5 +91,4 @@ class CreateImageRequest extends FormRequest
             campaign_id: $this->input('campaign_id'),
         );
     }
-
 }

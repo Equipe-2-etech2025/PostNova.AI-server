@@ -53,25 +53,6 @@ class ImageRepository implements ImageRepositoryInterface
         return $query->get();
     }
 
-
-    public function findByCriteria(array $criteria)
-    {
-        $query = Image::query()->with('campaign');
-
-        if (isset($criteria['user_id'])) {
-            $query->whereHas('campaign', function ($q) use ($criteria) {
-                $q->where('user_id', $criteria['user_id']);
-            });
-            unset($criteria['user_id']);
-        }
-
-        foreach ($criteria as $field => $value) {
-            $query->where($field, $value);
-        }
-
-        return $query->get();
-    }
-
     public function create(ImageDto $imageDto) : Image
     {
         return $this->model->create($imageDto->toArray());

@@ -29,11 +29,18 @@ class TypeCampaignRepository implements TypeCampaignRepositoryInterface
     {
         $query = $this->model->query();
 
+        $availableFields = ['id', 'name'];
+        $searchableFields = ['name'];
+
         foreach ($criteria as $field => $value) {
-            if (is_numeric($value)) {
-                $query->where($field, $value);
+            if (empty($value) || !in_array($field, $availableFields)) {
+                continue;
+            }
+
+            if (in_array($field, $searchableFields)) {
+                $query->whereRaw('LOWER('.$field.') LIKE ?', ['%'.strtolower($value).'%']);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->where($field, $value);
             }
         }
 
