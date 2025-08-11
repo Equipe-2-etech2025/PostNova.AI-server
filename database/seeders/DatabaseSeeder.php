@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            TarifUserSeeder::class,
-            TarifFeatureSeeder::class,
             TarifSeeder::class,
-            CampaignFeatureSeeder::class,
+            TarifFeatureSeeder::class,
+            TarifUserSeeder::class,
             TypeCampaignSeeder::class,
             CampaignSeeder::class,
+            CampaignFeatureSeeder::class,
             SocialSeeder::class,
             SocialPostSeeder::class,
             LandingPageSeeder::class,
