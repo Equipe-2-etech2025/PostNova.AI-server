@@ -47,17 +47,9 @@ RUN chown -R www-data:www-data /var/www \
 # Optimisation de l'autoload
 RUN composer dump-autoload --optimize
 
-# Configuration multi-environnement
-ENV PORT=9000
-
-# Pour le fonctionnement local avec php-fpm
-EXPOSE 9000
+# Configuration pour Render
+ENV PORT=10000
 EXPOSE 10000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
 
-# Commande intelligente pour les deux environnements
-CMD sh -c "if [ \"$RENDER\" = \"true\" ]; then \
-    php artisan serve --host=0.0.0.0 --port=\${PORT:-10000}; \
-    else \
-    php-fpm; \
-    fi"
+# Commande unique pour tous les environnements
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT}"]

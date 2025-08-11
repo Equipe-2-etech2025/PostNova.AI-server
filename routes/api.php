@@ -97,8 +97,8 @@ use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/health', function () {
-    return response()->json(['status' => 'healthy']);
+Route::get('/health', function() {
+    return response()->json(['status' => 'ok'], 200);
 });
 
 // Routes publiques
