@@ -75,13 +75,14 @@ class UpdateCampaignRequest extends FormRequest
     {
         return new CampaignDto(
             null,
-            name: $this->input('name', $campaign?->name ?? null),
-            description: $this->input('description', $campaign?->description ?? null),
-            type_campaign_id: $this->input('type_campaign_id', $campaign?->type_campaign_id ?? null),
-            user_id: $this->input('user_id', $campaign?->user_id ?? null),
-            status: $this->input('status', $campaign?->status ?? StatusEnum::Created->value)
+            name: $this->input('name', $campaign->name),
+            description: $this->input('description', $campaign->description),
+            type_campaign_id: $this->input('type_campaign_id', $campaign->type_campaign_id),
+            user_id: $this->input('user_id', $campaign->user_id),
+            status: $this->input('status', $campaign->status ?? StatusEnum::Created->value)
         );
     }
+
 
 
 }

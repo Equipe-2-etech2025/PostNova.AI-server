@@ -5,6 +5,9 @@ namespace App\Http\Resources\CampaignFeatures;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\CampaignFeatures
+ */
 class CampaignFeaturesResource extends JsonResource
 {
     /**
@@ -15,9 +18,9 @@ class CampaignFeaturesResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'campaign_id' => $this->campaign_id,
-            'feature_id' => $this->feature_id,
+            'id' => $this->resource->id,
+            'campaign_id' => $this->resource->campaign_id,
+            'feature_id' => $this->resource->feature_id,
         ];
     }
 }

@@ -48,8 +48,8 @@ class UpdateTarifFeaturesRequest extends FormRequest
     {
         return new TarifFeatureDto(
             null,
-            tarifId: $this->input('tarif_id', $tarifFeature?->tarif_id ?? null),
-            name: $this->input('name', $tarifFeature?->name ?? null)
+            tarifId: $this->input('tarif_id', $tarifFeature->tarif_id ?? null),
+            name: $this->input('name', $tarifFeature->name ?? null)
         );
     }
 

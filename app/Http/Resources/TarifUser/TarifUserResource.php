@@ -5,6 +5,9 @@ namespace App\Http\Resources\TarifUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\TypeCampaign
+ */
 class TarifUserResource extends JsonResource
 {
     /**
@@ -15,16 +18,16 @@ class TarifUserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'tarif_id' => $this->tarif_id,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at?->format('Y-m-d H:i'),
-            'expired_at' => $this->expired_at?->format('Y-m-d H:i'),
+            'id' => $this->resource->id,
+            'tarif_id' => $this->resource->tarif_id,
+            'user_id' => $this->resource->user_id,
+            'created_at' => $this->resource->created_at?->format('Y-m-d H:i'),
+            'expired_at' => $this->resource->expired_at?->format('Y-m-d H:i'),
             'tarif' => [
-                'id' => $this->tarif->id,
-                'name' => $this->tarif->name,
-                'max_limit' => $this->tarif->max_limit,
-                'amount' => $this->tarif->amount,
+                'id' => $this->resource->tarif->id,
+                'name' => $this->resource->tarif->name,
+                'max_limit' => $this->resource->tarif->max_limit,
+                'amount' => $this->resource->tarif->amount,
             ],
         ];
     }

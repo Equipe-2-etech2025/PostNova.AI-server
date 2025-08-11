@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Campaign;
 
+/**
+ * @property-read \App\Models\Campaign $campaign
+ */
 class Prompt extends Model
 {
     use HasFactory;

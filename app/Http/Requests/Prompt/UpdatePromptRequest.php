@@ -51,8 +51,8 @@ class UpdatePromptRequest extends FormRequest
     {
         return new PromptDto(
             null,
-            content: $this->input('content', $prompt?->content ?? null),
-            campaign_id: $this->input('campaign_id', $prompt?->campaign_id ?? null),
+            content: $this->input('content', $prompt->content ?? null),
+            campaign_id: $this->input('campaign_id', $prompt->campaign_id ?? null),
         );
     }
 

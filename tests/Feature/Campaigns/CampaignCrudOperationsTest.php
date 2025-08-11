@@ -32,6 +32,7 @@ class CampaignCrudOperationsTest extends BaseCampaignTest
 
         $response = $this->getJson("/api/campaigns/{$campaign->id}");
 
+        dump($response->json());
         $response->assertOk()
             ->assertJsonStructure([
                 'data' => [

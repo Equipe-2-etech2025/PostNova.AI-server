@@ -5,6 +5,9 @@ namespace App\Http\Resources\Social;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\SocialPost
+ */
 class SocialResource extends JsonResource
 {
     /**
@@ -15,7 +18,7 @@ class SocialResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->name,
+            'name' => $this->resource->name,
         ];
     }
 }

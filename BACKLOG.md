@@ -2,12 +2,16 @@
 
 ## À faire
 
-## En cours
+## En cours 
+- [EPA-59] Analyse avec phpStan (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-59-analyze-phpStan`
+  Commit: `EPA-59: fix: analyse de qualité de code avec PHPStan`
+
 - [EPA-55] Création de fonctionnels (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `feature/EPA-55-test`
   Commit: `EPA-55: feat: ajout des tests fonctionnels pour le CRUD`
 
-## Terminé non testé
+#[phpunit.xml](phpunit.xml)# Terminé non testé
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
