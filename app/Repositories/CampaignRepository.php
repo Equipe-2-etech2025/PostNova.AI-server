@@ -104,4 +104,5 @@ class CampaignRepository implements CampaignRepositoryInterface
 
         return $query->get();
     }
+
 }
