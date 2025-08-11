@@ -97,6 +97,10 @@ use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/health', function () {
+    return response()->json(['status' => 'healthy']);
+});
+
 // Routes publiques
 Route::prefix('auth')->group(function () {
     Route::post('/register', RegisterController::class);
