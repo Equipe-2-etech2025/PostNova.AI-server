@@ -94,6 +94,8 @@ use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\Campaign\PopularCampaignController;
+use App\Http\Controllers\API\Suggestion\SuggestionController;
+use App\Http\Controllers\API\User\ChangePasswordController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -119,6 +121,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{user}', UserShowController::class);
         Route::put('/{user}', UserUpdateController::class);
         Route::delete('/{user}', UserDestroyController::class);
+        Route::post('/change-password', ChangePasswordController::class);
+
     });
 
     Route::prefix('campaigns')->group(function () {
@@ -235,4 +239,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
+
+    Route::get('/suggestion/{userId}', SuggestionController::class);
 });

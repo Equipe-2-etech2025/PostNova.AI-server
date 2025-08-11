@@ -83,9 +83,15 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function findByUserId(int $userId)
     {
-        $query = $this->model->query();
-        $query->where('user_id', $userId);
-        return $query->get();
+        return $this->model
+            ->where('user_id', $userId)
+            ->withCount(['images', 'landingPages', 'socialPosts'])
+            ->withSum('interactions as total_views', 'views')
+            ->withSum('interactions as total_likes', 'likes')
+            ->withSum('interactions as total_shares', 'shares')
+            ->orderByDesc('created_at')
+            ->limit(2)
+            ->get();
     }
 
     public function findByTypeCampaignId(int $typeCampaignId, ?int $userId = null)

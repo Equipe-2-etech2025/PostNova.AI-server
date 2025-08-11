@@ -60,6 +60,10 @@ use App\Services\Interfaces\ContentServiceInterface;
 use App\Services\ContentService;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\ContentRepository;
+use App\Services\SuggestionService;
+use App\Services\Interfaces\SuggestionServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
+use App\Services\UserService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -96,6 +100,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
         $this->app->bind(ContentServiceInterface::class, ContentService::class);
         $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
+        $this->app->bind(SuggestionServiceInterface::class, SuggestionService::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
     }
 
     /**
