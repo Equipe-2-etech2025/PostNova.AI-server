@@ -8,9 +8,18 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use App\Services\Interfaces\TarifUserServiceInterface;
+use App\DTOs\TarifUser\TarifUserDto;
 
 class RegisterController extends Controller
 {
+    protected TarifUserServiceInterface $tarifUserService;
+
+    public function __construct(TarifUserServiceInterface $tarifUserService)
+    {
+        $this->tarifUserService = $tarifUserService;
+    }
+
     public function __invoke(RegisterRequest $request): JsonResponse
     {
         try {
@@ -23,6 +32,15 @@ class RegisterController extends Controller
 
             event(new Registered($user));
             $token = $user->createToken('auth_token')->plainTextToken;
+
+            $tarifUserDto = new TarifUserDto(
+                null,
+                1, // ID du tarif par défaut ("Free")
+                $user->id,
+                now(),
+                null,
+            );
+            $this->tarifUserService->createTarifUser($tarifUserDto);
 
             Log::info('Nouvel utilisateur inscrit', ['user_id' => $user->id]);
 
