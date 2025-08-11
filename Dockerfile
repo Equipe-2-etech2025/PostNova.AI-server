@@ -1,4 +1,4 @@
-FROM php:8.4.2-fpm
+FROM php:8.4.2-cli
 
 # Configuration des dépôts et certificats
 RUN echo "deb https://deb.debian.org/debian bookworm main" > /etc/apt/sources.list && \
@@ -35,7 +35,7 @@ WORKDIR /var/www
 
 # Installation des dépendances
 COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Copie des fichiers de l'application
 COPY . .
@@ -44,12 +44,9 @@ COPY . .
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/bootstrap/cache /var/www/storage
 
-# Optimisation de l'autoload
-RUN composer dump-autoload --optimize
-
 # Configuration pour Render
 ENV PORT=10000
 EXPOSE 10000
 
-# Commande corrigée pour le port
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT}"]
+# Commande de démarrage
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=$PORT"]
