@@ -2,8 +2,6 @@
 
 namespace App\DTOs\Prompt;
 
-use DateTimeInterface;
-
 class PromptDto
 {
     public function __construct(

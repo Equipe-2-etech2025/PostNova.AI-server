@@ -2,8 +2,6 @@
 
 namespace App\DTOs\Features;
 
-use DateTimeInterface;
-
 class FeaturesDto
 {
     public function __construct(

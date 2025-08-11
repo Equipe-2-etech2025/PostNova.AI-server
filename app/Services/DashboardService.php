@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Services\Interfaces\DashboardServiceInterface;
 use App\Repositories\Interfaces\DashboardRepositoryInterface;
+use App\Services\Interfaces\DashboardServiceInterface;
 
 class DashboardService implements DashboardServiceInterface
 {

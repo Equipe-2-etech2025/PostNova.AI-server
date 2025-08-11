@@ -16,7 +16,7 @@ class CampaignResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'user_id' => $this->resource->user_id,
-            'type_campaign_id'=>$this->resource->type_campaign_id,
+            'type_campaign_id' => $this->resource->type_campaign_id,
             'status' => [
                 'value' => $this->resource->status,
                 'label' => StatusEnum::from($this->resource->status)->label(),

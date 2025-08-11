@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use App\Services\Interfaces\UserServiceInterface;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Hash;
 
 class UserService implements UserServiceInterface
 {
@@ -13,7 +13,7 @@ class UserService implements UserServiceInterface
     {
         $user = User::findOrFail($userId);
 
-        if (!Hash::check($currentPassword, $user->password)) {
+        if (! Hash::check($currentPassword, $user->password)) {
             throw new AuthenticationException('Le mot de passe actuel est incorrect.');
         }
 

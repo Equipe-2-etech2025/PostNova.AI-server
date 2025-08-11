@@ -30,7 +30,6 @@ class FeaturesService implements FeaturesServiceInterface
         return $this->featuresRepository->findBy($criteria);
     }
 
-
     public function updateFeature(int $id, FeaturesDto $featuresDto)
     {
         return $this->featuresRepository->update($id, $featuresDto);

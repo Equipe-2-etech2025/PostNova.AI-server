@@ -21,6 +21,7 @@ class TarifStoreController extends Controller
     {
         $this->authorize('create', Tarif::class);
         $tarif = $this->service->createTarif($request->toDto());
+
         return new TarifResource($tarif);
     }
 }

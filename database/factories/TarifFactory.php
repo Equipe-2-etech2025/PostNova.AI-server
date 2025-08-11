@@ -17,10 +17,11 @@ class TarifFactory extends Factory
     public function definition(): array
     {
         $name = fake()->randomElement(['Free', 'Pro']);
+
         return [
             'name' => $name,
             'amount' => $name === 'Free' ? 0.00 : 14.99,
-            'max_limit' => $name === 'Free' ? 3 : 30
+            'max_limit' => $name === 'Free' ? 3 : 30,
         ];
     }
 }

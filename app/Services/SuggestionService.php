@@ -2,17 +2,16 @@
 
 namespace App\Services;
 
+use App\Services\Interfaces\SuggestionServiceInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Services\CampaignService;
-use App\Services\PromptService;
-use App\Services\TarifUserService;
-use App\Services\Interfaces\SuggestionServiceInterface;
 
 class SuggestionService implements SuggestionServiceInterface
 {
     protected CampaignService $campaignService;
+
     protected PromptService $promptService;
+
     protected TarifUserService $tarifUserService;
 
     public function __construct(
@@ -35,7 +34,7 @@ class SuggestionService implements SuggestionServiceInterface
             $prompt = $this->buildPrompt($campaigns, $quotaUsed, $tarifUser);
 
             $response = Http::post(
-                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . env('GEMINI_API_KEY'),
+                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='.env('GEMINI_API_KEY'),
                 [
                     'contents' => [[
                         'parts' => [['text' => $prompt]],
@@ -43,8 +42,9 @@ class SuggestionService implements SuggestionServiceInterface
                 ]
             );
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 Log::error('Gemini API error', ['response' => $response->body()]);
+
                 return $this->getFallbackSuggestions();
             }
 
@@ -53,7 +53,8 @@ class SuggestionService implements SuggestionServiceInterface
 
             return $json['suggestions'] ?? $this->getFallbackSuggestions();
         } catch (\Exception $e) {
-            Log::error('Erreur getSuggestions: ' . $e->getMessage());
+            Log::error('Erreur getSuggestions: '.$e->getMessage());
+
             return $this->getFallbackSuggestions();
         }
     }
@@ -110,6 +111,7 @@ EOT;
     private function cleanAndParseJson(string $text): array
     {
         $clean = trim(str_replace(['```json', '```'], '', $text));
+
         return json_decode($clean, true);
     }
 

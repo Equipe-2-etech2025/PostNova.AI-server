@@ -50,4 +50,3 @@ class LandingPageService implements LandingPageServiceInterface
         return $this->repository->findByUserId($userId);
     }
 }
-

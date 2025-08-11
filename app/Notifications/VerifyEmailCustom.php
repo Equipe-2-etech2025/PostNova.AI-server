@@ -37,7 +37,7 @@ class VerifyEmailCustom extends VerifyEmail
             'hash' => sha1($notifiable->getEmailForVerification()),
         ]);
 
-        return 'http://localhost:5173/email/verify?' . http_build_query($allParams);
+        return 'http://localhost:5173/email/verify?'.http_build_query($allParams);
     }
 
     /**

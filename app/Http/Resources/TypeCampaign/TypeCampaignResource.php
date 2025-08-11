@@ -21,7 +21,7 @@ class TypeCampaignResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'created_at' => $this->resource->created_at ? $this->created_at->format('Y-m-d H:i') : null,
-            'updated_at' =>$this->resource->created_at ? $this->created_at->format('Y-m-d H:i') : null,
+            'updated_at' => $this->resource->created_at ? $this->created_at->format('Y-m-d H:i') : null,
         ];
     }
 }

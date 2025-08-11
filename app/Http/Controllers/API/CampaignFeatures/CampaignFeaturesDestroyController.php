@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\CampaignFeatures;
 
 use App\Http\Controllers\Controller;
-use App\Models\CampaignFeatures;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;

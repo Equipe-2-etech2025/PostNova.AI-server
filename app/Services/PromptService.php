@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\DTOs\Prompt\PromptDto;
-use App\Models\Prompt;
 use App\Repositories\Interfaces\PromptRepositoryInterface;
 use App\Services\Interfaces\PromptServiceInterface;
 
@@ -50,7 +49,7 @@ class PromptService implements PromptServiceInterface
     {
         return $this->repository->findByUserId($userId);
     }
-    
+
     public function countTodayPromptsByUser(int $userId)
     {
         return $this->repository->countTodayPromptsByUser($userId);

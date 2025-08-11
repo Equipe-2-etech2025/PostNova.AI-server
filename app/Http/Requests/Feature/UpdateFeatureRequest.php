@@ -57,5 +57,4 @@ class UpdateFeatureRequest extends FormRequest
             name: $this->input('name', $features->name ?? null),
         );
     }
-
 }

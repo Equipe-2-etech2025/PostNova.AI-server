@@ -4,8 +4,6 @@ namespace Tests\Feature\SocialPosts;
 
 use App\Models\Social;
 use App\Models\SocialPost;
-use App\Models\TarifUser;
-use Carbon\Carbon;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -16,12 +14,12 @@ class SocialPostSearchTest extends BaseSocialPostTest
     {
         SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'is_published' => true
+            'is_published' => true,
         ]);
 
         SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'is_published' => false
+            'is_published' => false,
         ]);
 
         Sanctum::actingAs($this->user);
@@ -37,12 +35,12 @@ class SocialPostSearchTest extends BaseSocialPostTest
     {
         SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => 'Special promotion'
+            'content' => 'Special promotion',
         ]);
 
         SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => 'Regular update'
+            'content' => 'Regular update',
         ]);
 
         Sanctum::actingAs($this->user);
@@ -73,12 +71,12 @@ class SocialPostSearchTest extends BaseSocialPostTest
 
         SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'social_id' => $this->social->id
+            'social_id' => $this->social->id,
         ]);
 
         SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'social_id' => $social2->id
+            'social_id' => $social2->id,
         ]);
 
         Sanctum::actingAs($this->user);
@@ -115,5 +113,4 @@ class SocialPostSearchTest extends BaseSocialPostTest
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.is_published', true);
     }
-
 }

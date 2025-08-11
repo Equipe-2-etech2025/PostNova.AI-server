@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTOs\Social\SocialDto;
-use App\Enums\StatusEnum;
 use App\Models\Social;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 
@@ -34,7 +33,7 @@ class SocialRepository implements SocialRepositoryInterface
         $searchableFields = ['name'];
 
         foreach ($criteria as $field => $value) {
-            if (empty($value) || !in_array($field, $availableFields)) {
+            if (empty($value) || ! in_array($field, $availableFields)) {
                 continue;
             }
 
@@ -48,15 +47,16 @@ class SocialRepository implements SocialRepositoryInterface
         return $query->get();
     }
 
-    public function create(SocialDto $socialDto) : Social
+    public function create(SocialDto $socialDto): Social
     {
         return $this->model->create($socialDto->toArray());
     }
 
-    public function update(int $id, SocialDto $socialDto) : Social
+    public function update(int $id, SocialDto $socialDto): Social
     {
         $social = $this->model->findOrFail($id);
         $social->update($socialDto->toArray());
+
         return $social;
     }
 

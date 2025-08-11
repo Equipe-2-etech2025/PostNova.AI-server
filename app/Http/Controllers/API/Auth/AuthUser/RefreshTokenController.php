@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\AuthUser;
 
 use App\Http\Controllers\Controller;
@@ -25,6 +26,7 @@ class RefreshTokenController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('Erreur rafraîchissement token', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors du rafraîchissement',

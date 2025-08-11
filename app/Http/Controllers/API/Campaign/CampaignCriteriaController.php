@@ -28,7 +28,7 @@ class CampaignCriteriaController extends Controller
 
         $criteria = $request->query();
 
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $criteria['user_id'] = $user->id;
         }
 

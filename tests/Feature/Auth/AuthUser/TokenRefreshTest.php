@@ -15,12 +15,12 @@ class TokenRefreshTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ])->postJson('/api/auth/refresh');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => ['token', 'token_type']
+                'data' => ['token', 'token_type'],
             ]);
     }
 }

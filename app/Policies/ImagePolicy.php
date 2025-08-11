@@ -2,10 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Campaign;
 use App\Models\Image;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ImagePolicy
 {
@@ -15,6 +13,7 @@ class ImagePolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -38,7 +37,6 @@ class ImagePolicy
     {
         return $user->isAdmin() || $user->campaigns()->where('id', $image->campaign_id)->exists();
     }
-
 
     /**
      * Determine whether the user can update the model.

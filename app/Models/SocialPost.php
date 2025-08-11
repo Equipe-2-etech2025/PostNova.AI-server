@@ -13,11 +13,15 @@ class SocialPost extends Model
     use HasFactory;
 
     protected $table = 'social_posts';
+
     protected $keyType = 'int';
+
     public $incrementing = true;
 
     public $timestamps = true;
+
     public const CREATED_AT = 'created_at';
+
     public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
@@ -30,8 +34,8 @@ class SocialPost extends Model
     protected $casts = [
         'id' => 'integer',
         'is_published' => 'boolean',
-        'campaign_id'=> 'integer',
-        'social_id'=> 'integer',
+        'campaign_id' => 'integer',
+        'social_id' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

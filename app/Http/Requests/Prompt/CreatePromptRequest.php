@@ -20,7 +20,6 @@ class CreatePromptRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
@@ -56,6 +55,4 @@ class CreatePromptRequest extends FormRequest
             campaign_id: $this->input('campaign_id'),
         );
     }
-
 }
-

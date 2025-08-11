@@ -4,23 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TypeCampaign;
-use App\Models\User;
-use App\Models\Image;
-use App\Models\LandingPage;
-use App\Models\SocialPost;
-use App\Models\CampaignInteraction;
 
 class Campaign extends Model
 {
     use HasFactory;
 
     protected $table = 'campaigns';
+
     protected $primaryKey = 'id';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
+
     public $timestamps = true;
+
     public const CREATED_AT = 'created_at';
+
     public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [

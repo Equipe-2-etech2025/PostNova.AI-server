@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\TarifFeature;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TarifFeaturePolicy
 {
@@ -14,6 +13,7 @@ class TarifFeaturePolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */

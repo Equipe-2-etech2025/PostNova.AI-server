@@ -31,15 +31,17 @@ class SocialPostRepository implements SocialPostRepositoryInterface
 
         foreach ($criteria as $field => $value) {
             if ($field === 'user_id') {
-                $query->whereHas('campaign', function($q) use ($value) {
+                $query->whereHas('campaign', function ($q) use ($value) {
                     $q->where('user_id', $value);
                 });
+
                 continue;
             }
 
             if ($field === 'is_published') {
                 $boolValue = filter_var($value, FILTER_VALIDATE_BOOLEAN);
                 $query->where('is_published', $boolValue);
+
                 continue;
             }
 
@@ -53,15 +55,16 @@ class SocialPostRepository implements SocialPostRepositoryInterface
         return $query->get();
     }
 
-    public function create(SocialPostDto $socialPostDto) : SocialPost
+    public function create(SocialPostDto $socialPostDto): SocialPost
     {
         return $this->model->create($socialPostDto->toArray());
     }
 
-    public function update(int $id, SocialPostDto $socialPostDto) : SocialPost
+    public function update(int $id, SocialPostDto $socialPostDto): SocialPost
     {
         $post = $this->model->findOrFail($id);
         $post->update($socialPostDto->toArray());
+
         return $post;
     }
 
@@ -72,10 +75,8 @@ class SocialPostRepository implements SocialPostRepositoryInterface
 
     public function findByUserId(int $userId)
     {
-        return SocialPost::whereHas('campaign', function ($query) use ($userId)
-        {
+        return SocialPost::whereHas('campaign', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
     }
-
 }

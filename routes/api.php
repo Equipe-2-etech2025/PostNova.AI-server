@@ -18,6 +18,7 @@ use App\Http\Controllers\API\Campaign\CampaignShowController;
 use App\Http\Controllers\API\Campaign\CampaignStoreController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\CampaignUserController;
+use App\Http\Controllers\API\Campaign\PopularCampaignController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesCriteriaController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesDestroyController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesIndexController;
@@ -62,6 +63,7 @@ use App\Http\Controllers\API\SocialPost\SocialPostIndexController;
 use App\Http\Controllers\API\SocialPost\SocialPostShowController;
 use App\Http\Controllers\API\SocialPost\SocialPostStoreController;
 use App\Http\Controllers\API\SocialPost\SocialPostUpdateController;
+use App\Http\Controllers\API\Suggestion\SuggestionController;
 use App\Http\Controllers\API\Tarif\TarifCriteriaController;
 use App\Http\Controllers\API\Tarif\TarifDestroyController;
 use App\Http\Controllers\API\Tarif\TarifIndexController;
@@ -87,15 +89,13 @@ use App\Http\Controllers\API\TypeCampaign\TypeCampaignIndexController;
 use App\Http\Controllers\API\TypeCampaign\TypeCampaignShowController;
 use App\Http\Controllers\API\TypeCampaign\TypeCampaignStoreController;
 use App\Http\Controllers\API\TypeCampaign\TypeCampaignUpdateController;
+use App\Http\Controllers\API\User\ChangePasswordController;
 use App\Http\Controllers\API\User\UserDestroyController;
 use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\Campaign\PopularCampaignController;
-use App\Http\Controllers\API\Suggestion\SuggestionController;
-use App\Http\Controllers\API\User\ChangePasswordController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -105,7 +105,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/reset-password', ResetPasswordController::class)->name('password.reset');
     Route::post('/email/verify', VerifyEmailController::class)->name('verification.verify');
     Route::match(['get', 'post'], '/email/verify', VerifyEmailController::class)
-    ->name('verification.verify');
+        ->name('verification.verify');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -135,7 +135,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/type/{typeId}', CampaignByTypeController::class);
         Route::get('/{id}', CampaignShowController::class);
         Route::put('/{id}', CampaignUpdateController::class);
-        Route::delete('/{id}',CampaignDestroyController::class);
+        Route::delete('/{id}', CampaignDestroyController::class);
         Route::get('/popular/content', PopularCampaignController::class);
     });
 

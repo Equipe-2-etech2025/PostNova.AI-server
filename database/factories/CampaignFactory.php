@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\TypeCampaign;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Campaign;
+use App\Models\TypeCampaign;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Campaign>
@@ -24,7 +24,7 @@ class CampaignFactory extends Factory
         return [
             'name' => fake()->sentence(3),
             'description' => fake()->paragraph(),
-            'status' => fake()->randomElement([1,2,3,4,5]),
+            'status' => fake()->randomElement([1, 2, 3, 4, 5]),
             'user_id' => User::count() > 0
                 ? User::inRandomOrder()->value('id')
                 : User::factory(),
@@ -35,5 +35,4 @@ class CampaignFactory extends Factory
             'updated_at' => now(),
         ];
     }
-
 }

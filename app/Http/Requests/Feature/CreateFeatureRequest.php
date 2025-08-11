@@ -19,7 +19,8 @@ class CreateFeatureRequest extends FormRequest
         ];
     }
 
-    public function messages(): array {
+    public function messages(): array
+    {
         return [
             'name.required' => 'Le nom de la fonctionnalité est obligatoire.',
             'name.max' => 'Le nom ne peut pas dépasser 100 caractères.',
@@ -43,5 +44,4 @@ class CreateFeatureRequest extends FormRequest
             name: $this->input('name'),
         );
     }
-
 }

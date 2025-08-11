@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\LandingPage;
 
-use App\Models\LandingPage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -19,7 +18,7 @@ class LandingPageCollection extends ResourceCollection
             'data' => LandingPageResource::collection($this->collection),
             'meta' => [
                 'total' => $this->count(),
-            ]
+            ],
         ];
     }
 }

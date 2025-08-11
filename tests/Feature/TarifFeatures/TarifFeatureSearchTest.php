@@ -52,11 +52,11 @@ class TarifFeatureSearchTest extends BaseTarifFeatureTest
     {
         TarifFeature::factory()->create([
             'tarif_id' => $this->tarif->id,
-            'name' => 'Premium Storage'
+            'name' => 'Premium Storage',
         ]);
         TarifFeature::factory()->create([
             'tarif_id' => $this->tarif->id,
-            'name' => 'Basic Storage'
+            'name' => 'Basic Storage',
         ]);
         Sanctum::actingAs($this->admin);
 

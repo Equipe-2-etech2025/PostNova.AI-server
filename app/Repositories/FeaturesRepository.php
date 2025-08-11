@@ -33,7 +33,7 @@ class FeaturesRepository implements FeaturesRepositoryInterface
         $searchableFields = ['name'];
 
         foreach ($criteria as $field => $value) {
-            if (empty($value) || !in_array($field, $availableFields)) {
+            if (empty($value) || ! in_array($field, $availableFields)) {
                 continue;
             }
 
@@ -47,15 +47,16 @@ class FeaturesRepository implements FeaturesRepositoryInterface
         return $query->get();
     }
 
-    public function create(FeaturesDto $featuresDto) : Features
+    public function create(FeaturesDto $featuresDto): Features
     {
         return $this->model->create($featuresDto->toArray());
     }
 
-    public function update(int $id, FeaturesDto $featuresDto) : Features
+    public function update(int $id, FeaturesDto $featuresDto): Features
     {
         $feature = $this->model->findOrFail($id);
         $feature->update($featuresDto->toArray());
+
         return $feature;
     }
 

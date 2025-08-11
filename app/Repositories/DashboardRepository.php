@@ -15,8 +15,8 @@ class DashboardRepository implements DashboardRepositoryInterface
     public function getStatsFromOthers(int $userId): array
     {
         return CampaignInteraction::whereHas('campaign', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
+            $query->where('user_id', $userId);
+        })
             ->where('user_id', '!=', $userId)
             ->selectRaw('
                 COALESCE(SUM(views), 0) as total_views,

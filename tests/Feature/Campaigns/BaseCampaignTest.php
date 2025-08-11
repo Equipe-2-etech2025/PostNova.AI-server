@@ -2,22 +2,23 @@
 
 namespace Tests\Feature\Campaigns;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
-use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
-use App\Models\User;
+use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Models\TypeCampaign;
-use App\Enums\StatusEnum;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 abstract class BaseCampaignTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $admin;
+
     protected $otherUser;
+
     protected $typeCampaign;
 
     protected function setUp(): void

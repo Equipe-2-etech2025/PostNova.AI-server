@@ -4,7 +4,6 @@ namespace App\Http\Requests\Tarif;
 
 use App\DTOs\Tarif\TarifDto;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateTarifRequest extends FormRequest
 {

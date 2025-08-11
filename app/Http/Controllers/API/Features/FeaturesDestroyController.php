@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Features;
 
 use App\Http\Controllers\Controller;
-use App\Models\Features;
 use App\Services\Interfaces\FeaturesServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;

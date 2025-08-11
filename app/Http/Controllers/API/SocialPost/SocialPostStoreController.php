@@ -5,8 +5,6 @@ namespace App\Http\Controllers\API\SocialPost;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SocialPost\CreateSocialPostRequest;
 use App\Http\Resources\SocialPost\SocialPostResource;
-use App\Models\Campaign;
-use App\Models\SocialPost;
 use App\Services\Interfaces\SocialPostServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -21,7 +19,8 @@ class SocialPostStoreController extends Controller
     public function __invoke(CreateSocialPostRequest $request)
     {
         $socialPost = $this->service->createSocialPost($request->toDto());
-        $this->authorize('create',$socialPost);
+        $this->authorize('create', $socialPost);
+
         return new SocialPostResource($socialPost);
     }
 }

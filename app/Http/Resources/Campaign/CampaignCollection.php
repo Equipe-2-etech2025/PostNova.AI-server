@@ -14,7 +14,7 @@ class CampaignCollection extends ResourceCollection
             'data' => CampaignResource::collection($this->collection),
             'meta' => [
                 'total' => $this->count(),
-            ]
+            ],
         ];
     }
 }

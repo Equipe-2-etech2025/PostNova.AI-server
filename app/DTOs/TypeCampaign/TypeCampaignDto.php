@@ -2,10 +2,6 @@
 
 namespace App\DTOs\TypeCampaign;
 
-use DateTimeInterface;
-
-;
-
 class TypeCampaignDto
 {
     public function __construct(

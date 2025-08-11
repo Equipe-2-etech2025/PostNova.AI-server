@@ -20,6 +20,7 @@ class FeaturesIndexController extends Controller
     {
         $this->authorize('viewAny', Features::class);
         $features = $this->service->getAllFeatures();
+
         return new FeatureCollection($features);
     }
 }

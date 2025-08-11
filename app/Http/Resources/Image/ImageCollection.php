@@ -18,7 +18,7 @@ class ImageCollection extends ResourceCollection
             'data' => ImageResource::collection($this->collection),
             'meta' => [
                 'total' => $this->count(),
-            ]
+            ],
         ];
     }
 }

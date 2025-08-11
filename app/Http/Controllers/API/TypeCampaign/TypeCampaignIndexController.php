@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Controllers\API\TypeCampaign;;
+
+namespace App\Http\Controllers\API\TypeCampaign;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TypeCampaign\TypeCampaignCollection;
@@ -18,6 +19,7 @@ class TypeCampaignIndexController extends Controller
     public function __invoke()
     {
         $this->authorize('viewAny', TypeCampaign::class);
+
         return new TypeCampaignCollection($this->service->getAllTypeCampaign());
     }
 }

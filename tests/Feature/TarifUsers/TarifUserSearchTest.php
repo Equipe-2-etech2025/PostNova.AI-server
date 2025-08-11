@@ -3,9 +3,9 @@
 namespace Tests\Feature\TarifUsers;
 
 use App\Models\TarifUser;
+use Carbon\Carbon;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
-use Carbon\Carbon;
 
 class TarifUserSearchTest extends BaseTarifUserTest
 {
@@ -41,13 +41,13 @@ class TarifUserSearchTest extends BaseTarifUserTest
         TarifUser::factory()->create([
             'user_id' => $this->user->id,
             'tarif_id' => $this->tarif->id,
-            'expired_at' => Carbon::now()->addMonth()
+            'expired_at' => Carbon::now()->addMonth(),
         ]);
 
         TarifUser::factory()->create([
             'user_id' => $this->otherUser->id,
             'tarif_id' => $this->expiredTarif->id,
-            'expired_at' => Carbon::now()->subMonth()
+            'expired_at' => Carbon::now()->subMonth(),
         ]);
 
         Sanctum::actingAs($this->admin);

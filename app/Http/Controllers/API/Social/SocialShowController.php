@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Social;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Social\SocialResource;
-use App\Models\Social;
 use App\Services\Interfaces\SocialServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -20,6 +19,7 @@ class SocialShowController extends Controller
     {
         $social = $this->service->getSocialById($id);
         $this->authorize('view', $social);
+
         return new SocialResource($social);
     }
 }

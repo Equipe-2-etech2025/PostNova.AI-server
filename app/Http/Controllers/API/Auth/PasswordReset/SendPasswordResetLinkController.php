@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\PasswordReset;
 
 use App\Http\Controllers\Controller;

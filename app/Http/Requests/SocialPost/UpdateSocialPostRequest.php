@@ -66,5 +66,4 @@ class UpdateSocialPostRequest extends FormRequest
             is_published: $this->input('is_published', $socialPost->is_published ?? null),
         );
     }
-
 }

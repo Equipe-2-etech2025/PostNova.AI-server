@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\TarifUser;
 
 use App\Http\Controllers\Controller;
@@ -23,7 +24,7 @@ class TarifUserCriteriaController extends Controller
         $this->authorize('viewAny', TarifUser::class);
 
         $criteria = $request->query();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $criteria['user_id'] = $user->id;
         }
 

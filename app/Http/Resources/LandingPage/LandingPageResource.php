@@ -19,12 +19,12 @@ class LandingPageResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'content' =>$this->resource->content,
+            'content' => $this->resource->content,
             'path' => $this->resource->path,
             'is_published' => $this->resource->is_published,
             'campaign_id' => $this->resource->campaign_id,
-            'created_at' =>  $this->resource->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' =>  $this->resource->updated_at?->format('Y-m-d H:i:s'),
+            'created_at' => $this->resource->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->resource->updated_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

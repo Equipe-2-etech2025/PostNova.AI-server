@@ -2,12 +2,9 @@
 
 namespace Tests\Feature\LandingPage;
 
-use App\Models\Campaign;
 use App\Models\LandingPage;
-use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
-use Illuminate\Support\Facades\DB;
 
 class LandingPageCrudOperationsTest extends BaseLandingPageTest
 {
@@ -22,7 +19,7 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
 
         $this->assertDatabaseHas('landing_pages', [
             'path' => 'test/path/landing-page',
-            'campaign_id' => $this->campaign->id
+            'campaign_id' => $this->campaign->id,
         ]);
     }
 
@@ -31,7 +28,7 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
     {
         $landingPage = LandingPage::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => ['title' => 'Test Page']
+            'content' => ['title' => 'Test Page'],
         ]);
 
         Sanctum::actingAs($this->user);
@@ -80,7 +77,7 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
         $landingPage = LandingPage::factory()->create([
             'campaign_id' => $this->campaign->id,
             'path' => 'special-offer.com',
-            'content' => ['type' => 'special-offer']
+            'content' => ['type' => 'special-offer'],
         ]);
 
         Sanctum::actingAs($this->user);
@@ -91,6 +88,7 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.path', 'special-offer.com');
     }
+
     #[Test]
     public function can_list_landing_pages()
     {

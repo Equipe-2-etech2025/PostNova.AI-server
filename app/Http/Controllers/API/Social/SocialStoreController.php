@@ -21,6 +21,7 @@ class SocialStoreController extends Controller
     {
         $this->authorize('create', Social::class);
         $social = $this->service->createSocial($request->toDto());
+
         return new SocialResource($social);
     }
 }

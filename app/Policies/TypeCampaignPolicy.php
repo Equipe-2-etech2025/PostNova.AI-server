@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\TypeCampaign;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TypeCampaignPolicy
 {
@@ -14,6 +13,7 @@ class TypeCampaignPolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */

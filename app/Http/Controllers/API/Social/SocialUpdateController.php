@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\Social;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Social\UpdateSocialRequest;
 use App\Http\Resources\Social\SocialResource;
-use App\Models\Social;
 use App\Services\Interfaces\SocialServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -22,6 +21,7 @@ class SocialUpdateController extends Controller
         $social = $this->service->getSocialById($id);
         $this->authorize('update', $social);
         $updatedSocial = $this->service->updateSocial($id, $request->toDto($social));
+
         return new SocialResource($updatedSocial);
     }
 }

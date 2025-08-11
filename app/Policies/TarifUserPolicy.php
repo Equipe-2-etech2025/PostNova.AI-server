@@ -4,17 +4,18 @@ namespace App\Policies;
 
 use App\Models\TarifUser;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class TarifUserPolicy
 {
-    public function before(User $user, string $ability): bool|null
+    public function before(User $user, string $ability): ?bool
     {
         if ($user->isAdmin()) {
             return true;
         }
+
         return null;
     }
+
     /**
      * Determine whether the user can view any models.
      */

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Requests\Campaign;
-use Illuminate\Validation\Rule;
+
 use App\DTOs\Campaign\CampaignDto;
 use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateCampaignRequest extends FormRequest
 {

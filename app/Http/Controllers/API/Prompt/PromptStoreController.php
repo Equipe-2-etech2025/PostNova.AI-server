@@ -22,6 +22,7 @@ class PromptStoreController extends Controller
         $promptDto = $request->toDto();
         $this->authorize('create', [Prompt::class, $promptDto->campaign_id]);
         $prompt = $this->service->createPrompt($promptDto);
+
         return new PromptResource($prompt);
     }
 }

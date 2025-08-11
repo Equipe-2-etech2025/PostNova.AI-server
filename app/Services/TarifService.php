@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\DTOs\Tarif\TarifDto;
-use App\DTOs\TarifUser\TarifUserDto;
 use App\Repositories\Interfaces\TarifRepositoryInterface;
 use App\Services\Interfaces\TarifServiceInterface;
 

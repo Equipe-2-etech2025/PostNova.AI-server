@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Tarif extends Model
 {
@@ -12,7 +12,9 @@ class Tarif extends Model
     protected $table = 'tarifs';
 
     protected $keyType = 'int';
+
     public $incrementing = true;
+
     public $timestamps = false;
 
     protected $casts = [
