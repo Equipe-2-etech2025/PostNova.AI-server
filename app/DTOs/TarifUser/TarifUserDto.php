@@ -10,6 +10,7 @@ class TarifUserDto
         public readonly ?int $id,
         public readonly ?int $tarif_id,
         public readonly ?int $user_id,
+        public readonly ?\DateTime $created_at,
         public readonly ?\DateTime $expired_at
     ) {}
 
@@ -19,6 +20,7 @@ class TarifUserDto
             'id' => $this->id,
             'tarif_id' => $this->tarif_id,
             'user_id' => $this->user_id,
+            'created_at' => $this->created_at,
             'expired_at' => $this->expired_at,
         ];
     }
