@@ -36,17 +36,14 @@ class CreateImageRequest extends FormRequest
                         return $fail("Vous devez être connecté.");
                     }
 
-                    // Si l'utilisateur est admin, il a accès à toutes les campagnes
-                    if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                    if ( $user->isAdmin()) {
                         return;
                     }
 
-                    // Vérifie que la méthode campaigns() existe
-                    if (!method_exists($user, 'campaigns')) {
-                        return $fail("Relation campaigns() manquante dans le modèle User.");
+                    if (!$user->campaigns()->where('id', $value)->exists()) {
+                        return $fail("La campagne sélectionnée ne vous appartient pas.");
                     }
 
-                    // Vérifie que la campagne appartient à l'utilisateur
                     if (!$user->campaigns()->where('id', $value)->exists()) {
                         return $fail("La campagne sélectionnée ne vous appartient pas.");
                     }

@@ -5,6 +5,9 @@ namespace App\Http\Resources\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Image
+ */
 class ImageResource extends JsonResource
 {
     /**
@@ -15,12 +18,12 @@ class ImageResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'path' => $this->path,
-            'is_published' => $this->is_published,
-            'campaign_id' => $this->campaign_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'id' => $this->resource->id,
+            'path' => $this->resource->path,
+            'is_published' => $this->resource->is_published,
+            'campaign_id' => $this->resource->campaign_id,
+            'created_at' => $this->resource->created_at,
+            'updated_at' => $this->resource->updated_at,
         ];
     }
 }

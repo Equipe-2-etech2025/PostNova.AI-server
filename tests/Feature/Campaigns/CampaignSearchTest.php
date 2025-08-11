@@ -55,11 +55,15 @@ class CampaignSearchTest extends BaseCampaignTest
     #[Test]
     public function can_list_paginated_campaigns()
     {
-        $this->createCampaignForUser($this->user, [], 15);
+        for ($i = 0; $i < 15; $i++) {
+            $this->createCampaignForUser($this->user);
+        }
+
         Sanctum::actingAs($this->user);
 
         $response = $this->getJson('/api/campaigns');
 
+        dump($response->json());
         $response->assertOk()
             ->assertJsonStructure([
                 'data'

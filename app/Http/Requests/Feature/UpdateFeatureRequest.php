@@ -54,7 +54,7 @@ class UpdateFeatureRequest extends FormRequest
     {
         return new FeaturesDto(
             null,
-            name: $this->input('name', $features?->name ?? null),
+            name: $this->input('name', $features->name ?? null),
         );
     }
 
