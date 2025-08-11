@@ -49,8 +49,10 @@ RUN composer dump-autoload --optimize
 
 # Configuration multi-environnement
 ENV PORT=9000
-EXPOSE 9000  # Pour le fonctionnement local avec php-fpm
-EXPOSE 10000 # Pour Render
+
+# Pour le fonctionnement local avec php-fpm
+EXPOSE 9000
+EXPOSE 10000
 
 # Commande intelligente pour les deux environnements
 CMD sh -c "if [ \"$RENDER\" = \"true\" ]; then \
