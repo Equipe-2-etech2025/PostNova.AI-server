@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\Tarifs;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
 abstract class BaseTarifTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
 
     protected function setUp(): void
@@ -26,7 +27,7 @@ abstract class BaseTarifTest extends TestCase
         return [
             'name' => 'Free',
             'amount' => 14.99,
-            'max_limit' => 3
+            'max_limit' => 3,
         ];
     }
 }

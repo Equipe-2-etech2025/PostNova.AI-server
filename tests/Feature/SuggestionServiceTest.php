@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Services\SuggestionService;
 use App\Services\CampaignService;
 use App\Services\PromptService;
+use App\Services\SuggestionService;
 use App\Services\TarifUserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SuggestionServiceTest extends TestCase
 {

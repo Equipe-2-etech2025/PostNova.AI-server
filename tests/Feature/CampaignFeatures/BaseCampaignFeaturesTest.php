@@ -2,20 +2,22 @@
 
 namespace Tests\Feature\CampaignFeatures;
 
-use App\Enums\StatusEnum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Campaign;
 use App\Models\Features;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 abstract class BaseCampaignFeaturesTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
+
     protected $campaign;
+
     protected $feature;
 
     protected function setUp(): void

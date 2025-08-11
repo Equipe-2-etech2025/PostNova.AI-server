@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Campaign;
+use App\Models\LandingPage;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use  App\Models\LandingPage;
-use  App\Models\Campaign;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LandingPage>
@@ -38,7 +38,7 @@ class LandingPageFactory extends Factory
                         'icon' => $this->faker->imageUrl(),
                         'title' => $this->faker->words(3, true),
                         'description' => $this->faker->sentence(8),
-                    ]
+                    ],
                 ],
                 'cta' => [
                     'label' => 'Commencez maintenant',
@@ -48,7 +48,7 @@ class LandingPageFactory extends Factory
                     [
                         'author' => $this->faker->name(),
                         'quote' => $this->faker->sentence(10),
-                    ]
+                    ],
                 ],
                 'footer' => [
                     'text' => '© 2025 MonEntreprise',

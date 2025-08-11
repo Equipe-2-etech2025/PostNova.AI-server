@@ -24,7 +24,7 @@ class PromptCrudOperationsTest extends BasePromptTest
     {
         $prompt = Prompt::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => 'Specific prompt content'
+            'content' => 'Specific prompt content',
         ]);
 
         Sanctum::actingAs($this->user);

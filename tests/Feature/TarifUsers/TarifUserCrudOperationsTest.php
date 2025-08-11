@@ -82,7 +82,7 @@ class TarifUserCrudOperationsTest extends BaseTarifUserTest
         $active = TarifUser::factory()->create([
             'user_id' => $user->id,
             'expired_at' => $activeExpiration,
-            'created_at' => now()
+            'created_at' => now(),
         ]);
 
         Sanctum::actingAs($user);

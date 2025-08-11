@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\Features;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
 abstract class BaseFeaturesTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
 
     protected function setUp(): void
@@ -24,7 +25,7 @@ abstract class BaseFeaturesTest extends TestCase
     protected function validFeatureData(): array
     {
         return [
-            'name' => 'Nouvelle Fonctionnalité'
+            'name' => 'Nouvelle Fonctionnalité',
         ];
     }
 }

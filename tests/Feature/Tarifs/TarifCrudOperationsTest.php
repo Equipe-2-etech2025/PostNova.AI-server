@@ -40,7 +40,7 @@ class TarifCrudOperationsTest extends BaseTarifTest
         $updateData = [
             'name' => 'X',
             'amount' => 14.99,
-            'max_limit' => 3
+            'max_limit' => 3,
         ];
 
         $response = $this->putJson("/api/tarifs/{$tarif->id}", $updateData);
@@ -58,7 +58,7 @@ class TarifCrudOperationsTest extends BaseTarifTest
         $updateData = [
             'name' => 'Nom plus de 10 caractères',
             'amount' => 19.99,
-            'max_limit' => 12
+            'max_limit' => 12,
         ];
 
         $response = $this->putJson("/api/tarifs/{$tarif->id}", $updateData);

@@ -33,7 +33,7 @@ class TypeCampaignRepository implements TypeCampaignRepositoryInterface
         $searchableFields = ['name'];
 
         foreach ($criteria as $field => $value) {
-            if (empty($value) || !in_array($field, $availableFields)) {
+            if (empty($value) || ! in_array($field, $availableFields)) {
                 continue;
             }
 
@@ -56,6 +56,7 @@ class TypeCampaignRepository implements TypeCampaignRepositoryInterface
     {
         $typeCampaign = $this->model->findOrFail($id);
         $typeCampaign->update($typeCampaignDto->toArray());
+
         return $typeCampaign;
     }
 

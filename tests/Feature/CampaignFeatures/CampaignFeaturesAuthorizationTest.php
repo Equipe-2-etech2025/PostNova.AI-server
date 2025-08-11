@@ -15,7 +15,7 @@ class CampaignFeaturesAuthorizationTest extends BaseCampaignFeaturesTest
 
         $campaignFeature = CampaignFeatures::create([
             ...$this->validCampaignFeatureData(),
-            'campaign_id' => $campaign->id
+            'campaign_id' => $campaign->id,
         ]);
 
         $otherCampaign = $this->createCampaignForUser($this->user);
@@ -23,7 +23,7 @@ class CampaignFeaturesAuthorizationTest extends BaseCampaignFeaturesTest
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/campaign-features'],
             ['method' => 'getJson', 'url' => '/api/campaign-features/search'],
-            ['method' => 'getJson', 'url' => '/api/campaign-features/' . $campaignFeature->id],
+            ['method' => 'getJson', 'url' => '/api/campaign-features/'.$campaignFeature->id],
             ['method' => 'postJson', 'url' => '/api/campaign-features', 'data' => [...$this->validCampaignFeatureData(), 'campaign_id' => $campaign->id]],
             ['method' => 'putJson', 'url' => "/api/campaign-features/{$campaignFeature->id}", 'data' => [...$this->validCampaignFeatureData(), 'campaign_id' => $otherCampaign->id]],
             ['method' => 'deleteJson', 'url' => "/api/campaign-features/{$campaignFeature->id}"],
@@ -35,6 +35,7 @@ class CampaignFeaturesAuthorizationTest extends BaseCampaignFeaturesTest
             $response->assertSuccessful();
         }
     }
+
     #[Test]
     public function all_users_can_view_campaign_features()
     {

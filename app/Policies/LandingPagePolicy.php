@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Campaign;
 use App\Models\LandingPage;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class LandingPagePolicy
 {
@@ -15,6 +14,7 @@ class LandingPagePolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -37,6 +37,7 @@ class LandingPagePolicy
     public function create(User $user, int $campaignId)
     {
         $campaign = Campaign::find($campaignId);
+
         return $campaign && $campaign->user_id === $user->id;
     }
 

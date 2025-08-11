@@ -18,7 +18,7 @@ class RoleAccessTest extends TestCase
         $token = $admin->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ])->getJson('/api/users');
 
         $response->assertStatus(200);
@@ -31,7 +31,7 @@ class RoleAccessTest extends TestCase
         $token = $user->createToken('test-token')->plainTextToken;
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ])->getJson('/api/users');
 
         $response->assertStatus(403)

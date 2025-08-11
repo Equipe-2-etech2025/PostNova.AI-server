@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Providers;
 
+use App\Models\Campaign;
 use App\Models\CampaignFeatures;
 use App\Models\Features;
 use App\Models\Prompt;
@@ -12,9 +14,12 @@ use App\Models\TarifUser;
 use App\Models\TypeCampaign;
 use App\Models\User;
 use App\Policies\CampaignFeaturesPolicy;
+use App\Policies\CampaignPolicy;
+use App\Policies\FeaturesPolicy;
 use App\Policies\ImagePolicy;
 use App\Policies\LandingPagePolicy;
 use App\Policies\PromptPolicy;
+use App\Policies\SocialPolicy;
 use App\Policies\SocialPostPolicy;
 use App\Policies\TarifFeaturePolicy;
 use App\Policies\TarifPolicy;
@@ -22,10 +27,6 @@ use App\Policies\TarifUserPolicy;
 use App\Policies\TypeCampaignPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use App\Models\Campaign;
-use App\Policies\CampaignPolicy;
-use App\Policies\SocialPolicy;
-use App\Policies\FeaturesPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -45,9 +46,9 @@ class AuthServiceProvider extends ServiceProvider
         Prompt::class => PromptPolicy::class,
 
     ];
+
     public function boot(): void
     {
         $this->registerPolicies();
     }
 }
-

@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('campaign_id')
-                  ->constrained()
-                  ->onDelete('cascade');
+                ->constrained()
+                ->onDelete('cascade');
 
             $table->foreignId('user_id')
-                  ->nullable()
-                  ->constrained()
-                  ->onDelete('set null');
+                ->nullable()
+                ->constrained()
+                ->onDelete('set null');
 
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('likes')->default(0);

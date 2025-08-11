@@ -3,8 +3,8 @@
 namespace Tests\Feature\CampaignFeatures;
 
 use App\Models\Campaign;
-use App\Models\Features;
 use App\Models\CampaignFeatures;
+use App\Models\Features;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -17,7 +17,7 @@ class CampaignFeaturesSearchTest extends BaseCampaignFeaturesTest
         CampaignFeatures::create($this->validCampaignFeatureData());
         CampaignFeatures::create([
             'campaign_id' => $campaign2->id,
-            'feature_id' => $this->feature->id
+            'feature_id' => $this->feature->id,
         ]);
         Sanctum::actingAs($this->admin);
 
@@ -34,7 +34,7 @@ class CampaignFeaturesSearchTest extends BaseCampaignFeaturesTest
         CampaignFeatures::create($this->validCampaignFeatureData());
         CampaignFeatures::create([
             'campaign_id' => $this->campaign->id,
-            'feature_id' => $feature2->id
+            'feature_id' => $feature2->id,
         ]);
         Sanctum::actingAs($this->admin);
 
@@ -54,11 +54,11 @@ class CampaignFeaturesSearchTest extends BaseCampaignFeaturesTest
 
         CampaignFeatures::create([
             'campaign_id' => $campaign2->id,
-            'feature_id' => $this->feature->id
+            'feature_id' => $this->feature->id,
         ]);
         CampaignFeatures::create([
             'campaign_id' => $this->campaign->id,
-            'feature_id' => $feature2->id
+            'feature_id' => $feature2->id,
         ]);
 
         Sanctum::actingAs($this->admin);

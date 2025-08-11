@@ -44,7 +44,7 @@ class TarifFeatureCrudOperationsTest extends BaseTarifFeatureTest
         $response->assertOk();
         $this->assertDatabaseHas('tarif_features', [
             'id' => $feature->id,
-            'name' => 'Feature AXC'
+            'name' => 'Feature AXC',
         ]);
     }
 

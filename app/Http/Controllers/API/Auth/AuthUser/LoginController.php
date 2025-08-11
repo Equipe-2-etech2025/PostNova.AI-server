@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\AuthUser;
 
 use App\Http\Controllers\Controller;
@@ -31,6 +32,7 @@ class LoginController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('Erreur connexion', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Email ou mot de passe invalide',

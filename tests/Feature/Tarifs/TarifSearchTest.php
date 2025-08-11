@@ -29,13 +29,13 @@ class TarifSearchTest extends BaseTarifTest
         Tarif::factory()->create([
             'name' => 'Pro',
             'amount' => 14.99,
-            'max_limit' => 30
+            'max_limit' => 30,
         ]);
 
         Tarif::factory()->create([
             'name' => 'Free',
             'amount' => 0,
-            'max_limit' => 3
+            'max_limit' => 3,
         ]);
 
         Sanctum::actingAs($this->admin);

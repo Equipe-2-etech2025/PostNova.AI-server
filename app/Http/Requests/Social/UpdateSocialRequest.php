@@ -59,5 +59,4 @@ class UpdateSocialRequest extends FormRequest
             name: $this->input('name', $social->name ?? null),
         );
     }
-
 }

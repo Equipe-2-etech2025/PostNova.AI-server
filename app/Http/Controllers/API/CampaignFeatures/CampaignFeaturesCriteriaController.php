@@ -24,11 +24,12 @@ class CampaignFeaturesCriteriaController extends Controller
         $this->authorize('viewAny', CampaignFeatures::class);
 
         $criteria = $request->query();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $criteria['user_id'] = $user->id;
         }
 
         $results = $this->service->getByCriteria($criteria);
+
         return new CampaignFeaturesCollection($results);
     }
 }

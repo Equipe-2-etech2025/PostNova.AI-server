@@ -21,6 +21,7 @@ class CampaignFeaturesStoreController extends Controller
     {
         $this->authorize('create', CampaignFeatures::class);
         $created = $this->service->create($request->toDto());
+
         return new CampaignFeaturesResource($created);
     }
 }

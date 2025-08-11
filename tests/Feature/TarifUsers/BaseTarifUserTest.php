@@ -2,20 +2,24 @@
 
 namespace Tests\Feature\TarifUsers;
 
+use App\Models\Tarif;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\Tarif;
-use Carbon\Carbon;
 
 abstract class BaseTarifUserTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
+
     protected $otherUser;
+
     protected $tarif;
+
     protected $expiredTarif;
 
     protected function setUp(): void

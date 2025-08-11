@@ -1,15 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\AuthUser;
 
+use App\DTOs\TarifUser\TarifUserDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Services\Interfaces\TarifUserServiceInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use App\Services\Interfaces\TarifUserServiceInterface;
-use App\DTOs\TarifUser\TarifUserDto;
 
 class RegisterController extends Controller
 {
@@ -55,6 +56,7 @@ class RegisterController extends Controller
             ], 201);
         } catch (\Exception $e) {
             Log::error('Erreur inscription', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),

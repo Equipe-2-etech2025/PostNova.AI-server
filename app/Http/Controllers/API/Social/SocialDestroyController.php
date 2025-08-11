@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Social;
 
 use App\Http\Controllers\Controller;
-use App\Models\Social;
 use App\Services\Interfaces\SocialServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +20,7 @@ class SocialDestroyController extends Controller
         $social = $this->service->getSocialById($id);
         $this->authorize('delete', $social);
         $this->service->deleteSocial($id);
+
         return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 }

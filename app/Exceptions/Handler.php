@@ -7,7 +7,6 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -68,13 +67,13 @@ class Handler extends ExceptionHandler
      * Convert an authentication exception into a response.
      *
      * @param  Request  $request
-     * @param  AuthenticationException  $exception
      * @return JsonResponse|RedirectResponse
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return response()->json(['message' => 'Unauthenticated.'], 401);
     }
+
     /**
      * Check if the request is an API request
      */
@@ -94,8 +93,8 @@ class Handler extends ExceptionHandler
             'error' => [
                 'code' => 'unauthenticated',
                 'authenticate_url' => url('/api/auth/login'),
-                'documentation' => url('/api/docs#authentication')
-            ]
+                'documentation' => url('/api/docs#authentication'),
+            ],
         ], Response::HTTP_UNAUTHORIZED);
     }
 

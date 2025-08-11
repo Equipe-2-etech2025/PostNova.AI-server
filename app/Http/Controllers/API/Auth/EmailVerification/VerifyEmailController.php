@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\EmailVerification;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class VerifyEmailController extends Controller
 
             $user = User::find($request->input('id'));
 
-            if (!$user) {
+            if (! $user) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Utilisateur introuvable.',
@@ -36,7 +37,7 @@ class VerifyEmailController extends Controller
                 ], 400);
             }
 
-            if (!hash_equals(sha1($user->getEmailForVerification()), $request->input('hash'))) {
+            if (! hash_equals(sha1($user->getEmailForVerification()), $request->input('hash'))) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Lien de vérification invalide.',
@@ -66,6 +67,7 @@ class VerifyEmailController extends Controller
 
         } catch (\Exception $e) {
             Log::error('Erreur vérification email', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de la vérification.',

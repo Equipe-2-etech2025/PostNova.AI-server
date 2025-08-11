@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\TarifFeature;
 use App\Models\Tarif;
+use App\Models\TarifFeature;
+use Illuminate\Database\Seeder;
 
 class TarifFeatureSeeder extends Seeder
 {
@@ -38,11 +37,10 @@ class TarifFeatureSeeder extends Seeder
         foreach ($tarifs as $tarif) {
             foreach ($features as $featureName) {
                 TarifFeature::create([
-                    'tarif_id' => rand(1,2),
+                    'tarif_id' => rand(1, 2),
                     'name' => $featureName,
                 ]);
             }
         }
     }
-
 }

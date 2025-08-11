@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class TarifFeature extends Model
 {
@@ -13,9 +12,13 @@ class TarifFeature extends Model
     protected $table = 'tarif_features';
 
     protected $keyType = 'int';
+
     public $incrementing = true;
+
     public $timestamps = true;
+
     public const CREATED_AT = 'created_at';
+
     public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
@@ -28,7 +31,7 @@ class TarifFeature extends Model
         'tarif_id' => 'integer',
         'name' => 'string',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
     ];
 
     public function tarif()

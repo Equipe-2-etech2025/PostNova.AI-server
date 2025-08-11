@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Social;
 
 use App\DTOs\Social\SocialDto;
-use App\Models\Campaign;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateSocialRequest extends FormRequest
@@ -45,5 +44,4 @@ class CreateSocialRequest extends FormRequest
             name: $this->input('name'),
         );
     }
-
 }

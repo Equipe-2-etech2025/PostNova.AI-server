@@ -48,13 +48,11 @@ class CreateTarifUserRequest extends FormRequest
                 $this->merge(['expired_at' => null]);
             } else {
                 $this->merge([
-                    'expired_at' => \Carbon\Carbon::parse($this->expired_at)
+                    'expired_at' => \Carbon\Carbon::parse($this->expired_at),
                 ]);
             }
         }
     }
-
-
 
     public function toDto(): TarifUserDto
     {
@@ -62,8 +60,8 @@ class CreateTarifUserRequest extends FormRequest
             null,
             tarif_id: $this->input('tarif_id'),
             user_id: $this->input('user_id'),
+            created_at: $this->input('created_at'),
             expired_at: $this->expired_at
         );
     }
-
 }

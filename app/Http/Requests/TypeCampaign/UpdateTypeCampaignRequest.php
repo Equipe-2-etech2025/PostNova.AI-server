@@ -57,5 +57,4 @@ class UpdateTypeCampaignRequest extends FormRequest
             name: $this->input('name', $typeCampaign->name ?? null),
         );
     }
-
 }

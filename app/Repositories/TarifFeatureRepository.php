@@ -33,14 +33,13 @@ class TarifFeatureRepository implements TarifFeatureRepositoryInterface
         $searchableFields = ['name'];
 
         foreach ($criteria as $field => $value) {
-            if (empty($value) || !in_array($field, $availableFields)) {
+            if (empty($value) || ! in_array($field, $availableFields)) {
                 continue;
             }
 
             if (is_numeric($value)) {
                 $query->where($field, $value);
-            }
-            else if (in_array($field, $searchableFields)) {
+            } elseif (in_array($field, $searchableFields)) {
                 $query->whereRaw('LOWER('.$field.') LIKE ?', ['%'.strtolower($value).'%']);
             } else {
                 $query->where($field, $value);
@@ -50,16 +49,16 @@ class TarifFeatureRepository implements TarifFeatureRepositoryInterface
         return $query->get();
     }
 
-
-    public function create(TarifFeatureDto $tarifFeatureDto) : TarifFeature
+    public function create(TarifFeatureDto $tarifFeatureDto): TarifFeature
     {
         return $this->model->create($tarifFeatureDto->toArray());
     }
 
-    public function update(int $id, TarifFeatureDto $tarifFeatureDto) : TarifFeature
+    public function update(int $id, TarifFeatureDto $tarifFeatureDto): TarifFeature
     {
         $item = $this->model->findOrFail($id);
         $item->update($tarifFeatureDto->toArray());
+
         return $item;
     }
 

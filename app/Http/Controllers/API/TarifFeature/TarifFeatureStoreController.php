@@ -21,6 +21,7 @@ class TarifFeatureStoreController extends Controller
     {
         $this->authorize('create', TarifFeature::class);
         $created = $this->service->createTarifFeature($request->toDto());
+
         return new TarifFeatureResource($created);
     }
 }

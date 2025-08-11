@@ -16,7 +16,7 @@ class TarifFeatureAuthorizationTest extends BaseTarifFeatureTest
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/tarif-features'],
             ['method' => 'getJson', 'url' => '/api/tarif-features/search'],
-            ['method' => 'getJson', 'url' => '/api/tarif-features/' . $feature->id],
+            ['method' => 'getJson', 'url' => '/api/tarif-features/'.$feature->id],
             ['method' => 'postJson', 'url' => '/api/tarif-features', 'data' => $this->validTarifFeatureData()],
             ['method' => 'putJson', 'url' => "/api/tarif-features/{$feature->id}", 'data' => ['name' => 'Updated']],
             ['method' => 'deleteJson', 'url' => "/api/tarif-features/{$feature->id}"],

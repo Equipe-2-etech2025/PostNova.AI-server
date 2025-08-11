@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\AuthUser;
 
 use App\Http\Controllers\Controller;
@@ -22,6 +23,7 @@ class LogoutController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('Erreur déconnexion', ['error' => $e->getMessage()]);
+
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de la déconnexion',

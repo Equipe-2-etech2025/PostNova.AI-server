@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Prompt;
 
-use App\Http\Resources\TarifUser\TarifUserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -19,7 +18,7 @@ class PromptCollection extends ResourceCollection
             'data' => PromptResource::collection($this->collection),
             'meta' => [
                 'total' => $this->count(),
-            ]
+            ],
         ];
     }
 }

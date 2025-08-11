@@ -52,6 +52,4 @@ class UpdateTarifFeaturesRequest extends FormRequest
             name: $this->input('name', $tarifFeature->name ?? null)
         );
     }
-
-
 }

@@ -21,8 +21,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')
-                    ->references('id')
-                    ->on('users');
+                ->references('id')
+                ->on('users');
 
             $table->unsignedBigInteger('type_campaign_id')->nullable();
             $table->foreign('type_campaign_id')

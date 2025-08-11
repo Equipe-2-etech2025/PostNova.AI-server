@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\DTOs\Tarif\TarifDto;
-use App\DTOs\TarifFeatures\TarifFeatureDto;
 use App\Models\Tarif;
 use App\Repositories\Interfaces\TarifRepositoryInterface;
 
@@ -34,22 +33,23 @@ class TarifRepository implements TarifRepositoryInterface
             if (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') LIKE ?', [ '%'. strtolower($value). '%']);
+                $query->whereRaw('LOWER('.$field.') LIKE ?', ['%'.strtolower($value).'%']);
             }
         }
 
         return $query->get();
     }
 
-    public function create(TarifDto $tarifDto) : Tarif
+    public function create(TarifDto $tarifDto): Tarif
     {
         return $this->model->create($tarifDto->toArray());
     }
 
-    public function update(int $id, TarifDto $tarifDto) : Tarif
+    public function update(int $id, TarifDto $tarifDto): Tarif
     {
         $tarif = $this->model->findOrFail($id);
         $tarif->update($tarifDto->toArray());
+
         return $tarif;
     }
 

@@ -1,7 +1,6 @@
 <?php
-namespace App\DTOs\Campaign;
 
-use DateTimeInterface;
+namespace App\DTOs\Campaign;
 
 class CampaignDto
 {
@@ -23,8 +22,6 @@ class CampaignDto
             'type_campaign_id' => $this->type_campaign_id,
             'user_id' => $this->user_id,
             'status' => $this->status,
-        ], fn($v) => !is_null($v));
+        ], fn ($v) => ! is_null($v));
     }
 }
-
-

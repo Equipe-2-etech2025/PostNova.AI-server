@@ -20,9 +20,9 @@ return new class extends Migration
 
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')
-                    ->references('id')
-                    ->on('campaigns')
-                    ->onDelete('cascade');
+                ->references('id')
+                ->on('campaigns')
+                ->onDelete('cascade');
         });
     }
 

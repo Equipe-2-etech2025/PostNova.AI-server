@@ -21,7 +21,6 @@ class UpdatePromptRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
@@ -42,7 +41,7 @@ class UpdatePromptRequest extends FormRequest
     {
         if ($this->has('campaign_id')) {
             $this->merge([
-                'campaign_id' => (int)$this->campaign_id,
+                'campaign_id' => (int) $this->campaign_id,
             ]);
         }
     }
@@ -55,6 +54,4 @@ class UpdatePromptRequest extends FormRequest
             campaign_id: $this->input('campaign_id', $prompt->campaign_id ?? null),
         );
     }
-
 }
-

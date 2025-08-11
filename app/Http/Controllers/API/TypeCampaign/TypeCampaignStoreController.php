@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\API\TypeCampaign;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TypeCampaign\CreateTypeCampaignRequest;
 use App\Http\Resources\TypeCampaign\TypeCampaignResource;
-use App\Models\TypeCampaign;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -20,6 +20,7 @@ class TypeCampaignStoreController extends Controller
     {
         $typeCampaign = $this->service->createTypeCampaign($request->toDto());
         $this->authorize('create', $typeCampaign);
+
         return new TypeCampaignResource($typeCampaign);
     }
 }

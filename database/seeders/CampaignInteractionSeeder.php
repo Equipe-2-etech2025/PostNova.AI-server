@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\CampaignInteraction;
+use Illuminate\Database\Seeder;
 
 class CampaignInteractionSeeder extends Seeder
 {

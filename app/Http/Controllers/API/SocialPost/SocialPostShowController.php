@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\SocialPost;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SocialPost\SocialPostResource;
-use App\Models\SocialPost;
 use App\Services\Interfaces\SocialPostServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -20,6 +19,7 @@ class SocialPostShowController extends Controller
     {
         $socialPost = $this->service->getSocialPostById($id);
         $this->authorize('view', $socialPost);
+
         return new SocialPostResource($socialPost);
     }
 }

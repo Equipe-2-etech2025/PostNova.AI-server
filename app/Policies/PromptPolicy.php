@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Prompt;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PromptPolicy
 {
@@ -14,6 +13,7 @@ class PromptPolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */

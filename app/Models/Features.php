@@ -10,15 +10,19 @@ class Features extends Model
     use HasFactory;
 
     protected $table = 'features';
+
     protected $primaryKey = 'id';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
 
     public const CREATED_AT = 'created_at';
+
     public const UPDATED_AT = null;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     protected $casts = [

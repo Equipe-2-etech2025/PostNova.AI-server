@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\TypeCampaigns;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
 abstract class BaseTypeCampaignTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
 
     protected function setUp(): void
@@ -24,7 +25,7 @@ abstract class BaseTypeCampaignTest extends TestCase
     protected function validTypeCampaignData(): array
     {
         return [
-            'name' => 'Nouveau Type'
+            'name' => 'Nouveau Type',
         ];
     }
 }

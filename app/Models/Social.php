@@ -10,13 +10,19 @@ class Social extends Model
     use hasFactory;
 
     protected $table = 'socials';
+
     protected $primaryKey = 'id';
+
     public $incrementing = true;
+
     public $timestamps = false;
+
     protected $keyType = 'int';
+
     protected $fillable = [
         'name',
     ];
+
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',

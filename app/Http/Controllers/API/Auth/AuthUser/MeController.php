@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\AuthUser;
 
 use App\Http\Controllers\Controller;

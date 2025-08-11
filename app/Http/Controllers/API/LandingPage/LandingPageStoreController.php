@@ -22,6 +22,7 @@ class LandingPageStoreController extends Controller
         $landingPageDto = $request->toDto();
         $this->authorize('create', [LandingPage::class, $landingPageDto->campaign_id]);
         $landingPage = $this->service->createLandingPage($landingPageDto);
+
         return new LandingPageResource($landingPage);
     }
 }

@@ -16,7 +16,7 @@ class TarifAuthorizationTest extends BaseTarifTest
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/tarifs'],
             ['method' => 'getJson', 'url' => '/api/tarifs/search'],
-            ['method' => 'getJson', 'url' => '/api/tarifs/' . $tarif->id],
+            ['method' => 'getJson', 'url' => '/api/tarifs/'.$tarif->id],
             ['method' => 'postJson', 'url' => '/api/tarifs', 'data' => $this->validTarifData()],
             ['method' => 'putJson', 'url' => "/api/tarifs/{$tarif->id}", 'data' => $this->validTarifData()],
             ['method' => 'deleteJson', 'url' => "/api/tarifs/{$tarif->id}"],

@@ -2,22 +2,27 @@
 
 namespace Tests\Feature\SocialPosts;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use App\Models\User;
+use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Models\Social;
-use App\Enums\StatusEnum;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 abstract class BaseSocialPostTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $admin;
+
     protected $campaign;
+
     protected $social;
+
     protected $otherUser;
+
     protected $otherCampaign;
 
     protected function setUp(): void

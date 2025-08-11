@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Services\Interfaces\ContentServiceInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
+use App\Services\Interfaces\ContentServiceInterface;
 
 class ContentService implements ContentServiceInterface
 {

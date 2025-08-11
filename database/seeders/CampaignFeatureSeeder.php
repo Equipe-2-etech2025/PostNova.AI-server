@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\CampaignFeatures;
 use App\Models\Campaign;
+use App\Models\CampaignFeatures;
 use App\Models\Features;
+use Illuminate\Database\Seeder;
 
 class CampaignFeatureSeeder extends Seeder
 {

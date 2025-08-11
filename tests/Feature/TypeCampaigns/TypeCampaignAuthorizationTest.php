@@ -16,7 +16,7 @@ class TypeCampaignAuthorizationTest extends BaseTypeCampaignTest
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/type-campaigns'],
             ['method' => 'getJson', 'url' => '/api/type-campaigns/search'],
-            ['method' => 'getJson', 'url' => '/api/type-campaigns/' . $type_campaign->id],
+            ['method' => 'getJson', 'url' => '/api/type-campaigns/'.$type_campaign->id],
             ['method' => 'postJson', 'url' => '/api/type-campaigns', 'data' => $this->validTypeCampaignData()],
             ['method' => 'putJson', 'url' => "/api/type-campaigns/{$type_campaign->id}", 'data' => ['name' => 'Updated']],
             ['method' => 'deleteJson', 'url' => "/api/type-campaigns/{$type_campaign->id}"],

@@ -20,6 +20,7 @@ class CampaignFeaturesIndexController extends Controller
     {
         $this->authorize('viewAny', CampaignFeatures::class);
         $features = $this->service->getAll();
+
         return new CampaignFeaturesCollection($features);
     }
 }

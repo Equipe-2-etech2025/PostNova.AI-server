@@ -13,12 +13,12 @@ class PromptSearchTest extends BasePromptTest
     {
         Prompt::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => 'Summer promotion prompt'
+            'content' => 'Summer promotion prompt',
         ]);
 
         Prompt::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => 'Winter collection prompt'
+            'content' => 'Winter collection prompt',
         ]);
 
         Sanctum::actingAs($this->user);

@@ -25,6 +25,7 @@ class CampaignUpdateController extends Controller
         $this->authorize('update', $campaign);
         $campaignDto = $request->toDto($campaign);
         $updated = $this->campaignService->updateCampaign($id, $campaignDto);
+
         return new CampaignResource($updated);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Image;
 
 use App\Http\Controllers\Controller;
-use App\Models\Image;
 use App\Services\Interfaces\ImageServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;

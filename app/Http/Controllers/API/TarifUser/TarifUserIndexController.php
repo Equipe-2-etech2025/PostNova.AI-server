@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\TarifUser;
 
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ class TarifUserIndexController extends Controller
     public function __invoke()
     {
         $this->authorize('viewAny', TarifUser::class);
+
         return new TarifUserCollection($this->service->getAllTarifUsers());
     }
 }

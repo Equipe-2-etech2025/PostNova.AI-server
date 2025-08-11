@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Prompt;
 
 use App\Http\Controllers\Controller;
 use App\Models\Prompt;
-use App\Models\User;
 use App\Services\Interfaces\PromptServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +28,7 @@ class PromptQuotaByUserController extends Controller
             'data' => [
                 'user_id' => $userId,
                 'daily_quota_used' => $quota,
-            ]
+            ],
         ]);
     }
 }

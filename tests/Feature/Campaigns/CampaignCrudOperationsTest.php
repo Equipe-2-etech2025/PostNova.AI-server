@@ -3,9 +3,7 @@
 namespace Tests\Feature\Campaigns;
 
 use App\Enums\StatusEnum;
-use App\Models\Campaign;
 use App\Models\TypeCampaign;
-use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -46,8 +44,8 @@ class CampaignCrudOperationsTest extends BaseCampaignTest
                     'social_posts_count',
                     'total_views',
                     'total_likes',
-                    'total_shares'
-                ]
+                    'total_shares',
+                ],
             ])
             ->assertJson([
                 'data' => [
@@ -55,10 +53,10 @@ class CampaignCrudOperationsTest extends BaseCampaignTest
                     'name' => $campaign->name,
                     'status' => [
                         'value' => $campaign->status,
-                        'label' => StatusEnum::from($campaign->status)->label()
+                        'label' => StatusEnum::from($campaign->status)->label(),
                     ],
-                    'description' => $campaign->description
-                ]
+                    'description' => $campaign->description,
+                ],
             ]);
     }
 
@@ -71,7 +69,7 @@ class CampaignCrudOperationsTest extends BaseCampaignTest
         $updateData = [
             'name' => 'Updated Campaign Name',
             'description' => 'Updated description',
-            'status' => StatusEnum::Processing->value
+            'status' => StatusEnum::Processing->value,
         ];
 
         $response = $this->putJson("/api/campaigns/{$campaign->id}", $updateData);
@@ -141,9 +139,9 @@ class CampaignCrudOperationsTest extends BaseCampaignTest
                         'social_posts_count',
                         'total_views',
                         'total_likes',
-                        'total_shares'
-                    ]
-                ]
+                        'total_shares',
+                    ],
+                ],
             ])
             ->assertJsonCount(1, 'data')
             ->assertJson(['data' => [['id' => $campaign1->id]]])

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\SocialPost;
 
 use App\Http\Controllers\Controller;
-use App\Models\SocialPost;
 use App\Services\Interfaces\SocialPostServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +20,7 @@ class SocialPostDestroyController extends Controller
         $socialPost = $this->service->getSocialPostById($id);
         $this->authorize('delete', $socialPost);
         $this->service->deleteSocialPost($id);
+
         return response()->json(['message' => 'Supprimé avec succès.'], 200);
     }
 }

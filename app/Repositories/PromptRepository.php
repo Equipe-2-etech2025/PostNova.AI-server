@@ -32,9 +32,10 @@ class PromptRepository implements PromptRepositoryInterface
 
         foreach ($criteria as $field => $value) {
             if ($field === 'user_id') {
-                $query->whereHas('campaign', function($q) use ($value) {
+                $query->whereHas('campaign', function ($q) use ($value) {
                     $q->where('user_id', $value);
                 });
+
                 continue;
             }
 
@@ -48,15 +49,16 @@ class PromptRepository implements PromptRepositoryInterface
         return $query->get();
     }
 
-    public function create(PromptDto $promptDto) :  Prompt
+    public function create(PromptDto $promptDto): Prompt
     {
         return $this->model->create($promptDto->toArray());
     }
 
-    public function update(int $id, PromptDto $promptDto) : Prompt
+    public function update(int $id, PromptDto $promptDto): Prompt
     {
         $prompt = $this->model->findOrFail($id);
         $prompt->update($promptDto->toArray());
+
         return $prompt;
     }
 
@@ -67,8 +69,7 @@ class PromptRepository implements PromptRepositoryInterface
 
     public function findByUserId(int $userId)
     {
-        return Prompt::whereHas('campaign', function ($query) use ($userId)
-        {
+        return Prompt::whereHas('campaign', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
     }

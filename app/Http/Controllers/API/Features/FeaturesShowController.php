@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Features;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Feature\FeatureResource;
-use App\Models\Features;
 use App\Services\Interfaces\FeaturesServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -20,6 +19,7 @@ class FeaturesShowController extends Controller
     {
         $feature = $this->service->getFeatureById($id);
         $this->authorize('view', $feature);
+
         return new FeatureResource($feature);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Campaign;
 use App\Models\CampaignInteraction;
 use App\Models\User;
-use App\Models\Campaign;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CampaignInteractionFactory extends Factory

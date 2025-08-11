@@ -2,8 +2,6 @@
 
 namespace App\DTOs\SocialPost;
 
-use DateTimeInterface;
-
 class SocialPostDto
 {
     public function __construct(
@@ -21,7 +19,7 @@ class SocialPostDto
             'content' => $this->content,
             'campaign_id' => $this->campaign_id,
             'social_id' => $this->social_id,
-            'is_published' => $this->is_published
+            'is_published' => $this->is_published,
         ];
     }
 }

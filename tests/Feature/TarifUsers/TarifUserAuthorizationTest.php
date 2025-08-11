@@ -15,7 +15,7 @@ class TarifUserAuthorizationTest extends BaseTarifUserTest
 
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/tarif-users'],
-            ['method' => 'getJson', 'url' => '/api/tarif-users/' . $tarifUser->id],
+            ['method' => 'getJson', 'url' => '/api/tarif-users/'.$tarifUser->id],
             ['method' => 'getJson', 'url' => '/api/tarif-users/search'],
             ['method' => 'postJson', 'url' => '/api/tarif-users', 'data' => $this->validTarifUserData()],
             ['method' => 'putJson', 'url' => "/api/tarif-users/{$tarifUser->id}", 'data' => ['expired_at' => now()->addYear()]],

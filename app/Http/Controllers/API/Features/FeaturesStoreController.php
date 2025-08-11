@@ -21,6 +21,7 @@ class FeaturesStoreController extends Controller
     {
         $this->authorize('create', Features::class);
         $feature = $this->service->createFeature($request->toDto());
+
         return new FeatureResource($feature);
     }
 }

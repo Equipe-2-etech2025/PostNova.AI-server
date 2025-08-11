@@ -54,5 +54,4 @@ class UpdateImageRequest extends FormRequest
             campaign_id: $this->input('campaign_id', $image->campaign_id ?? null),
         );
     }
-
 }
