@@ -1,17 +1,16 @@
 FROM php:8.4.2-fpm
 
-# Créer le fichier sources.list avec les bons dépôts HTTPS
+# Configuration des dépôts et certificats
 RUN echo "deb https://deb.debian.org/debian bookworm main" > /etc/apt/sources.list && \
     echo "deb https://deb.debian.org/debian-security bookworm-security main" >> /etc/apt/sources.list && \
     echo "deb https://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list
 
-# Installer et mettre à jour les certificats CA
 RUN apt-get update && \
     apt-get install -y --no-install-recommends ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Installer les dépendances
+# Installation des dépendances
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -24,34 +23,38 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
+# Extensions PHP
 RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
 
-
-# Install Composer
+# Installation de Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Create Laravel directory structure
+# Structure du projet
 RUN mkdir -p /var/www/bootstrap/cache /var/www/storage/framework/{sessions,views,cache}
-
-# Set working directory
 WORKDIR /var/www
 
-# Copy composer files
+# Installation des dépendances
 COPY composer.json composer.lock ./
-
-# Install dependencies
 RUN composer install --no-scripts --no-autoloader --no-interaction
 
-# Copy application files
+# Copie des fichiers de l'application
 COPY . .
 
-# Set permissions (important to do this before dump-autoload)
+# Configuration des permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/bootstrap/cache /var/www/storage
 
-# Generate optimized autoload files
+# Optimisation de l'autoload
 RUN composer dump-autoload --optimize
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# Configuration multi-environnement
+ENV PORT=9000
+EXPOSE 9000  # Pour le fonctionnement local avec php-fpm
+EXPOSE 10000 # Pour Render
+
+# Commande intelligente pour les deux environnements
+CMD sh -c "if [ \"$RENDER\" = \"true\" ]; then \
+    php artisan serve --host=0.0.0.0 --port=\${PORT:-10000}; \
+    else \
+    php-fpm; \
+    fi"
