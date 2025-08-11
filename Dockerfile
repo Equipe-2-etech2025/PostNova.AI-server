@@ -51,5 +51,5 @@ RUN composer dump-autoload --optimize
 ENV PORT=10000
 EXPOSE 10000
 
-# Commande unique pour tous les environnements
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=${PORT}"]
+# Commande corrigée pour le port
+CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT}"]
