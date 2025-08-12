@@ -39,5 +39,8 @@ COPY --from=builder /usr/local/bin/composer /usr/local/bin/composer
 ENV PORT=10000
 EXPOSE $PORT
 
+# Dans la section 'builder' ou avant la commande CMD
+RUN if [ ! -f artisan ]; then echo "Fichier artisan manquant!" && exit 1; fi
+
 # Commande de démarrage
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT}"]
+CMD ["sh", "-c", "cd /var/www && php artisan serve --host=0.0.0.0 --port=${PORT}"]
