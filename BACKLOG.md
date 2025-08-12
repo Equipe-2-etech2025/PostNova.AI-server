@@ -5,7 +5,7 @@
 ## En cours
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-8-workflow`
-  Commit: `EPA-8: chore: deploiement sure render`
+  Commit: `EPA-8: chore: deploiement sur render`
  
 - [EPA-61] Analyse avec Laravel Pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-61-analyze-pint-security-check`

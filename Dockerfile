@@ -1,55 +1,59 @@
-FROM php:8.4.2-fpm
+# Étape de construction
+FROM php:8.4.2-fpm as builder
 
-# Configuration des dépôts et certificats
+# Configuration des dépôts
 RUN echo "deb https://deb.debian.org/debian bookworm main" > /etc/apt/sources.list && \
     echo "deb https://deb.debian.org/debian-security bookworm-security main" >> /etc/apt/sources.list && \
     echo "deb https://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Installation des dépendances
+# Installer les dépendances système
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     zip \
     unzip \
-    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Extensions PHP
-RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
-
-# Installation de Composer
+# Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Structure du projet
-RUN mkdir -p /var/www/bootstrap/cache /var/www/storage/framework/{sessions,views,cache}
+# Configurer l'application
 WORKDIR /var/www
-
-# Installation des dépendances
-COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader --no-interaction
-
-# Copie des fichiers de l'application
 COPY . .
 
-# Configuration des permissions
+# Installer les dépendances (différencie dev/prod)
+RUN if [ "$APP_ENV" = "production" ]; then \
+    composer install --optimize-autoloader --no-dev; \
+    else \
+    composer install; \
+    fi
+
+# Configurer les permissions
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/bootstrap/cache /var/www/storage
+    && chmod -R 775 storage bootstrap/cache
 
-# Optimisation de l'autoload
-RUN composer dump-autoload --optimize
+# Étape finale
+FROM php:8.4.2-fpm
 
-# Configuration pour Render
+# Copier depuis le builder
+COPY --from=builder /usr/bin/composer /usr/bin/composer
+COPY --from=builder /var/www /var/www
+
+# Variables d'environnement
 ENV PORT=10000
-EXPOSE 10000
+EXPOSE $PORT
 
-# Commande corrigée pour le port
-CMD ["sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT}"]
+# Commande de démarrage adaptative
+CMD ["sh", "-c", "if [ \"$APP_ENV\" = \"production\" ]; then \
+    php artisan optimize:clear && \
+    php artisan optimize && \
+    php artisan serve --host=0.0.0.0 --port=${PORT}; \
+    else \
+    php artisan serve --host=0.0.0.0 --port=${PORT}; \
+    fi"]
