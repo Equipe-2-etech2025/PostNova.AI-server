@@ -20,6 +20,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
+        dump($response->json());
         $response->assertStatus(201)
             ->assertJsonStructure([
                 'success',
