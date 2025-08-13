@@ -12,9 +12,13 @@
 
 ## Terminé(e)
 
-- [EPA-56] Intégration page d'acceuil
+- [EPA-56] Intégration page d'acceuil (Assigné à: Nathan Rakotoarimanana)
   Branche : `feature/EPA-56-intg-page-accueil`
   Commit: `EPA-56: integration page acceuil de base`
+
+- [EPA-57] Creation page et integration user profile (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-57-creation-et-integration-user-profile ` 
+  Commit: `EPA-57: feature user profile`
   
 - [EPA-54] Restructuration de projet Backend en principe solid (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-54-SOLID`

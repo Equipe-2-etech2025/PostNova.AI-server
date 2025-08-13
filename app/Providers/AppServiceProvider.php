@@ -64,6 +64,10 @@ use App\Services\SuggestionService;
 use App\Services\Interfaces\SuggestionServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\UserService;
+use App\Repositories\CampaignTemplateRepository;
+use App\Repositories\Interfaces\CampaignTemplateRepositoryInterface;
+use App\Services\CampaignTemplateService;
+use App\Services\Interfaces\CampaignTemplateServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -102,6 +106,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
         $this->app->bind(SuggestionServiceInterface::class, SuggestionService::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(CampaignTemplateRepositoryInterface::class, CampaignTemplateRepository::class);
+        $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
     }
 
     /**
