@@ -96,9 +96,6 @@ use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\Campaign\PopularCampaignController;
-use App\Http\Controllers\API\Suggestion\SuggestionController;
-use App\Http\Controllers\API\User\ChangePasswordController;
 use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
 use App\Http\Controllers\API\CampaignTemplate\CategoryController;
 
