@@ -2,8 +2,6 @@
 
 namespace App\DTOs\TarifFeatures;
 
-use DateTimeInterface;
-
 class TarifFeatureDto
 {
     public function __construct(
@@ -11,7 +9,6 @@ class TarifFeatureDto
         public readonly ?int $tarifId,
         public readonly ?string $name,
     ) {}
-
 
     public function toArray(): array
     {

@@ -6,7 +6,6 @@ use App\DTOs\Campaign\CampaignDto;
 use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
-use Illuminate\Support\Facades\Schema;
 
 class CampaignRepository implements CampaignRepositoryInterface
 {
@@ -42,7 +41,7 @@ class CampaignRepository implements CampaignRepositoryInterface
         $searchableFields = ['name', 'description'];
 
         foreach ($criteria as $field => $value) {
-            if (empty($value) || !in_array($field, $availableFields)) {
+            if (empty($value) || ! in_array($field, $availableFields)) {
                 continue;
             }
 
@@ -51,6 +50,7 @@ class CampaignRepository implements CampaignRepositoryInterface
                     $value = StatusEnum::fromLabel($value)->value;
                 }
                 $query->where('status', $value);
+
                 continue;
             }
 
@@ -64,15 +64,16 @@ class CampaignRepository implements CampaignRepositoryInterface
         return $query->get();
     }
 
-    public function create(CampaignDto $campaignDto) : Campaign
+    public function create(CampaignDto $campaignDto): Campaign
     {
         return $this->model->create($campaignDto->toArray());
     }
 
-    public function update(int $id, CampaignDto $campaignDto) : Campaign
+    public function update(int $id, CampaignDto $campaignDto): Campaign
     {
         $campaign = $this->model->findOrFail($id);
         $campaign->update($campaignDto->toArray());
+
         return $campaign;
     }
 
@@ -98,11 +99,10 @@ class CampaignRepository implements CampaignRepositoryInterface
     {
         $query = $this->model->where('type_campaign_id', $typeCampaignId);
 
-        if ($userId && !auth()->user()->isAdmin()) {
+        if ($userId && ! auth()->user()->isAdmin()) {
             $query->where('user_id', $userId);
         }
 
         return $query->get();
     }
-
 }

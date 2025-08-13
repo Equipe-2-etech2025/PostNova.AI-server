@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\SocialPost;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\Social;
 use App\Models\Campaign;
+use App\Models\SocialPost;
+use Illuminate\Database\Seeder;
 
 class SocialPostSeeder extends Seeder
 {
@@ -31,7 +29,7 @@ class SocialPostSeeder extends Seeder
         foreach ($contents as $content) {
             SocialPost::factory()->create([
                 'content' => $content,
-                'social_id' => rand(1,3),
+                'social_id' => rand(1, 3),
                 'campaign_id' => Campaign::inRandomOrder()->first()->id ?? Campaign::factory(),
                 'is_published' => fake()->boolean(),
             ]);

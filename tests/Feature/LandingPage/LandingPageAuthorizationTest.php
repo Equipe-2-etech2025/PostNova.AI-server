@@ -4,7 +4,6 @@ namespace Tests\Feature\LandingPage;
 
 use App\Models\LandingPage;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\Feature\LandingPage\BaseLandingPageTest;
 
 class LandingPageAuthorizationTest extends BaseLandingPageTest
 {
@@ -34,7 +33,7 @@ class LandingPageAuthorizationTest extends BaseLandingPageTest
     {
         $landingPage = LandingPage::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => ['title' => 'My Landing Page']
+            'content' => ['title' => 'My Landing Page'],
         ]);
 
         $response = $this->actingAs($this->user)
@@ -48,7 +47,7 @@ class LandingPageAuthorizationTest extends BaseLandingPageTest
     public function user_cannot_access_other_users_landing_pages()
     {
         $landingPage = LandingPage::factory()->create([
-            'campaign_id' => $this->otherCampaign->id
+            'campaign_id' => $this->otherCampaign->id,
         ]);
 
         $response = $this->actingAs($this->user)
@@ -104,7 +103,7 @@ class LandingPageAuthorizationTest extends BaseLandingPageTest
 
         $response = $this->actingAs($this->user)
             ->putJson("/api/landing-pages/{$landingPage->id}", [
-                'path' => 'unauthorized-update'
+                'path' => 'unauthorized-update',
             ]);
 
         $response->assertForbidden();

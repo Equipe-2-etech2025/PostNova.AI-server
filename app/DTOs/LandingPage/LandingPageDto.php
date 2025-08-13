@@ -2,8 +2,6 @@
 
 namespace App\DTOs\LandingPage;
 
-use DateTimeInterface;
-
 class LandingPageDto
 {
     public function __construct(

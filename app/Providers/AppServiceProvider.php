@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Providers;
+
 use App\Repositories\CampaignFeaturesRepository;
 use App\Repositories\CampaignRepository;
+use App\Repositories\ContentRepository;
+use App\Repositories\DashboardRepository;
 use App\Repositories\FeaturesRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\Interfaces\CampaignFeaturesRepositoryInterface;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
-use App\Repositories\Interfaces\FeatureRepositoryInterface;
+use App\Repositories\Interfaces\ContentRepositoryInterface;
+use App\Repositories\Interfaces\DashboardRepositoryInterface;
 use App\Repositories\Interfaces\FeaturesRepositoryInterface;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\Repositories\Interfaces\LandingPageRepositoryInterface;
@@ -27,47 +31,43 @@ use App\Repositories\TarifRepository;
 use App\Repositories\TarifUserRepository;
 use App\Repositories\TypeCampaignRepository;
 use App\Services\CampaignFeaturesService;
+use App\Services\CampaignService;
+use App\Services\ContentService;
+use App\Services\DashboardService;
 use App\Services\FeaturesService;
 use App\Services\ImageService;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
+use App\Services\Interfaces\CampaignServiceInterface;
+use App\Services\Interfaces\ContentServiceInterface;
+use App\Services\Interfaces\DashboardServiceInterface;
 use App\Services\Interfaces\FeaturesServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
 use App\Services\Interfaces\LandingPageServiceInterface;
 use App\Services\Interfaces\PromptServiceInterface;
 use App\Services\Interfaces\SocialPostServiceInterface;
 use App\Services\Interfaces\SocialServiceInterface;
+use App\Services\Interfaces\SuggestionServiceInterface;
 use App\Services\Interfaces\TarifFeatureServiceInterface;
 use App\Services\Interfaces\TarifServiceInterface;
 use App\Services\Interfaces\TarifUserServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
 use App\Services\LandingPageService;
 use App\Services\PromptService;
 use App\Services\SocialPostService;
 use App\Services\SocialService;
+use App\Services\SuggestionService;
 use App\Services\TarifFeatureService;
 use App\Services\TarifService;
 use App\Services\TarifUserService;
 use App\Services\TypeCampaignService;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL;
-use App\Services\Interfaces\CampaignServiceInterface;
-use App\Services\CampaignService;
-use App\Services\Interfaces\DashboardServiceInterface;
-use App\Services\DashboardService;
-use App\Repositories\Interfaces\DashboardRepositoryInterface;
-use App\Repositories\DashboardRepository;
-use App\Services\Interfaces\ContentServiceInterface;
-use App\Services\ContentService;
-use App\Repositories\Interfaces\ContentRepositoryInterface;
-use App\Repositories\ContentRepository;
-use App\Services\SuggestionService;
-use App\Services\Interfaces\SuggestionServiceInterface;
-use App\Services\Interfaces\UserServiceInterface;
 use App\Services\UserService;
 use App\Repositories\CampaignTemplateRepository;
 use App\Repositories\Interfaces\CampaignTemplateRepositoryInterface;
 use App\Services\CampaignTemplateService;
 use App\Services\Interfaces\CampaignTemplateServiceInterface;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

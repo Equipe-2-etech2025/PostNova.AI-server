@@ -20,7 +20,6 @@ class CreateLandingPageRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
@@ -58,6 +57,4 @@ class CreateLandingPageRequest extends FormRequest
             campaign_id: $this->input('campaign_id'),
         );
     }
-
 }
-

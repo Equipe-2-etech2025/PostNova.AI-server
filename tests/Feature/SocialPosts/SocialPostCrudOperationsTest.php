@@ -24,7 +24,7 @@ class SocialPostCrudOperationsTest extends BaseSocialPostTest
     {
         $socialPost = SocialPost::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'content' => 'Test content'
+            'content' => 'Test content',
         ]);
 
         Sanctum::actingAs($this->user);
@@ -44,7 +44,7 @@ class SocialPostCrudOperationsTest extends BaseSocialPostTest
 
         $updateData = [
             'content' => 'Updated content',
-            'is_published' => true
+            'is_published' => true,
         ];
 
         $response = $this->putJson("/api/social-posts/{$socialPost->id}", $updateData);

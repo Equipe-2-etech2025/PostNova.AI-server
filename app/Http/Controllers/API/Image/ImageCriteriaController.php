@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Image;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Image\ImageCollection;
-use App\Http\Resources\SocialPost\SocialPostCollection;
 use App\Models\Image;
 use App\Services\Interfaces\ImageServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -25,11 +24,12 @@ class ImageCriteriaController extends Controller
         $this->authorize('viewAny', Image::class);
 
         $criteria = $request->query();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $criteria['user_id'] = $user->id;
         }
 
         $results = $this->service->getImageByCriteria($criteria);
+
         return new ImageCollection($results);
     }
 }

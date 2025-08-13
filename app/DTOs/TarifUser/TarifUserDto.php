@@ -2,16 +2,14 @@
 
 namespace App\DTOs\TarifUser;
 
-use App\Models\Tarif;
-
 class TarifUserDto
 {
     public function __construct(
         public readonly ?int $id,
         public readonly ?int $tarif_id,
         public readonly ?int $user_id,
-        public readonly ?\DateTime $created_at,
-        public readonly ?\DateTime $expired_at
+        public readonly ?\DateTimeInterface $created_at = null,
+        public readonly ?\DateTimeInterface $expired_at = null
     ) {}
 
     public function toArray(): array

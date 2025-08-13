@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Image;
 
 use App\DTOs\Image\ImageDto;
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateImageRequest extends FormRequest
@@ -32,26 +31,23 @@ class CreateImageRequest extends FormRequest
                 function ($attribute, $value, $fail) {
                     $user = auth()->user();
 
-                    if (!$user) {
-                        return $fail("Vous devez être connecté.");
+                    if (! $user) {
+                        return $fail('Vous devez être connecté.');
                     }
 
-                    // Si l'utilisateur est admin, il a accès à toutes les campagnes
-                    if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
+                    if ($user->isAdmin()) {
                         return;
                     }
 
-                    // Vérifie que la méthode campaigns() existe
-                    if (!method_exists($user, 'campaigns')) {
-                        return $fail("Relation campaigns() manquante dans le modèle User.");
+                    if (! $user->campaigns()->where('id', $value)->exists()) {
+                        return $fail('La campagne sélectionnée ne vous appartient pas.');
                     }
 
-                    // Vérifie que la campagne appartient à l'utilisateur
-                    if (!$user->campaigns()->where('id', $value)->exists()) {
-                        return $fail("La campagne sélectionnée ne vous appartient pas.");
+                    if (! $user->campaigns()->where('id', $value)->exists()) {
+                        return $fail('La campagne sélectionnée ne vous appartient pas.');
                     }
-                }
-            ]
+                },
+            ],
         ];
     }
 

@@ -2,22 +2,24 @@
 
 namespace Tests\Feature\Images;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
-use PHPUnit\Framework\Attributes\Test;
-use Tests\TestCase;
-use App\Models\User;
-use App\Models\Campaign;
 use App\Enums\StatusEnum;
+use App\Models\Campaign;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 abstract class BaseImageTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $user;
+
     protected $admin;
+
     protected $campaign;
+
     protected $otherUser;
+
     protected $otherCampaign;
 
     protected function setUp(): void

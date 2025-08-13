@@ -44,5 +44,4 @@ class CampaignFeaturesService implements CampaignFeaturesServiceInterface
     {
         return $this->repository->getByCriteria($criteria);
     }
-
 }

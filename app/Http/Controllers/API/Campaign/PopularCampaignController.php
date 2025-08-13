@@ -18,9 +18,10 @@ class PopularCampaignController extends Controller
     public function __invoke()
     {
         $data = $this->service->getTopCampaignsWithStats();
+
         return PopularCampaignResource::collection($data['campaigns'])
             ->additional([
-                'totals' => $data['totals']
+                'totals' => $data['totals'],
             ]);
     }
 }

@@ -26,12 +26,12 @@ class CampaignService implements CampaignServiceInterface
         return $this->repository->find($id);
     }
 
-    public function createCampaign(CampaignDto $campaignDto) : Campaign
+    public function createCampaign(CampaignDto $campaignDto): Campaign
     {
         return $this->repository->create($campaignDto);
     }
 
-    public function updateCampaign(int $campaignId, CampaignDto $campaignDto) : Campaign
+    public function updateCampaign(int $campaignId, CampaignDto $campaignDto): Campaign
     {
         return $this->repository->update($campaignId, $campaignDto);
     }
@@ -51,7 +51,7 @@ class CampaignService implements CampaignServiceInterface
         return $this->repository->findByTypeCampaignId($typeId);
     }
 
-    public function getCampaignByCriteria(array $criteria= [])
+    public function getCampaignByCriteria(array $criteria = [])
     {
         return $this->repository->findByCriteria($criteria);
     }

@@ -20,6 +20,7 @@ class SocialIndexController extends Controller
     {
         $this->authorize('viewAny', Social::class);
         $socials = $this->service->getAllSocial();
+
         return new SocialCollection($socials);
     }
 }

@@ -3,7 +3,6 @@
 namespace Tests\Feature\CampaignFeatures;
 
 use App\Models\CampaignFeatures;
-use App\Models\Features;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 

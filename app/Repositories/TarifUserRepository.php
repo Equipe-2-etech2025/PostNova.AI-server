@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\DTOs\TarifUser\TarifUserDto;
-use App\Models\TarifUser;
 use App\Models\Tarif;
+use App\Models\TarifUser;
 use App\Repositories\Interfaces\TarifUserRepositoryInterface;
 
 class TarifUserRepository implements TarifUserRepositoryInterface
@@ -42,21 +42,23 @@ class TarifUserRepository implements TarifUserRepositoryInterface
             if (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->whereRaw('LOWER('.$field.') = ?', [strtolower($value)]);
             }
         }
+
         return $query->get();
     }
 
-    public function create(TarifUserDto $tarifUserDto) :  TarifUser
+    public function create(TarifUserDto $tarifUserDto): TarifUser
     {
         return $this->model->create($tarifUserDto->toArray());
     }
 
-    public function update(int $id, TarifUserDto $tarifUserDto) : TarifUser
+    public function update(int $id, TarifUserDto $tarifUserDto): TarifUser
     {
         $tarifUser = $this->model->findOrFail($id);
         $tarifUser->update($tarifUserDto->toArray());
+
         return $tarifUser;
     }
 

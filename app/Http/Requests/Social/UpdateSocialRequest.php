@@ -56,8 +56,7 @@ class UpdateSocialRequest extends FormRequest
     {
         return new SocialDto(
             null,
-            name: $this->input('name', $social?->name ?? null),
+            name: $this->input('name', $social->name ?? null),
         );
     }
-
 }

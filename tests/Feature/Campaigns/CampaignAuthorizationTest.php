@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\Campaigns;
 
-use App\Models\User;
 use App\Enums\StatusEnum;
+use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
-use Tests\Feature\Campaigns\BaseCampaignTest;
 
 class CampaignAuthorizationTest extends BaseCampaignTest
 {

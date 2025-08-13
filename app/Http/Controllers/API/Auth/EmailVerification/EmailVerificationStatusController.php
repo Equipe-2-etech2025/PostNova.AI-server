@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Auth\EmailVerification;
 
 use App\Http\Controllers\Controller;

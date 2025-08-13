@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Tarif;
 use App\Models\TarifUser;
 use App\Models\User;
+use Illuminate\Database\Seeder;
+
 class TarifUserSeeder extends Seeder
 {
     /**

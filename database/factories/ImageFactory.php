@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Image;
 use App\Models\Campaign;
+use App\Models\Image;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Image>
@@ -21,7 +21,7 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'path' => 'https://picsum.photos/seed/' . fake()->uuid . '/640/480',
+            'path' => 'https://picsum.photos/seed/'.fake()->uuid.'/640/480',
             'is_published' => fake()->boolean(),
             'campaign_id' => Campaign::query()->inRandomOrder()->value('id') ?? Campaign::factory(),
             'created_at' => now(),

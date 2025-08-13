@@ -60,11 +60,10 @@ class UpdateSocialPostRequest extends FormRequest
     {
         return new SocialPostDto(
             null,
-            content: $this->input('content', $socialPost?->content ?? null),
-            campaign_id: $this->input('campaign_id', $socialPost?->campaign_id ?? null),
-            social_id: $this->input('social_id', $socialPost?->social_id ?? null),
-            is_published: $this->input('is_published', $socialPost?->is_published ?? null),
+            content: $this->input('content', $socialPost->content ?? null),
+            campaign_id: $this->input('campaign_id', $socialPost->campaign_id ?? null),
+            social_id: $this->input('social_id', $socialPost->social_id ?? null),
+            is_published: $this->input('is_published', $socialPost->is_published ?? null),
         );
     }
-
 }

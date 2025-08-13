@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Tarif;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\TarifFeature;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TarifFeature>

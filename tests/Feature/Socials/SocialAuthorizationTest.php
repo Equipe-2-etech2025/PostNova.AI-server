@@ -3,7 +3,6 @@
 namespace Tests\Feature\Socials;
 
 use App\Models\Social;
-use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 
 class SocialAuthorizationTest extends BaseSocialTest
@@ -16,7 +15,7 @@ class SocialAuthorizationTest extends BaseSocialTest
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/socials'],
             ['method' => 'getJson', 'url' => '/api/campaigns/search'],
-            ['method' => 'getJson', 'url' => '/api/socials/' . $social->id],
+            ['method' => 'getJson', 'url' => '/api/socials/'.$social->id],
             ['method' => 'postJson', 'url' => '/api/socials', 'data' => $this->validSocialData()],
             ['method' => 'putJson', 'url' => "/api/socials/{$social->id}", 'data' => ['name' => 'Updated']],
             ['method' => 'deleteJson', 'url' => "/api/socials/{$social->id}"],

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\Campaign;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Campaign\CampaignCollection;
 use App\Models\TypeCampaign;
-use App\Models\Campaign;
 use App\Services\Interfaces\CampaignServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -23,9 +22,9 @@ class CampaignByTypeController extends Controller
     {
         $type = TypeCampaign::find($typeId);
 
-        if (!$type) {
+        if (! $type) {
             return response()->json([
-                'message' => 'Type de campagne non trouvé'
+                'message' => 'Type de campagne non trouvé',
             ], 404);
         }
 

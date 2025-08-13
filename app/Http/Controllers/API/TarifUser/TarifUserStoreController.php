@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\TarifUser;
 
 use App\Http\Controllers\Controller;
@@ -19,6 +20,7 @@ class TarifUserStoreController extends Controller
     public function __invoke(CreateTarifUserRequest $request)
     {
         $this->authorize('create', TarifUser::class);
+
         return new TarifUserResource(
             $this->service->createTarifUser($request->toDto())
         );

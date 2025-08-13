@@ -22,6 +22,7 @@ class CampaignShowController extends Controller
     {
         $campaign = $this->campaignService->getCampaignById($id);
         $this->authorize('view', $campaign);
+
         return new CampaignResource($campaign);
     }
 }

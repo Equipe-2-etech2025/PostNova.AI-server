@@ -54,8 +54,7 @@ class UpdateTypeCampaignRequest extends FormRequest
     {
         return new TypeCampaignDto(
             null,
-            name: $this->input('name', $typeCampaign?->name ?? null),
+            name: $this->input('name', $typeCampaign->name ?? null),
         );
     }
-
 }

@@ -5,7 +5,6 @@ namespace App\Http\Requests\Tarif;
 use App\DTOs\Tarif\TarifDto;
 use App\Models\Tarif;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateTarifRequest extends FormRequest
 {
@@ -66,10 +65,9 @@ class UpdateTarifRequest extends FormRequest
     {
         return new TarifDto(
             null,
-            name: $this->input('name', $tarif?->name?? null),
-            amount: $this->input('amount', $tarif?->amount?? null),
-            max_limit: $this->input('max_limit', $tarif?->max_limit?? null),
+            name: $this->input('name', $tarif->name ?? null),
+            amount: $this->input('amount', $tarif->amount ?? null),
+            max_limit: $this->input('max_limit', $tarif->max_limit ?? null),
         );
     }
-
 }

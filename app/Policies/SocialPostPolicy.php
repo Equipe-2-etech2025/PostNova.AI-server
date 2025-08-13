@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\SocialPost;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class SocialPostPolicy
 {
@@ -14,6 +13,7 @@ class SocialPostPolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */

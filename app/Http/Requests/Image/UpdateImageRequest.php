@@ -50,9 +50,8 @@ class UpdateImageRequest extends FormRequest
     {
         return new ImageDto(
             null,
-            path: $this->input('path', $image?->path ?? null),
-            campaign_id: $this->input('campaign_id', $image?->campaign_id ?? null),
+            path: $this->input('path', $image->path ?? null),
+            campaign_id: $this->input('campaign_id', $image->campaign_id ?? null),
         );
     }
-
 }

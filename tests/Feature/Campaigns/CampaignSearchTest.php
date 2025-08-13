@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Campaigns;
 
+use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Models\TypeCampaign;
-use App\Enums\StatusEnum;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -55,14 +55,18 @@ class CampaignSearchTest extends BaseCampaignTest
     #[Test]
     public function can_list_paginated_campaigns()
     {
-        $this->createCampaignForUser($this->user, [], 15);
+        for ($i = 0; $i < 15; $i++) {
+            $this->createCampaignForUser($this->user);
+        }
+
         Sanctum::actingAs($this->user);
 
         $response = $this->getJson('/api/campaigns');
 
+        dump($response->json());
         $response->assertOk()
             ->assertJsonStructure([
-                'data'
+                'data',
             ]);
     }
 
@@ -118,11 +122,11 @@ class CampaignSearchTest extends BaseCampaignTest
         ]);
 
         Sanctum::actingAs($this->user);
-        $response = $this->getJson("/api/campaigns/search?" . http_build_query([
-                'name' => 'Summer',
-                'type_campaign_id' => $type_campaign->id,
-                'status' => StatusEnum::Created->label(),
-            ]));
+        $response = $this->getJson('/api/campaigns/search?'.http_build_query([
+            'name' => 'Summer',
+            'type_campaign_id' => $type_campaign->id,
+            'status' => StatusEnum::Created->label(),
+        ]));
 
         $response->assertOk()
             ->assertJsonCount(1, 'data')
@@ -131,5 +135,4 @@ class CampaignSearchTest extends BaseCampaignTest
             ->assertJsonPath('data.0.status.label', 'created')
             ->assertJsonPath('data.0.status.value', StatusEnum::Created->value);
     }
-
 }

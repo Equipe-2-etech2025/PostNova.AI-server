@@ -34,7 +34,7 @@ class LandingPageSearchTest extends BaseLandingPageTest
     {
         LandingPage::factory()->count(15)->create([
             'campaign_id' => $this->campaign->id,
-            'content' => ['title' => 'Landing Page']
+            'content' => ['title' => 'Landing Page'],
         ]);
 
         Sanctum::actingAs($this->user);
@@ -42,7 +42,7 @@ class LandingPageSearchTest extends BaseLandingPageTest
         $response = $this->getJson('/api/landing-pages');
         $response->assertOk()
             ->assertJsonStructure([
-                'data'
+                'data',
             ])
             ->assertJsonCount(15, 'data');
     }
@@ -71,12 +71,12 @@ class LandingPageSearchTest extends BaseLandingPageTest
     {
         LandingPage::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'path' => 'special-offer'
+            'path' => 'special-offer',
         ]);
 
         LandingPage::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'path' => 'regular-page'
+            'path' => 'regular-page',
         ]);
 
         Sanctum::actingAs($this->user);

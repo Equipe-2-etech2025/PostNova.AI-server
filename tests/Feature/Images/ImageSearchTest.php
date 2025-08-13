@@ -13,12 +13,12 @@ class ImageSearchTest extends BaseImageTest
     {
         Image::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'is_published' => true
+            'is_published' => true,
         ]);
 
         Image::factory()->create([
             'campaign_id' => $this->campaign->id,
-            'is_published' => false
+            'is_published' => false,
         ]);
 
         Sanctum::actingAs($this->user);

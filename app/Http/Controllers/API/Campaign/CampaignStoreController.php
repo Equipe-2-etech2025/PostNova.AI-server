@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\Campaign;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Campaign\CreateCampaignRequest;
 use App\Http\Resources\Campaign\CampaignResource;
-use App\Models\Campaign;
 use App\Services\Interfaces\CampaignServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 

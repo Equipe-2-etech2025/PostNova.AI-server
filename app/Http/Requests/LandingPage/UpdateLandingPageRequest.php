@@ -21,7 +21,6 @@ class UpdateLandingPageRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
@@ -55,11 +54,10 @@ class UpdateLandingPageRequest extends FormRequest
     {
         return new LandingPageDto(
             id: $landingPage?->id,
-            path: $this->input('path', $landingPage?->path),
-            content: $this->input('content', $landingPage?->content) ?? [],
-            campaign_id: $this->input('campaign_id', $landingPage?->campaign_id),
-            is_published: (bool)$this->input('is_published', $landingPage?->is_published ?? false)
+            path: $this->input('path', $landingPage->path),
+            content: $this->input('content', $landingPage->content) ?? [],
+            campaign_id: $this->input('campaign_id', $landingPage->campaign_id),
+            is_published: (bool) $this->input('is_published', $landingPage->is_published ?? false)
         );
     }
-
 }

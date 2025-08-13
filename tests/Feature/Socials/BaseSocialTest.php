@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\Socials;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
 abstract class BaseSocialTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
 
     protected function setUp(): void
@@ -24,7 +25,7 @@ abstract class BaseSocialTest extends TestCase
     protected function validSocialData(): array
     {
         return [
-            'name' => 'Nouveau Réseau Social'
+            'name' => 'Nouveau Réseau Social',
         ];
     }
 }

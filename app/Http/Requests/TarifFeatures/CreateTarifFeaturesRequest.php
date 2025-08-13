@@ -58,5 +58,4 @@ class CreateTarifFeaturesRequest extends FormRequest
             name: $this->input('name')
         );
     }
-
 }

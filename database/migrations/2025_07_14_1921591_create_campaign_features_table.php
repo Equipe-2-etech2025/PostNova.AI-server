@@ -16,13 +16,13 @@ return new class extends Migration
 
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')
-                  ->references('id')
+                ->references('id')
                 ->on('campaigns');
 
             $table->unsignedBigInteger('feature_id');
             $table->foreign('feature_id')
-                  ->references('id')
-                  ->on('features');
+                ->references('id')
+                ->on('features');
         });
     }
 

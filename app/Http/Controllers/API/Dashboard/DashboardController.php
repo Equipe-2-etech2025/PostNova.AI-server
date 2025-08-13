@@ -22,8 +22,7 @@ class DashboardController extends Controller
         $totalCampaigns = Campaign::where('user_id', $userId)->count();
 
         // Statistiques globales de toutes les interactions (y compris celles de l'utilisateur lui-même)
-        $interactions = CampaignInteraction::whereHas('campaign', fn($q) =>
-            $q->where('user_id', $userId)
+        $interactions = CampaignInteraction::whereHas('campaign', fn ($q) => $q->where('user_id', $userId)
         );
 
         $totalViews = $interactions->sum('views');

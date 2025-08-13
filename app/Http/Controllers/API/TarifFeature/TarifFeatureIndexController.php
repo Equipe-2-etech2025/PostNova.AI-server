@@ -18,6 +18,7 @@ class TarifFeatureIndexController extends Controller
     public function __invoke()
     {
         $tarifFeatures = $this->service->getAllTarifFeatures();
+
         return new TarifFeatureCollection($tarifFeatures);
     }
 }

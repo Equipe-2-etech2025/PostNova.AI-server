@@ -82,9 +82,8 @@ class TarifUserCrudOperationsTest extends BaseTarifUserTest
         $active = TarifUser::factory()->create([
             'user_id' => $user->id,
             'expired_at' => $activeExpiration,
-            'created_at' => now()
+            'created_at' => now(),
         ]);
-        $activeExpiration->format('Y-m-d H:i');
 
         Sanctum::actingAs($user);
         $response = $this->getJson("/api/tarif-users/users/{$user->id}/latest-tarif");

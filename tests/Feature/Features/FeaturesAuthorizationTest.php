@@ -14,8 +14,8 @@ class FeaturesAuthorizationTest extends BaseFeaturesTest
         $feature = Features::factory()->create();
 
         $endpoints = [
-            ['method' => 'getJson' , 'url' => '/api/features'],
-            ['method' => 'getJson' , 'url' => '/api/features/'  . $feature->id],
+            ['method' => 'getJson', 'url' => '/api/features'],
+            ['method' => 'getJson', 'url' => '/api/features/'.$feature->id],
             ['method' => 'postJson', 'url' => '/api/features', 'data' => $this->validFeatureData()],
             ['method' => 'putJson', 'url' => "/api/features/{$feature->id}", 'data' => ['name' => 'Updated']],
             ['method' => 'deleteJson', 'url' => "/api/features/{$feature->id}"],

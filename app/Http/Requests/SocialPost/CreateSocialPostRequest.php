@@ -60,5 +60,4 @@ class CreateSocialPostRequest extends FormRequest
             social_id: $this->input('social_id')
         );
     }
-
 }

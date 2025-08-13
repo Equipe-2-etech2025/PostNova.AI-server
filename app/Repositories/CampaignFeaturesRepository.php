@@ -12,7 +12,7 @@ class CampaignFeaturesRepository implements CampaignFeaturesRepositoryInterface
 
     public function __construct()
     {
-        $this->model = new CampaignFeatures();
+        $this->model = new CampaignFeatures;
     }
 
     public function getAll()
@@ -25,23 +25,23 @@ class CampaignFeaturesRepository implements CampaignFeaturesRepositoryInterface
         return CampaignFeatures::findOrFail($id);
     }
 
-    public function create(CampaignFeaturesDto $campaignFeaturesDto) : CampaignFeatures
+    public function create(CampaignFeaturesDto $campaignFeaturesDto): CampaignFeatures
     {
         return $this->model->create($campaignFeaturesDto->toArray());
     }
 
-    public function update(int $id, CampaignFeaturesDto $campaignFeaturesDto) :  CampaignFeatures
+    public function update(int $id, CampaignFeaturesDto $campaignFeaturesDto): CampaignFeatures
     {
         $item = $this->model->findOrFail($id);
         $item->update($campaignFeaturesDto->toArray());
+
         return $item;
     }
-
-
 
     public function delete(int $id)
     {
         $item = CampaignFeatures::findOrFail($id);
+
         return $item->delete();
     }
 
@@ -52,9 +52,10 @@ class CampaignFeaturesRepository implements CampaignFeaturesRepositoryInterface
             if (is_numeric($value)) {
                 $query->where($field, $value);
             } else {
-                $query->whereRaw('LOWER(' . $field . ') = ?', [strtolower($value)]);
+                $query->whereRaw('LOWER('.$field.') = ?', [strtolower($value)]);
             }
         }
+
         return $query->get();
     }
 }

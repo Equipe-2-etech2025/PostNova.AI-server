@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordWithFrontendUrl;
+use App\Notifications\VerifyEmailCustom;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Notifications\VerifyEmailCustom;
-use App\Notifications\ResetPasswordWithFrontendUrl;
 
+/**
+ * @property bool $isAdmin
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable;
@@ -20,12 +23,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * User roles constants
      */
     public const ROLE_USER = 'user';
+
     public const ROLE_ADMIN = 'admin';
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -37,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -56,6 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
@@ -118,6 +123,7 @@ class User extends Authenticatable implements MustVerifyEmail
         foreach ($words as $word) {
             $initials .= strtoupper(substr($word, 0, 1));
         }
+
         return substr($initials, 0, 2);
     }
 
@@ -139,12 +145,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new VerifyEmailCustom());
+        $this->notify(new VerifyEmailCustom);
     }
 
     public function sendPasswordResetNotification($token)
     {
-        $url = "http://localhost:5173/reset-password?token={$token}&email=" . urlencode($this->email);
+        $url = "http://localhost:5173/reset-password?token={$token}&email=".urlencode($this->email);
         $this->notify(new ResetPasswordWithFrontendUrl($url));
     }
 
@@ -152,5 +158,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Campaign::class);
     }
-
 }

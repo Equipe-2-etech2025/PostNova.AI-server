@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Tarif;
+use Illuminate\Database\Seeder;
 
 class TarifSeeder extends Seeder
 {

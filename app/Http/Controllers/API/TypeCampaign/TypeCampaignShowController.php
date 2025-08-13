@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Http\Controllers\API\TypeCampaign;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TypeCampaign\TypeCampaignResource;
-use App\Models\TypeCampaign;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -19,6 +19,7 @@ class TypeCampaignShowController extends Controller
     {
         $typeCampaign = $this->service->getTypeCampaignById($id);
         $this->authorize('view', $typeCampaign);
+
         return new TypeCampaignResource($typeCampaign);
     }
 }

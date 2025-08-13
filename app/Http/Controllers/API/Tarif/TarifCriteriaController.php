@@ -24,11 +24,12 @@ class TarifCriteriaController extends Controller
         $this->authorize('viewAny', Tarif::class);
 
         $criteria = $request->query();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $criteria['user_id'] = $user->id;
         }
 
         $results = $this->service->getTarifByCriteria($criteria);
+
         return new TarifCollection($results);
     }
 }

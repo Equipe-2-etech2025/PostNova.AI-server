@@ -31,15 +31,17 @@ class LandingPageRepository implements LandingPageRepositoryInterface
 
         foreach ($criteria as $field => $value) {
             if ($field === 'user_id') {
-                $query->whereHas('campaign', function($q) use ($value) {
+                $query->whereHas('campaign', function ($q) use ($value) {
                     $q->where('user_id', $value);
                 });
+
                 continue;
             }
 
             if ($field === 'is_published') {
                 $boolValue = filter_var($value, FILTER_VALIDATE_BOOLEAN);
                 $query->where('is_published', $boolValue);
+
                 continue;
             }
 
@@ -53,16 +55,16 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         return $query->get();
     }
 
-
-    public function create(LandingPageDto $landingPageDto) : LandingPage
+    public function create(LandingPageDto $landingPageDto): LandingPage
     {
         return $this->model->create($landingPageDto->toArray());
     }
 
-    public function update(int $id, LandingPageDto $landingPageDto) :  LandingPage
+    public function update(int $id, LandingPageDto $landingPageDto): LandingPage
     {
         $landingPage = $this->model->findOrFail($id);
         $landingPage->update($landingPageDto->toArray());
+
         return $landingPage;
     }
 
@@ -73,8 +75,7 @@ class LandingPageRepository implements LandingPageRepositoryInterface
 
     public function findByUserId(int $userId)
     {
-        return LandingPage::whereHas('campaign', function ($query) use ($userId)
-        {
+        return LandingPage::whereHas('campaign', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->get();
     }

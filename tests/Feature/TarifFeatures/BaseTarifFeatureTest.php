@@ -2,17 +2,19 @@
 
 namespace Tests\Feature\TarifFeatures;
 
+use App\Models\Tarif;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\Tarif;
 
 abstract class BaseTarifFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $admin;
+
     protected $user;
+
     protected $tarif;
 
     protected function setUp(): void
@@ -28,7 +30,7 @@ abstract class BaseTarifFeatureTest extends TestCase
     {
         return [
             'tarif_id' => $tarifId ?? $this->tarif->id,
-            'name' => 'Feature Test'
+            'name' => 'Feature Test',
         ];
     }
 }

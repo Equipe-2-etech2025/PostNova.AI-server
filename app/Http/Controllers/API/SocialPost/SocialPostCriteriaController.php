@@ -24,11 +24,12 @@ class SocialPostCriteriaController extends Controller
         $this->authorize('viewAny', SocialPost::class);
 
         $criteria = $request->query();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $criteria['user_id'] = $user->id;
         }
 
         $results = $this->service->getSocialPostByCriteria($criteria);
+
         return new SocialPostCollection($results);
     }
 }

@@ -12,7 +12,7 @@ enum StatusEnum: int
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Created => 'created',
             self::Processing => 'processing',
             self::Pending => 'pending',
@@ -28,7 +28,7 @@ enum StatusEnum: int
 
     public static function fromLabel(string $label): self
     {
-        return match(strtolower($label)) {
+        return match (strtolower($label)) {
             'created' => self::Created,
             'processing' => self::Processing,
             'pending' => self::Pending,
