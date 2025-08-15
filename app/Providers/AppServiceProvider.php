@@ -30,6 +30,7 @@ use App\Repositories\TarifFeatureRepository;
 use App\Repositories\TarifRepository;
 use App\Repositories\TarifUserRepository;
 use App\Repositories\TypeCampaignRepository;
+use App\Services\CampaignCreateService\CampaignNameGeneratorService;
 use App\Services\CampaignFeaturesService;
 use App\Services\CampaignService;
 use App\Services\ContentService;
@@ -37,6 +38,7 @@ use App\Services\DashboardService;
 use App\Services\FeaturesService;
 use App\Services\ImageService;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
+use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
 use App\Services\Interfaces\CampaignServiceInterface;
 use App\Services\Interfaces\ContentServiceInterface;
 use App\Services\Interfaces\DashboardServiceInterface;
@@ -102,6 +104,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
         $this->app->bind(SuggestionServiceInterface::class, SuggestionService::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(
+            CampaignNameGeneratorServiceInterface::class,
+            CampaignNameGeneratorService::class
+        );
     }
 
     /**
