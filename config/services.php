@@ -37,8 +37,6 @@ return [
 
     'gemini' => [
         'api_key' => env('GEMINI_API_KEY'),
-        'model' => 'gemini-2.5-flash',
-        'base_url' => 'https://generativelanguage.googleapis.com/v1beta'
     ],
 
 ];

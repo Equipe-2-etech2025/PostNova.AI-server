@@ -3,44 +3,58 @@
 namespace App\Services\CampaignCreateService;
 
 use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
-use Google\Cloud\AIPlatform\V1\Client\PredictionServiceClient;
-use Google\Cloud\AIPlatform\V1\Content;
-use Google\Cloud\AIPlatform\V1\GenerateContentRequest;
-use Google\Cloud\AIPlatform\V1\Part;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class CampaignNameGeneratorService implements CampaignNameGeneratorServiceInterface
 {
     public function generateFromDescription(string $description): string
     {
         try {
-            $client = new PredictionServiceClient([
-                'credentials' => config('services.gemini.key'),
-                'apiEndpoint' => 'us-central1-aiplatform.googleapis.com'
-            ]);
-
-            $response = $client->generateContent(
-                new GenerateContentRequest([
-                    'model' => sprintf(
-                        'projects/%s/locations/us-central1/publishers/google/models/gemini-pro',
-                        config('services.gemini.project_id')
-                    ),
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])
+                ->timeout(30)
+                ->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='.config('services.gemini.api_key'), [
                     'contents' => [
-                        new Content([
-                            'role' => 'user',
-                            'parts' => [
-                                new Part([
-                                    'text' => "Génère un nom de campagne basé sur: $description et mettez toujours aux début de la phrase, Campaigne pour et adapter la suite en fonction la description fournie"
-                                ])
-                            ]
-                        ])
+                        'parts' => [
+                            ['text' => $this->buildPrompt($description)]
+                        ]
                     ]
-                ])
-            );
+                ]);
 
-            return $response->getCandidates()[0]->getContent()->getParts()[0]->getText();
+            if ($response->successful()) {
+                $data = $response->json();
+                return $this->cleanResponse($data['candidates'][0]['content']['parts'][0]['text']);
+            }
+
+            return $this->generateFallbackName($description);
+
         } catch (\Exception $e) {
-            logger()->error('Gemini API error', ['error' => $e]);
-            return $this->generateFromDescription($description);
+            Log::error('Gemini API exception', ['error' => $e->getMessage()]);
+            return $this->generateFallbackName($description);
         }
+    }
+
+    protected function buildPrompt(string $description): string
+    {
+        return "Génère un nom professionnel pour une campagne marketing basée sur: '$description'.
+                Le nom doit être :
+                - En français
+                - Maximum 10 mots
+                - Accrocheur et mémorable
+                Réponds uniquement avec le nom généré, sans guillemets.";
+    }
+
+    protected function cleanResponse(string $response): string
+    {
+        return trim(str_replace(['"', "'", "Nom :"], '', $response));
+    }
+
+    protected function generateFallbackName(string $description): string
+    {
+        $keywords = ['Innovation', 'Excellence', 'Future', 'Projet', 'Solution'];
+        $randomKeyword = $keywords[array_rand($keywords)];
+        return "Campagne " . $randomKeyword . " " . date('Y');
     }
 }

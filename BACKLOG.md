@@ -6,6 +6,7 @@
 - [EPA-63] API génération IMAGE (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-63-API-generate-image`
   Commit: `EPA-63: feat: ajout de nouvelle api pour la génération de campaign`
+  Commit: `EPA-63: chore: modification de CampaignNameGeneratorService pour affiner les règles de validation du nom de la campagne`
  
 - [EPA-61] Analyse avec Laravel Pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-61-analyze-pint-security-check`
