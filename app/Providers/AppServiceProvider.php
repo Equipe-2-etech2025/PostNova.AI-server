@@ -68,6 +68,10 @@ use App\Services\TarifService;
 use App\Services\TarifUserService;
 use App\Services\TypeCampaignService;
 use App\Services\UserService;
+use App\Repositories\CampaignTemplateRepository;
+use App\Repositories\Interfaces\CampaignTemplateRepositoryInterface;
+use App\Services\CampaignTemplateService;
+use App\Services\Interfaces\CampaignTemplateServiceInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -121,6 +125,10 @@ class AppServiceProvider extends ServiceProvider
             CampaignInteractionRepositoryInterface::class,
             CampaignInteractionRepository::class
         );
+
+        $this->app->bind(CampaignTemplateRepositoryInterface::class, CampaignTemplateRepository::class);
+        $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
+
     }
 
     /**

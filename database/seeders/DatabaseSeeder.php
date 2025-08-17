@@ -26,6 +26,12 @@ class DatabaseSeeder extends Seeder
             ImageSeeder::class,
             PromptSeeder::class,
             FeatureSeeder::class,
+            CategorySeeder::class,
+            CampaignTemplatesSeeder::class,
+            TemplateTagsSeeder::class,
+            TemplateRatingsSeeder::class,
+            TemplateUsesSeeder::class,
+            CampaignInteractionSeeder::class,
         ]);
     }
 }

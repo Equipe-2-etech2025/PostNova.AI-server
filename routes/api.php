@@ -106,6 +106,8 @@ use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
+use App\Http\Controllers\API\CampaignTemplate\CategoryController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -266,6 +268,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 
     Route::get('/suggestion/{userId}', SuggestionController::class);
+    Route::get('/campaign-templates', CampaignTemplateController::class);
 
-
+    Route::get('/campaign-templates/categories', [CategoryController::class, 'index']);
 });
