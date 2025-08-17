@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Repositories\CampaignFeaturesRepository;
+use App\Repositories\CampaignInteractionRepository;
 use App\Repositories\CampaignRepository;
 use App\Repositories\ContentRepository;
 use App\Repositories\DashboardRepository;
 use App\Repositories\FeaturesRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\Interfaces\CampaignFeaturesRepositoryInterface;
+use App\Repositories\Interfaces\CampaignInteractionRepositoryInterface;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
 use App\Repositories\Interfaces\ContentRepositoryInterface;
 use App\Repositories\Interfaces\DashboardRepositoryInterface;
@@ -30,6 +32,8 @@ use App\Repositories\TarifFeatureRepository;
 use App\Repositories\TarifRepository;
 use App\Repositories\TarifUserRepository;
 use App\Repositories\TypeCampaignRepository;
+use App\Services\CampaignCreateService\CampaignInteractionService;
+use App\Services\CampaignCreateService\CampaignNameGeneratorService;
 use App\Services\CampaignFeaturesService;
 use App\Services\CampaignService;
 use App\Services\ContentService;
@@ -37,6 +41,8 @@ use App\Services\DashboardService;
 use App\Services\FeaturesService;
 use App\Services\ImageService;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
+use App\Services\Interfaces\CampaignInteractionServiceInterface;
+use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
 use App\Services\Interfaces\CampaignServiceInterface;
 use App\Services\Interfaces\ContentServiceInterface;
 use App\Services\Interfaces\DashboardServiceInterface;
@@ -106,8 +112,23 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
         $this->app->bind(SuggestionServiceInterface::class, SuggestionService::class);
         $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(
+            CampaignNameGeneratorServiceInterface::class,
+            CampaignNameGeneratorService::class
+        );
+        $this->app->bind(
+            CampaignInteractionServiceInterface::class,
+            CampaignInteractionService::class
+        );
+
+        $this->app->bind(
+            CampaignInteractionRepositoryInterface::class,
+            CampaignInteractionRepository::class
+        );
+
         $this->app->bind(CampaignTemplateRepositoryInterface::class, CampaignTemplateRepository::class);
         $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
+
     }
 
     /**
