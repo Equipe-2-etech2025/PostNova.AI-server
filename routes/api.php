@@ -20,12 +20,21 @@ use App\Http\Controllers\API\Campaign\CampaignStoreController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\CampaignUserController;
 use App\Http\Controllers\API\Campaign\PopularCampaignController;
+use App\Http\Controllers\API\SocialPost\SocialsPostsGenerateController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesCriteriaController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesDestroyController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesIndexController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesShowController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesStoreController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesUpdateController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionCriteriaController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionDestroyController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionIndexController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionLikeController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionShowController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionStatsController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionStoreController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionUpdateController;
 use App\Http\Controllers\API\Dashboard\DashboardController;
 use App\Http\Controllers\API\Features\FeaturesCriteriaController;
 use App\Http\Controllers\API\Features\FeaturesDestroyController;
@@ -212,6 +221,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', SocialPostStoreController::class);
         Route::put('/{id}', SocialPostUpdateController::class);
         Route::delete('/{id}', SocialPostDestroyController::class);
+        Route::post('/generate', SocialsPostsGenerateController::class);
     });
 
     Route::prefix('tarifs')->group(function () {
@@ -242,7 +252,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{id}', TarifFeatureDestroyController::class);
     });
 
+    Route::prefix('campaign-interactions')->group(function () {
+        Route::get('/', CampaignInteractionIndexController::class);
+        Route::post('/', CampaignInteractionStoreController::class);
+        Route::get('/{id}', CampaignInteractionShowController::class);
+        Route::put('/{id}', CampaignInteractionUpdateController::class);
+        Route::delete('/{id}', CampaignInteractionDestroyController::class);
+        Route::get('/search/criteria', CampaignInteractionCriteriaController::class);
+        Route::get('/campaign/{campaignId}/stats', CampaignInteractionStatsController::class);
+        Route::post('/{interactionId}/like', CampaignInteractionLikeController::class);
+    });
+
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 
     Route::get('/suggestion/{userId}', SuggestionController::class);
+
+
 });
