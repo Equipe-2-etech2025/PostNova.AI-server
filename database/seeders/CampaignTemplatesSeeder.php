@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\CampaignTemplate;
-use App\Models\TypeCampaign;
 use App\Models\Category;
+use App\Models\TypeCampaign;
+use Illuminate\Database\Seeder;
 
 class CampaignTemplatesSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class CampaignTemplatesSeeder extends Seeder
         // Assurer qu'il existe au moins 1 type_campaign
         $typeCampaign = TypeCampaign::first() ?? TypeCampaign::create([
             'name' => 'Marketing Email',
-            'description' => 'Campagne marketing par e-mail'
+            'description' => 'Campagne marketing par e-mail',
         ]);
 
         // Assurer qu'il existe les catégories nécessaires

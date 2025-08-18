@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $description
+ * @property Category|null $category
+ * @property TypeCampaign|null $typeCampaign
+ * @property \Illuminate\Database\Eloquent\Collection|TemplateTag[] $tags
+ * @property \Illuminate\Database\Eloquent\Collection|TemplateRating[] $ratings
+ * @property \Illuminate\Database\Eloquent\Collection|TemplateUse[] $uses
+ * @property bool $is_premium
+ */
 class CampaignTemplate extends Model
 {
     use HasFactory;
@@ -65,5 +76,4 @@ class CampaignTemplate extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-
 }

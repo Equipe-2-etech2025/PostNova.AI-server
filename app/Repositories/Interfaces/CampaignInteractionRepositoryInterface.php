@@ -11,11 +11,19 @@ interface CampaignInteractionRepositoryInterface
 
     public function getById(int $id);
 
-    public function create(CampaignInteractionDto $campaignInteractionDto): CampaignInteraction;
+    public function create(CampaignInteractionDto $dto): CampaignInteraction;
 
-    public function update(int $id, CampaignInteraction $campaignInteractionDto): CampaignInteraction;
+    public function update(int $id, CampaignInteractionDto $dto): CampaignInteraction;
 
-    public function delete(int $id);
+    public function delete(int $id): bool;
 
     public function getByCriteria(array $criteria);
+
+    public function getByCampaignId(int $campaignId);
+
+    public function getTotalLikes(int $campaignId): int;
+
+    public function getTotalViews(int $campaignId): int;
+
+    public function getTotalShares(int $campaignId): int;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\CampaignCreateService;
+namespace App\Services;
 
 use App\DTOs\CampaignInteraction\CampaignInteractionDto;
 use App\Repositories\Interfaces\CampaignInteractionRepositoryInterface;

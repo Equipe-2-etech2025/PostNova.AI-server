@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\CampaignInteraction;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class CampaignInteractionPolicy
 {
@@ -14,6 +13,7 @@ class CampaignInteractionPolicy
             return true;
         }
     }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -44,7 +44,7 @@ class CampaignInteractionPolicy
      */
     public function update(User $user, CampaignInteraction $campaignInteraction): bool
     {
-        return $user->id === $campaignInteraction->user_id;;
+        return $user->id === $campaignInteraction->user_id;
     }
 
     /**
@@ -68,6 +68,7 @@ class CampaignInteractionPolicy
         // Tout utilisateur peut signaler sauf le créateur de l'interaction
         return $user->id !== $interaction->user_id;
     }
+
     /**
      * Determine whether the user can restore the model.
      */

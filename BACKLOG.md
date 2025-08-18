@@ -3,6 +3,11 @@
 ## À faire
 
 ## En cours
+- [EPA-65] Fix stan, pint et security checker and deploy server (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-65-deploy`
+  Commit: `EPA-65: mettre à jour la configuration de docker pour le deploiement`
+  
+
 - [EPA-63] API génération IMAGE (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-63-API-generate-image`
   Commit: `EPA-63: feat: ajout de nouvelle api pour la génération de campaign`
