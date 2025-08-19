@@ -115,7 +115,6 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', LoginController::class)->name('login');
     Route::post('/forgot-password', SendPasswordResetLinkController::class);
     Route::post('/reset-password', ResetPasswordController::class)->name('password.reset');
-    Route::post('/email/verify', VerifyEmailController::class)->name('verification.verify');
     Route::match(['get', 'post'], '/email/verify', VerifyEmailController::class)
         ->name('verification.verify');
 });
