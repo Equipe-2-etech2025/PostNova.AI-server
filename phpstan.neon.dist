@@ -33,22 +33,6 @@ parameters:
           paths:
               - app/Repositories/ImageRepository.php
 
-        - message: "#Relation 'category' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
-
-        - message: "#Relation 'tags' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
-
-        - message: "#Relation 'typeCampaign' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
-
-        - message: '#Call to method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true#'
-          paths:
-              - tests/Unit/ExampleTest.php
-
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\CampaignInteraction model#"
           paths:
               - app/Repositories/DashboardRepository.php
@@ -59,3 +43,6 @@ parameters:
 
         - message: '#Class Fruitcake\\Cors\\HandleCors not found#'
           path: app/Http/Kernel.php
+
+        - message: '#Call to method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true#'
+          path: tests/Unit/ExampleTest.php

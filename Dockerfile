@@ -1,56 +1,46 @@
-FROM php:8.4.2-fpm
+# Étape de construction
+FROM php:8.4.2-fpm as builder
 
-# Create sources.list with proper HTTPS repositories
-RUN echo "deb https://deb.debian.org/debian bookworm main" > /etc/apt/sources.list && \
-    echo "deb https://deb.debian.org/debian-security bookworm-security main" >> /etc/apt/sources.list && \
-    echo "deb https://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list
+# 1. Créez d'abord les répertoires avec les bonnes permissions
+RUN mkdir -p /var/www/bootstrap/cache /var/www/storage/framework/{sessions,views,cache} \
+    && chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/bootstrap/cache /var/www/storage
 
-# Install and update CA certificates
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install system dependencies
+# 2. Installer les dépendances système
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    libpq-dev \
+    git curl libpng-dev libonig-dev libxml2-dev libpq-dev zip unzip \
+    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
+# 3. Installer Composer (en tant qu'utilisateur non-root)
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Create Laravel directory structure
-RUN mkdir -p /var/www/bootstrap/cache /var/www/storage/framework/{sessions,views,cache}
-
-# Set working directory
+# 4. Configurer l'application
 WORKDIR /var/www
-
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Install dependencies
-RUN composer install --no-scripts --no-autoloader --no-interaction
-
-# Copy application files
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/bootstrap/cache /var/www/storage
+# 5. Installer les dépendances avec le bon utilisateur
+USER www-data
+RUN if [ "$APP_ENV" = "production" ]; then \
+    composer install --optimize-autoloader --no-dev --no-interaction; \
+    else \
+    composer install --no-interaction; \
+    fi
 
-# Generate optimized autoload files
-RUN composer dump-autoload --optimize
+# Étape finale
+FROM php:8.4.2-fpm
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# Copier depuis le builder
+COPY --from=builder --chown=www-data:www-data /var/www /var/www
+COPY --from=builder /usr/local/bin/composer /usr/local/bin/composer
+
+# Variables d'environnement
+ENV PORT=10000
+EXPOSE $PORT
+
+# Configurez le répertoire de travail une seconde fois avant CMD
+WORKDIR /var/www
+
+# Commande optimisée pour Render
+CMD ["sh", "-c", "php artisan optimize && php artisan serve --host=0.0.0.0 --port=${PORT}"]
