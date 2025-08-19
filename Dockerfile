@@ -29,7 +29,7 @@ RUN if [ "$APP_ENV" = "production" ]; then \
     fi
 
 # Étape finale
-FROM php:8.4.2-fpm
+FROM webdevops/php:8.2-alpine
 
 # Copier depuis le builder
 COPY --from=builder --chown=www-data:www-data /var/www /var/www

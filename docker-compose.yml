@@ -17,6 +17,7 @@ services:
         condition: service_healthy
     networks:
       - postnova-network
+    image: php:8.2-fpm
 
   webserver:
     image: nginx:alpine
