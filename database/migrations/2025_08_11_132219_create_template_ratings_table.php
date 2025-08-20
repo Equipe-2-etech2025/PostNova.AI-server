@@ -17,6 +17,7 @@ class CreateTemplateRatingsTable extends Migration
             $table->unique(['template_id', 'user_id']);
         });
     }
+    
 
     public function down()
     {

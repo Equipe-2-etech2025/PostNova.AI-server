@@ -1,5 +1,4 @@
 <?php
-
 namespace App\DTOs\CampaignTemplate;
 
 class CampaignTemplateDto

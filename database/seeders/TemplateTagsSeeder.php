@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\CampaignTemplate;
-use App\Models\TemplateTag;
 use Illuminate\Database\Seeder;
+use App\Models\TemplateTag;
+use App\Models\CampaignTemplate;
 
 class TemplateTagsSeeder extends Seeder
 {

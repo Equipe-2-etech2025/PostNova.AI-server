@@ -18,14 +18,13 @@ class CampaignNameGeneratorService implements CampaignNameGeneratorServiceInterf
                 ->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='.config('services.gemini.api_key'), [
                     'contents' => [
                         'parts' => [
-                            ['text' => $this->buildPrompt($description)],
-                        ],
-                    ],
+                            ['text' => $this->buildPrompt($description)]
+                        ]
+                    ]
                 ]);
 
             if ($response->successful()) {
                 $data = $response->json();
-
                 return $this->cleanResponse($data['candidates'][0]['content']['parts'][0]['text']);
             }
 
@@ -33,7 +32,6 @@ class CampaignNameGeneratorService implements CampaignNameGeneratorServiceInterf
 
         } catch (\Exception $e) {
             Log::error('Gemini API exception', ['error' => $e->getMessage()]);
-
             return $this->generateFallbackName($description);
         }
     }
@@ -50,14 +48,13 @@ class CampaignNameGeneratorService implements CampaignNameGeneratorServiceInterf
 
     protected function cleanResponse(string $response): string
     {
-        return trim(str_replace(['"', "'", 'Nom :'], '', $response));
+        return trim(str_replace(['"', "'", "Nom :"], '', $response));
     }
 
     protected function generateFallbackName(string $description): string
     {
         $keywords = ['Innovation', 'Excellence', 'Future', 'Projet', 'Solution'];
         $randomKeyword = $keywords[array_rand($keywords)];
-
-        return 'Campagne '.$randomKeyword.' '.date('Y');
+        return "Campagne " . $randomKeyword . " " . date('Y');
     }
 }

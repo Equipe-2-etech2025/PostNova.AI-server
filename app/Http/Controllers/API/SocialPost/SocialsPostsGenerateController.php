@@ -36,23 +36,22 @@ class SocialsPostsGenerateController extends Controller
                 'hashtags' => $validated['hashtags'] ?? '',
                 'target_audience' => $validated['target_audience'] ?? '',
                 'campaign_id' => $validated['campaign_id'],
-                'is_published' => $validated['is_published'] ?? false,
+                'is_published' => $validated['is_published'] ?? false
             ]);
 
             return response()->json([
                 'success' => true,
                 'generated' => true,
                 'posts' => $createdPosts,
-                'count' => count($createdPosts),
+                'count' => count($createdPosts)
             ]);
 
         } catch (\Exception $e) {
             Log::error('Post generation failed', ['error' => $e->getMessage()]);
-
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to generate posts',
-                'error' => $e->getMessage(),
+                'error' => $e->getMessage()
             ], 500);
         }
     }

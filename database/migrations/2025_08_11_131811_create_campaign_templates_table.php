@@ -21,7 +21,7 @@ class CreateCampaignTemplatesTable extends Migration
             $table->text('preview')->nullable();
             $table->boolean('is_premium')->default(false);
             $table->timestamps();
-        });
+        });        
     }
 
     public function down()

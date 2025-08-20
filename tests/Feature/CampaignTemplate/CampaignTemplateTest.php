@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\CampaignTemplate;
 
-use App\Services\Interfaces\CampaignTemplateServiceInterface;
 use Tests\TestCase;
+use App\Services\Interfaces\CampaignTemplateServiceInterface;
 
 class CampaignTemplateTest extends TestCase
 {
@@ -11,8 +11,9 @@ class CampaignTemplateTest extends TestCase
     {
         $service = $this->app->make(CampaignTemplateServiceInterface::class);
 
-        $templates = collect($service->getAllTemplatesWithStats());
+        $templates = $service->getAllTemplatesWithStats();
 
+        $this->assertIsIterable($templates);
         $this->assertNotEmpty($templates);
 
         $first = $templates->first();

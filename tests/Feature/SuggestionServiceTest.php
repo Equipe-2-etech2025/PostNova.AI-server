@@ -36,6 +36,7 @@ class SuggestionServiceTest extends TestCase
         $suggestions = $this->suggestionService->getSuggestions($userId);
         dump($suggestions);
 
+        $this->assertIsArray($suggestions);
         $this->assertNotEmpty($suggestions);
 
         foreach ($suggestions as $suggestion) {

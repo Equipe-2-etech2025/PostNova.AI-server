@@ -10,7 +10,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all(['name', 'icon']);
-
         return response()->json($categories);
     }
 }

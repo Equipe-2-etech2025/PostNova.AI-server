@@ -23,7 +23,7 @@ class CampaignInteractionStatsController extends Controller
         return response()->json([
             'likes' => $this->service->getCampaignTotalLikes($campaignId),
             'views' => $this->service->getCampaignTotalViews($campaignId),
-            'shares' => $this->service->getCampaignTotalShares($campaignId),
+            'shares' => $this->service->getCampaignTotalShares($campaignId)
         ]);
     }
 }

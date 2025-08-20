@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+
 # 3. Installer Composer (en tant qu'utilisateur non-root)
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 

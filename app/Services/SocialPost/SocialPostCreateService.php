@@ -2,17 +2,18 @@
 
 namespace App\Services\SocialPost;
 
-use App\DTOs\SocialPost\SocialPostDto;
+use App\Models\SocialPost;
 use App\Repositories\SocialPostRepository;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\DTOs\SocialPost\SocialPostDto;
 
 class SocialPostCreateService
 {
     private array $platformSpecs = [
         'linkedin' => ['max_length' => 3000, 'hashtag_count' => 7, 'tone' => 'professionnel', 'emoji' => '✅💼🚀'],
-        'x' => ['max_length' => 3000, 'hashtag_count' => 5, 'tone' => 'concise', 'emoji' => '🐦💬🔥'],
-        'tiktok' => ['max_length' => 3000, 'hashtag_count' => 5, 'tone' => 'jeune et dynamique', 'emoji' => '🎵🕺💥'],
+        'x'  => ['max_length' => 3000, 'hashtag_count' => 5, 'tone' => 'concise', 'emoji' => '🐦💬🔥'],
+        'tiktok'   => ['max_length' => 3000, 'hashtag_count' => 5, 'tone' => 'jeune et dynamique', 'emoji' => '🎵🕺💥']
     ];
 
     public function __construct(
@@ -22,6 +23,7 @@ class SocialPostCreateService
     /**
      * Génère et crée directement les posts sociaux en base
      */
+
     public function generateAndCreateForPlatforms(array $params): array
     {
         $results = $this->generateForPlatforms($params);
@@ -42,6 +44,7 @@ class SocialPostCreateService
 
         return $createdPosts;
     }
+
 
     /**
      * Génère les posts pour les plateformes (sans les enregistrer)
@@ -78,10 +81,10 @@ class SocialPostCreateService
         $response = Http::retry(3, 500)
             ->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='.config('services.gemini.api_key'), [
                 'contents' => [['parts' => [['text' => $prompt]]]],
-                'generationConfig' => ['maxOutputTokens' => $specs['max_length']],
+                'generationConfig' => ['maxOutputTokens' => $specs['max_length']]
             ]);
 
-        if (! $response->successful()) {
+        if (!$response->successful()) {
             throw new \RuntimeException("API request failed for $platform");
         }
 
@@ -126,7 +129,7 @@ class SocialPostCreateService
         $content = $matches[1] ?? $text;
         $hashtagsRaw = $matches[2] ?? '';
 
-        preg_match_all('/#\w[\w-]*/', $content.' '.$hashtagsRaw, $hashtagsMatches);
+        preg_match_all('/#\w[\w-]*/', $content . ' ' . $hashtagsRaw, $hashtagsMatches);
 
         $hashtags = implode(' ', array_unique($hashtagsMatches[0]));
 
@@ -134,7 +137,7 @@ class SocialPostCreateService
             'content' => trim($content),
             'hashtags' => $hashtags ?: $this->generateFallbackHashtags($platform),
             'platform' => $platform,
-            'optimized' => true,
+            'optimized' => true
         ];
     }
 
@@ -144,22 +147,31 @@ class SocialPostCreateService
             'content' => "Découvrez notre nouveau thème: $topic",
             'hashtags' => $this->generateFallbackHashtags($platform),
             'platform' => $platform,
-            'optimized' => false,
+            'optimized' => false
         ];
     }
 
     private function generateFallbackHashtags(string $platform): string
     {
-        return match ($platform) {
+        return match($platform) {
             'x' => 'marketing socialmedia',
             'tiktok' => 'viral trending',
             default => 'marketing digital innovation'
         };
     }
 
+    private function generateTopicHint(string $platform): string
+    {
+        return match($platform) {
+            'x' => "notre actualité #exclusivité",
+            'tiktok' => "notre nouveau défi 👀",
+            default => "notre nouvelle campagne"
+        };
+    }
+
     private function getSocialIdFromPlatform(string $platform): int
     {
-        return match (strtolower($platform)) {
+        return match(strtolower($platform)) {
             'tiktok' => 1,
             'x' => 2,
             'linkedin' => 3,
