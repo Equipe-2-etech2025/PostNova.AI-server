@@ -3,6 +3,7 @@
 namespace App\Services\Interfaces;
 
 use App\DTOs\CampaignInteraction\CampaignInteractionDto;
+use App\Models\CampaignInteraction;
 
 interface CampaignInteractionServiceInterface
 {
@@ -19,6 +20,8 @@ interface CampaignInteractionServiceInterface
     public function getInteractionsByCriteria(array $criteria);
 
     // Méthodes spécifiques aux interactions
+    public function update(int $id, CampaignInteractionDto $dto): CampaignInteraction;
+
     public function getInteractionsByCampaignId(int $campaignId);
 
     public function getCampaignTotalLikes(int $campaignId): int;

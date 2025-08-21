@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\CampaignTemplate;
@@ -18,11 +19,11 @@ class CampaignTemplateRepository implements CampaignTemplateRepositoryInterface
         $query = $this->model->query();
 
         // Exemple : filtre par catégorie
-        if (!empty($filters['category'])) {
+        if (! empty($filters['category'])) {
             $query->where('category', $filters['category']);
         }
 
-        if (!empty($filters['type_campaign_id'])) {
+        if (! empty($filters['type_campaign_id'])) {
             $query->where('type_campaign_id', $filters['type_campaign_id']);
         }
 
@@ -43,12 +44,14 @@ class CampaignTemplateRepository implements CampaignTemplateRepositoryInterface
     {
         $template = $this->model->findOrFail($id);
         $template->update($data);
+
         return $template;
     }
 
     public function delete(int $id)
     {
         $template = $this->model->findOrFail($id);
+
         return $template->delete();
     }
 
@@ -66,7 +69,7 @@ class CampaignTemplateRepository implements CampaignTemplateRepositoryInterface
     {
         return $this->model
             ->with(['tags', 'typeCampaign', 'category'])
-            ->withCount('uses')       
+            ->withCount('uses')
             ->withAvg('ratings', 'rating')
             ->get();
     }

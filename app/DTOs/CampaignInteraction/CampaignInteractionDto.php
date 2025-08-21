@@ -24,4 +24,17 @@ class CampaignInteractionDto
             'shares' => $this->shares,
         ], fn ($v) => ! is_null($v));
     }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            id: $data['id'] ?? null,
+            user_id: $data['user_id'] ?? null,
+            campaign_id: $data['campaign_id'] ?? null,
+            views: $data['views'] ?? null,
+            likes: $data['likes'] ?? null,
+            shares: $data['shares'] ?? null,
+        );
+    }
+
 }

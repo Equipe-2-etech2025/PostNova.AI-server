@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\TemplateUse;
 use App\Models\CampaignTemplate;
+use App\Models\TemplateUse;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class TemplateUsesSeeder extends Seeder
 {

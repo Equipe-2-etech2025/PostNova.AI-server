@@ -34,7 +34,6 @@ jobs:
       - name: Install dependencies
         run: |
           composer install --prefer-dist --no-interaction --no-progress
-          npm ci
           composer require --dev laravel/pint phpstan/phpstan larastan/larastan --with-all-dependencies
 
       - name: Copy .env for testing
