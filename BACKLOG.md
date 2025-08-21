@@ -9,6 +9,7 @@
   Commit: `EPA-65: mettre à jour makefile et docker compose pour migration db`
   Commit: `EPA-65: ajout de workflows ci-cd`
   Commit: `EPA-65: fix error stan`
+- Commit: `EPA-65: fix error pint`
   
 
 - [EPA-63] API génération IMAGE (Assigné à: Mialisoa Lisa Rasoanirina)
