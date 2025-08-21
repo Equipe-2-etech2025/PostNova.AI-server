@@ -15,6 +15,7 @@
   Commit: `EPA-63: feat: ajout de nouvelle api pour la génération de campaign`
   Commit: `EPA-63: chore: modification de CampaignNameGeneratorService pour affiner les règles de validation du nom de la campagne`
   Commit: `EPA-63: feat: creation de api pour la génération de social_posts et rendu de page campaign`
+- Commit: `EPA-63: fix: changement de de version de actions/upload-artifact en v4`
 
 - [EPA-61] Analyse avec Laravel Pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-61-analyze-pint-security-check`
