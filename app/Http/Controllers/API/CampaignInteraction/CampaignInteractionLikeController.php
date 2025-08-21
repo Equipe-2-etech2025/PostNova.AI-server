@@ -26,7 +26,6 @@ class CampaignInteractionLikeController extends Controller
             CampaignInteractionDto::fromArray(['likes' => $interaction->likes + 1])
         );
 
-
         return response()->json(['message' => 'Like ajouté avec succès']);
     }
 }

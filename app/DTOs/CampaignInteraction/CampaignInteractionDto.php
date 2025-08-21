@@ -36,5 +36,4 @@ class CampaignInteractionDto
             shares: $data['shares'] ?? null,
         );
     }
-
 }

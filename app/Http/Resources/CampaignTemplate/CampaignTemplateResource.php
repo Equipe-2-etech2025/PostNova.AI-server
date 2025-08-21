@@ -4,7 +4,6 @@ namespace App\Http\Resources\CampaignTemplate;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
 class CampaignTemplateResource extends JsonResource
 {
     /**

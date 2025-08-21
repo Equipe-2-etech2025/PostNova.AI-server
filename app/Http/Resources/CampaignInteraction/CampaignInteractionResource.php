@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\CampaignInteraction;
 
-use App\Models\CampaignInteraction;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CampaignInteractionResource extends JsonResource
