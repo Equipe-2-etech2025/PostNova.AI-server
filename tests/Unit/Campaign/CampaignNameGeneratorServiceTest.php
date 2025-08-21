@@ -18,16 +18,16 @@ class CampaignNameGeneratorServiceTest extends TestCase
                     [
                         'content' => [
                             'parts' => [
-                                ['text' => 'Super Campagne Test']
-                            ]
-                        ]
-                    ]
-                ]
-            ], 200)
+                                ['text' => 'Super Campagne Test'],
+                            ],
+                        ],
+                    ],
+                ],
+            ], 200),
         ]);
 
-        $service = new CampaignNameGeneratorService();
-        $name = $service->generateFromDescription("Description de test");
+        $service = new CampaignNameGeneratorService;
+        $name = $service->generateFromDescription('Description de test');
         dump($name);
 
         $this->assertEquals('Super Campagne Test', $name);
@@ -37,11 +37,11 @@ class CampaignNameGeneratorServiceTest extends TestCase
     public function test_it_returns_default_name_if_api_fails()
     {
         Http::fake([
-            '*' => Http::response([], 500)
+            '*' => Http::response([], 500),
         ]);
 
-        $service = new CampaignNameGeneratorService();
-        $name = $service->generateFromDescription("Description de test");
+        $service = new CampaignNameGeneratorService;
+        $name = $service->generateFromDescription('Description de test');
 
         dump($name);
         $this->assertEquals('Nom par défaut', $name);

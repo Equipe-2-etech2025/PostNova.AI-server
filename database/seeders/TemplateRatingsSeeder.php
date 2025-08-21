@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\TemplateRating;
 use App\Models\CampaignTemplate;
+use App\Models\TemplateRating;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class TemplateRatingsSeeder extends Seeder
 {

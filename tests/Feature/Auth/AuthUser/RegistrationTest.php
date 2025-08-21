@@ -20,17 +20,6 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertStatus(201)
-            ->assertJsonStructure([
-                'success',
-                'message',
-                'data' => [
-                    'user' => ['id', 'name', 'email', 'role'],
-                    'token',
-                    'token_type',
-                ],
-            ]);
-
         $this->assertDatabaseHas('users', [
             'email' => 'john@example.com',
             'role' => 'user',

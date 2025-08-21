@@ -25,8 +25,7 @@ class CampaignGenerateNameController extends Controller
 
         return response()->json([
             'success' => true,
-            'campaign' => $campaign
+            'campaign' => $campaign,
         ]);
     }
 }
-

@@ -20,7 +20,6 @@ use App\Http\Controllers\API\Campaign\CampaignStoreController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\CampaignUserController;
 use App\Http\Controllers\API\Campaign\PopularCampaignController;
-use App\Http\Controllers\API\SocialPost\SocialsPostsGenerateController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesCriteriaController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesDestroyController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesIndexController;
@@ -35,6 +34,8 @@ use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionShowControll
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionStatsController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionStoreController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionUpdateController;
+use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
+use App\Http\Controllers\API\CampaignTemplate\CategoryController;
 use App\Http\Controllers\API\Dashboard\DashboardController;
 use App\Http\Controllers\API\Features\FeaturesCriteriaController;
 use App\Http\Controllers\API\Features\FeaturesDestroyController;
@@ -73,6 +74,7 @@ use App\Http\Controllers\API\SocialPost\SocialPostIndexController;
 use App\Http\Controllers\API\SocialPost\SocialPostShowController;
 use App\Http\Controllers\API\SocialPost\SocialPostStoreController;
 use App\Http\Controllers\API\SocialPost\SocialPostUpdateController;
+use App\Http\Controllers\API\SocialPost\SocialsPostsGenerateController;
 use App\Http\Controllers\API\Suggestion\SuggestionController;
 use App\Http\Controllers\API\Tarif\TarifCriteriaController;
 use App\Http\Controllers\API\Tarif\TarifDestroyController;
@@ -106,8 +108,6 @@ use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
-use App\Http\Controllers\API\CampaignTemplate\CategoryController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -115,7 +115,6 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', LoginController::class)->name('login');
     Route::post('/forgot-password', SendPasswordResetLinkController::class);
     Route::post('/reset-password', ResetPasswordController::class)->name('password.reset');
-    Route::post('/email/verify', VerifyEmailController::class)->name('verification.verify');
     Route::match(['get', 'post'], '/email/verify', VerifyEmailController::class)
         ->name('verification.verify');
 });

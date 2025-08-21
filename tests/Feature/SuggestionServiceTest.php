@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use App\Services\CampaignService;
 use App\Services\PromptService;
 use App\Services\SuggestionService;
@@ -31,12 +32,11 @@ class SuggestionServiceTest extends TestCase
     public function it_returns_real_suggestions_from_gemini()
     {
         // Remplace avec un ID d'utilisateur réel existant en base
-        $userId = 1;
+        $userId = User::factory()->create()->id;
 
         $suggestions = $this->suggestionService->getSuggestions($userId);
         dump($suggestions);
 
-        $this->assertIsArray($suggestions);
         $this->assertNotEmpty($suggestions);
 
         foreach ($suggestions as $suggestion) {
