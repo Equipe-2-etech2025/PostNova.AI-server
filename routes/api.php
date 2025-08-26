@@ -108,9 +108,7 @@ use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
 use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateShowController;
-use App\Http\Controllers\API\CampaignTemplate\CategoryController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionDestroyByCampaignAndUserController;
 use App\Http\Controllers\API\CampaignTemplate\TemplateRatingController;
 
