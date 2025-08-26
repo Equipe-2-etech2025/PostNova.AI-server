@@ -61,4 +61,9 @@ class CampaignInteractionService implements CampaignInteractionServiceInterface
     {
         return $this->repository->getTotalShares($campaignId);
     }
+
+    public function deleteInteractionByCampaignAndUser(int $campaignId, int $userId)
+    {
+        return $this->repository->deleteByCampaignAndUser($campaignId, $userId);
+    }
 }

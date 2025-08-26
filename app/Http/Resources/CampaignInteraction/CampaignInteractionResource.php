@@ -17,11 +17,6 @@ class CampaignInteractionResource extends JsonResource
             'shares' => $this->shares,
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
-            'links' => [
-                'self' => route('api.campaign-interactions.show', $this->id),
-                'campaign' => $this->campaign_id ? route('api.campaigns.show', $this->campaign_id) : null,
-                'user' => $this->user_id ? route('api.users.show', $this->user_id) : null,
-            ],
         ];
     }
 }

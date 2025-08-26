@@ -29,4 +29,6 @@ interface CampaignInteractionServiceInterface
     public function getCampaignTotalViews(int $campaignId): int;
 
     public function getCampaignTotalShares(int $campaignId): int;
+
+    public function deleteInteractionByCampaignAndUser(int $campaignId, int $userId);
 }

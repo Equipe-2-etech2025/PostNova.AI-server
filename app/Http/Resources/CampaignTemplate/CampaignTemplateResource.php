@@ -26,14 +26,27 @@ class CampaignTemplateResource extends JsonResource
                 'id' => $this->resource->typeCampaign->id,
                 'name' => $this->resource->typeCampaign->name,
             ] : null,
-            'author' => $this->resource->author,
-            'thumbnail' => $this->resource->thumbnail,
-            'preview' => $this->resource->preview,
-            'isPremium' => (bool) $this->resource->is_premium,
-            'rating' => round($this->resource->ratings_avg_rating ?? 0, 1),
-            'uses' => $this->resource->uses_count ?? 0,
-            'tags' => $this->resource->tags->pluck('tag'),
-            'createdAt' => optional($this->resource->created_at)->format('Y-m-d'),
+            'author' => $this->author,
+            'thumbnail' => $this->thumbnail,
+            'preview' => $this->preview,
+            'isPremium' => (bool) $this->is_premium,
+            'rating' => round($this->ratings_avg_rating ?? 0, 1),
+            'uses' => $this->uses_count ?? 0,
+            'tags' => $this->tags->pluck('tag'),
+            
+            'socialPosts' => $this->socialPosts->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'content' => $post->content,
+                    'created_at' => $post->created_at->format('Y-m-d H:i'),
+                    'social' => $post->social ? [
+                        'id' => $post->social->id,
+                        'name' => $post->social->name,
+                    ] : null,
+                ];
+            }),
+
+            'createdAt' => optional($this->created_at)->format('Y-m-d'),
         ];
     }
 }
