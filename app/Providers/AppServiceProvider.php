@@ -74,6 +74,10 @@ use App\Services\CampaignTemplateService;
 use App\Services\Interfaces\CampaignTemplateServiceInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use App\Services\TemplateRatingService;
+use App\Services\Interfaces\TemplateRatingServiceInterface;
+use App\Repositories\Interfaces\TemplateRatingRepositoryInterface;
+use App\Repositories\TemplateRatingRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -128,6 +132,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CampaignTemplateRepositoryInterface::class, CampaignTemplateRepository::class);
         $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
+        $this->app->bind(TemplateRatingRepositoryInterface::class, TemplateRatingRepository::class);
+        $this->app->bind(TemplateRatingServiceInterface::class, TemplateRatingService::class);
 
     }
 

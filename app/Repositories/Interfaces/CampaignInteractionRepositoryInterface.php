@@ -18,4 +18,6 @@ interface CampaignInteractionRepositoryInterface
     public function delete(int $id);
 
     public function getByCriteria(array $criteria);
+
+    public function deleteByCampaignAndUser(int $campaignId, int $userId);
 }

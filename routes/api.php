@@ -107,7 +107,10 @@ use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
+use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateShowController;
 use App\Http\Controllers\API\CampaignTemplate\CategoryController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionDestroyByCampaignAndUserController;
+use App\Http\Controllers\API\CampaignTemplate\TemplateRatingController;
 
 // Routes publiques
 Route::prefix('auth')->group(function () {
@@ -263,12 +266,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/search/criteria', CampaignInteractionCriteriaController::class);
         Route::get('/campaign/{campaignId}/stats', CampaignInteractionStatsController::class);
         Route::post('/{interactionId}/like', CampaignInteractionLikeController::class);
+        Route::post('/dislike', CampaignInteractionDestroyByCampaignAndUserController::class);
     });
 
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 
     Route::get('/suggestion/{userId}', SuggestionController::class);
+
     Route::get('/campaign-templates', CampaignTemplateController::class);
 
+    Route::get('campaign-templates/find/{id}', CampaignTemplateShowController::class);
+
     Route::get('/campaign-templates/categories', [CategoryController::class, 'index']);
+
+    Route::post('campaign-templates/ratings/{templateId}', TemplateRatingController::class);
 });

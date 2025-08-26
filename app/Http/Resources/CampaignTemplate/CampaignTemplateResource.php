@@ -27,6 +27,19 @@ class CampaignTemplateResource extends JsonResource
             'rating' => round($this->ratings_avg_rating ?? 0, 1),
             'uses' => $this->uses_count ?? 0,
             'tags' => $this->tags->pluck('tag'),
+            
+            'socialPosts' => $this->socialPosts->map(function ($post) {
+                return [
+                    'id' => $post->id,
+                    'content' => $post->content,
+                    'created_at' => $post->created_at->format('Y-m-d H:i'),
+                    'social' => $post->social ? [
+                        'id' => $post->social->id,
+                        'name' => $post->social->name,
+                    ] : null,
+                ];
+            }),
+
             'createdAt' => optional($this->created_at)->format('Y-m-d'),
         ];
     }

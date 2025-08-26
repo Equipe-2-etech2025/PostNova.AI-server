@@ -26,6 +26,10 @@
 
 ## Terminé(e)
 
+- [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-67-voir-all-campaings`
+  Commit: `EPA-67: page explorer + page prévisualisation template campagne`
+
 - [EPA-56] Intégration page d'acceuil (Assigné à: Nathan Rakotoarimanana)
   Branche : `feature/EPA-56-intg-page-accueil`
   Commit: `EPA-56: integration page acceuil de base`

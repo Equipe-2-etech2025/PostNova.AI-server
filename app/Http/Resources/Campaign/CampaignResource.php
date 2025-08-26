@@ -27,8 +27,23 @@ class CampaignResource extends JsonResource
                 return $this->resource->user ? [
                     'id' => $this->resource->user->id,
                     'name' => $this->resource->user->name,
+                    'avatar' => $this->resource->user->avatar_url ?? null,
                 ] : null;
             }),
+
+            'user_has_liked' => $this->when($request->user(), function () use ($request) {
+                return $this->resource->interactions()
+                    ->where('user_id', $request->user()->id)
+                    ->where('likes', '>', 0)
+                    ->exists();
+            }, false),
+            
+            'user_has_shared' => $this->when($request->user(), function () use ($request) {
+                return $this->resource->interactions()
+                    ->where('user_id', $request->user()->id)
+                    ->where('shares', '>', 0)
+                    ->exists();
+            }, false),
 
             'type' => $this->whenLoaded('typeCampaign', function () {
                 return $this->resource->typeCampaign ? [
@@ -40,6 +55,7 @@ class CampaignResource extends JsonResource
             'dates' => [
                 'created_at' => $this->resource->created_at ? $this->created_at->format('Y-m-d H:i') : null,
                 'updated_at' => $this->resource->updated_at ? $this->updated_at->format('Y-m-d H:i') : null,
+                'time_ago' => $this->resource->created_at ? $this->created_at->diffForHumans() : null,
             ],
 
             'images_count' => $this->resource->images_count ?? 0,
@@ -49,6 +65,18 @@ class CampaignResource extends JsonResource
             'total_views' => $this->resource->total_views ?? 0,
             'total_likes' => $this->resource->total_likes ?? 0,
             'total_shares' => $this->resource->total_shares ?? 0,
+
+            'images' => $this->whenLoaded('images', function () {
+                return $this->resource->images->map(function ($image) {
+                    return [
+                        'id' => $image->id,
+                        'url' => $image->path,
+                        'alt' => 'Image de la campagne',
+                        'is_published' => $image->is_published,
+                        'created_at' => $image->created_at ? $image->created_at->format('Y-m-d H:i') : null,
+                    ];
+                });
+            }, []),
         ];
     }
 }

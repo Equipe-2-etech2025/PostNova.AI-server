@@ -44,6 +44,12 @@ class CampaignTemplate extends Model
         return $this->hasMany(TemplateUse::class, 'template_id');
     }
 
+    // Exemples de publications associés
+    public function socialPosts()
+    {
+        return $this->hasMany(TemplateSocialPost::class, 'template_id');
+    }
+
     // Calculer la note moyenne (helper)
     public function averageRating()
     {
