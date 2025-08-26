@@ -2,16 +2,16 @@
 
 namespace Feature\Campaigns;
 
+use App\Models\Campaign;
+use App\Models\TypeCampaign;
+use App\Models\User;
+use App\Repositories\CampaignRepository;
 use App\Services\CampaignCreateService\CampaignCreatorService;
 use App\Services\CampaignCreateService\CampaignNameGeneratorService;
-use App\Repositories\CampaignRepository;
-use App\Models\Campaign;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\TypeCampaign;
 
 class CampaignCreatorServiceIntegrationTest extends TestCase
 {
@@ -19,15 +19,15 @@ class CampaignCreatorServiceIntegrationTest extends TestCase
 
     #[Test]
     #[Group('slow')]
-    public function testRealGeminiIntegration()
+    public function test_real_gemini_integration()
     {
-        $service = new CampaignNameGeneratorService();
+        $service = new CampaignNameGeneratorService;
         $result = $service->generateFromDescription('Test description');
         $this->assertNotEmpty($result);
     }
 
     #[Test]
-    public function testCreateCampaignFromDescriptionWithGemini()
+    public function test_create_campaign_from_description_with_gemini()
     {
         $this->artisan('migrate:fresh');
 
@@ -38,14 +38,14 @@ class CampaignCreatorServiceIntegrationTest extends TestCase
         $mockNameGenerator->method('generateFromDescription')
             ->willReturn('Nom de campagne mocké');
 
-        $repository = new CampaignRepository(new Campaign());
+        $repository = new CampaignRepository(new Campaign);
         $service = new CampaignCreatorService($repository, $mockNameGenerator);
 
         $data = [
             'description' => 'Une campagne pour promouvoir un nouveau produit tech',
             'type_campaign_id' => $typeCampaign->id,
             'user_id' => $user->id,
-            'status' => 'Created'
+            'status' => 'Created',
         ];
 
         $campaign = $service->createCampaignFromDescription($data);
@@ -56,5 +56,4 @@ class CampaignCreatorServiceIntegrationTest extends TestCase
         $this->assertEquals($data['description'], $campaign->description);
         $this->assertDatabaseHas('campaigns', ['id' => $campaign->id]);
     }
-
 }

@@ -7,16 +7,15 @@ services:
     volumes:
       - .:/var/www
     environment:
-      - DB_HOST=db
-      - DB_PORT=5432
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
       - DB_DATABASE=${DB_DATABASE}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - postnova-network
+
+    image: php:8.2-fpm
 
   webserver:
     image: nginx:alpine
@@ -32,25 +31,25 @@ services:
     networks:
       - postnova-network
 
-  db:
-    image: postgres:15
-    container_name: postnova-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - postnova-network
+#  db:
+#    image: postgres:15
+#    container_name: postnova-db
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: ${DB_DATABASE}
+#      POSTGRES_USER: ${DB_USERNAME}
+#      POSTGRES_PASSWORD: ${DB_PASSWORD}
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - postnova-network
 
   npm:
     image: node:20

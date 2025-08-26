@@ -1,24 +1,30 @@
 <?php
+
 namespace App\Http\Resources\CampaignTemplate;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CampaignTemplateResource extends JsonResource
 {
+    /**
+     * @var \App\Models\CampaignTemplate
+     */
+    public $resource;
+
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'category' => $this->category ? [
-                'id' => $this->category->id,
-                'name' => $this->category->name,
-                'icon' => $this->category->icon,
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'description' => $this->resource->description,
+            'category' => $this->resource->category ? [
+                'id' => $this->resource->category->id,
+                'name' => $this->resource->category->name,
+                'icon' => $this->resource->category->icon,
             ] : null,
-            'type' => $this->typeCampaign ? [
-                'id' => $this->typeCampaign->id,
-                'name' => $this->typeCampaign->name,
+            'type' => $this->resource->typeCampaign ? [
+                'id' => $this->resource->typeCampaign->id,
+                'name' => $this->resource->typeCampaign->name,
             ] : null,
             'author' => $this->author,
             'thumbnail' => $this->thumbnail,

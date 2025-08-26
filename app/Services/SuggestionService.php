@@ -34,7 +34,7 @@ class SuggestionService implements SuggestionServiceInterface
             $prompt = $this->buildPrompt($campaigns, $quotaUsed, $tarifUser);
 
             $response = Http::post(
-                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='.env('GEMINI_API_KEY'),
+                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='.config('services.gemini.api_key'),
                 [
                     'contents' => [[
                         'parts' => [['text' => $prompt]],
@@ -65,8 +65,8 @@ class SuggestionService implements SuggestionServiceInterface
 
         $tarifName = $tarifUser->tarif->name ?? 'Aucun';
         $tarifMax = $tarifUser->tarif->max_limit ?? 0;
-        $latestLikes = $latest?->total_likes ?? 0;
-        $latestCreatedAt = $latest?->created_at ?? 'Jamais';
+        $latestLikes = $latest->total_likes ?? 0;
+        $latestCreatedAt = $latest->created_at ?? 'Jamais';
 
         $campaignLines = $campaigns->map(function ($c) {
             return "- {$c->name}: {$c->total_likes} j'aime, {$c->total_views} vues";

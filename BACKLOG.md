@@ -3,11 +3,22 @@
 ## À faire
 
 ## En cours
+- [EPA-65] Fix stan, pint et security checker and deploy server (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-65-deploy`
+  Commit: `EPA-65: mettre à jour la configuration de docker pour le deploiement`
+  Commit: `EPA-65: mettre à jour makefile et docker compose pour migration db`
+  Commit: `EPA-65: ajout de workflows ci-cd`
+  Commit: `EPA-65: fix error stan`
+- Commit: `EPA-65: fix error pint`
+  
+
 - [EPA-63] API génération IMAGE (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-63-API-generate-image`
   Commit: `EPA-63: feat: ajout de nouvelle api pour la génération de campaign`
   Commit: `EPA-63: chore: modification de CampaignNameGeneratorService pour affiner les règles de validation du nom de la campagne`
   Commit: `EPA-63: feat: creation de api pour la génération de social_posts et rendu de page campaign`
+  Commit: `EPA-63: fix: changement de de version de actions/upload-artifact en v4`
+- Commit: `EPA-63: fix: supprimer npm ci dans le workflows`
 
 - [EPA-61] Analyse avec Laravel Pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-61-analyze-pint-security-check`

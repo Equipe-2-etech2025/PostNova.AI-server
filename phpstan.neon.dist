@@ -17,7 +17,23 @@ parameters:
               - tests/Feature/Features/FeaturesAuthorizationTest.php
               - tests/Feature/CampaignFeatures/CampaignFeaturesSearchTest.php
 
+        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'tags' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'typeCampaign' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\SocialPost model#"
+          paths:
+              - app/Repositories/SocialPostRepository.php
+
+        - message: "#Relation 'category' is not found in App\\\\Models\\\\CampaignTemplate model#"
           paths:
               - app/Repositories/SocialPostRepository.php
 

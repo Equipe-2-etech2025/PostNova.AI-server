@@ -12,21 +12,22 @@ use PHPUnit\Framework\TestCase;
 
 class CampaignCreatorServiceTest extends TestCase
 {
-    public function testCreateCampaignFromDescriptionGeneratesNameAndSaves()
+    public function test_create_campaign_from_description_generates_name_and_saves()
     {
         // 1. Mock du repository
         $repositoryMock = $this->createMock(CampaignRepositoryInterface::class);
 
         // Quand create() est appelé, on retourne un Campaign Eloquent factice
         $repositoryMock->method('create')
-            ->willReturnCallback(function(CampaignDto $dto) {
-                $campaign = new Campaign();
+            ->willReturnCallback(function (CampaignDto $dto) {
+                $campaign = new Campaign;
                 $campaign->id = 1;
                 $campaign->name = $dto->name;
                 $campaign->description = $dto->description;
                 $campaign->type_campaign_id = $dto->type_campaign_id;
                 $campaign->user_id = $dto->user_id;
                 $campaign->status = $dto->status;
+
                 return $campaign;
             });
 
@@ -43,7 +44,7 @@ class CampaignCreatorServiceTest extends TestCase
             'description' => 'Description de test',
             'type_campaign_id' => 1,
             'user_id' => 42,
-            'status' => 'Created'
+            'status' => 'Created',
         ];
 
         // 5. Appel du service
