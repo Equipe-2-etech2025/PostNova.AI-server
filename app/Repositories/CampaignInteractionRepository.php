@@ -30,7 +30,7 @@ class CampaignInteractionRepository implements CampaignInteractionRepositoryInte
         return $this->model->create($dto->toArray());
     }
 
-    public function update(int $id, CampaignInteractionDto|CampaignInteraction $dto): CampaignInteraction
+    public function update(int $id, CampaignInteraction $dto): CampaignInteraction
     {
         $interaction = $this->model->findOrFail($id);
         $interaction->update($dto->toArray());

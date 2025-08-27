@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\CampaignCreateService;
+namespace App\Services;
 
 use App\DTOs\CampaignInteraction\CampaignInteractionDto;
 use App\Repositories\Interfaces\CampaignInteractionRepositoryInterface;
@@ -40,11 +40,6 @@ class CampaignInteractionService implements CampaignInteractionServiceInterface
     public function getInteractionsByCriteria(array $criteria)
     {
         return $this->repository->getByCriteria($criteria);
-    }
-
-    public function getInteractionsByCampaignId(int $campaignId)
-    {
-        return $this->repository->getByCampaignId($campaignId);
     }
 
     public function getCampaignTotalLikes(int $campaignId): int
