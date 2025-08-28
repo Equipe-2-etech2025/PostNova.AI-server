@@ -37,6 +37,10 @@
 
 ## Terminé(e)
 
+- [EPA-74] Mise à jour API SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `chore/EPA-74-socialpost`
+  Commit: `EPA-74: mise à jour de API pour la post de description socialPost en fonciton de prompt et creation de test`
+
 - [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-67-voir-all-campaings`
   Commit: `EPA-67: page explorer + page prévisualisation template campagne`

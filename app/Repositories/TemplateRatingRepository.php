@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\TemplateRating;
@@ -20,11 +21,11 @@ class TemplateRatingRepository implements TemplateRatingRepositoryInterface
     {
         $query = $this->model->query();
 
-        if (!empty($filters['template_id'])) {
+        if (! empty($filters['template_id'])) {
             $query->where('template_id', $filters['template_id']);
         }
 
-        if (!empty($filters['user_id'])) {
+        if (! empty($filters['user_id'])) {
             $query->where('user_id', $filters['user_id']);
         }
 
@@ -61,6 +62,7 @@ class TemplateRatingRepository implements TemplateRatingRepositoryInterface
     public function delete(int $id)
     {
         $rating = $this->model->findOrFail($id);
+
         return $rating->delete();
     }
 

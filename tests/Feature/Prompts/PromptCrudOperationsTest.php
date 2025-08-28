@@ -3,6 +3,8 @@
 namespace Tests\Feature\Prompts;
 
 use App\Models\Prompt;
+use App\Services\Interfaces\PromptServiceInterface;
+use App\Services\Interfaces\TarifUserServiceInterface;
 use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -12,6 +14,24 @@ class PromptCrudOperationsTest extends BasePromptTest
     public function can_create_prompt_with_valid_data()
     {
         Sanctum::actingAs($this->user);
+
+        $this->mock(TarifUserServiceInterface::class, function ($mock) {
+            $tarifUser = new \stdClass;
+            $tarifUser->tarif = (object) ['max_limit' => 1000];
+
+            $mock->shouldReceive('getLatestByUserId')
+                ->with($this->user->id)
+                ->andReturn($tarifUser);
+        });
+
+        $this->mock(PromptServiceInterface::class, function ($mock) {
+            $mock->shouldReceive('countTodayPromptsByUser')
+                ->with($this->user->id)
+                ->andReturn(0);
+
+            $mock->shouldReceive('createPrompt')
+                ->andReturn(Prompt::factory()->create($this->validPromptData()));
+        });
 
         $response = $this->postJson('/api/prompts', $this->validPromptData());
 

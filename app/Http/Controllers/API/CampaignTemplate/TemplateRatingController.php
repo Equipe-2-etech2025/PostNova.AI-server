@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API\CampaignTemplate;
 
 use App\Http\Controllers\Controller;
 use App\Services\Interfaces\TemplateRatingServiceInterface;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TemplateRatingController extends Controller
 {

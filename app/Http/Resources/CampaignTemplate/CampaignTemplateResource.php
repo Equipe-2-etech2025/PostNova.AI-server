@@ -33,7 +33,7 @@ class CampaignTemplateResource extends JsonResource
             'rating' => round($this->ratings_avg_rating ?? 0, 1),
             'uses' => $this->uses_count ?? 0,
             'tags' => $this->tags->pluck('tag'),
-            
+
             'socialPosts' => $this->socialPosts->map(function ($post) {
                 return [
                     'id' => $post->id,

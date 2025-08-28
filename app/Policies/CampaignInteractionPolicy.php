@@ -5,9 +5,6 @@ namespace App\Policies;
 use App\Models\CampaignInteraction;
 use App\Models\User;
 
-/**
- * @property-read \App\Models\Campaign $campaign
- */
 class CampaignInteractionPolicy
 {
     public function before(User $user, $ability)

@@ -7,17 +7,16 @@ use App\Enums\StatusEnum;
 use App\Models\Campaign;
 use App\Repositories\Interfaces\CampaignRepositoryInterface;
 use App\Services\CampaignCreateService\CampaignCreatorService;
-use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignDescriptionGeneratorServiceInterface;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignNameGeneratorServiceInterface;
 use PHPUnit\Framework\TestCase;
 
 class CampaignCreatorServiceTest extends TestCase
 {
     public function test_create_campaign_from_description_generates_name_and_saves()
     {
-        // 1. Mock du repository
         $repositoryMock = $this->createMock(CampaignRepositoryInterface::class);
 
-        // Quand create() est appelé, on retourne un Campaign Eloquent factice
         $repositoryMock->method('create')
             ->willReturnCallback(function (CampaignDto $dto) {
                 $campaign = new Campaign;
@@ -31,15 +30,16 @@ class CampaignCreatorServiceTest extends TestCase
                 return $campaign;
             });
 
-        // 2. Mock du service Gemini
         $nameGeneratorMock = $this->createMock(CampaignNameGeneratorServiceInterface::class);
         $nameGeneratorMock->method('generateFromDescription')
             ->willReturn('Nom Généré Test');
 
-        // 3. Instanciation du service à tester
-        $service = new CampaignCreatorService($repositoryMock, $nameGeneratorMock);
+        $descriptionGeneratorMock = $this->createMock(CampaignDescriptionGeneratorServiceInterface::class);
+        $descriptionGeneratorMock->method('generateDescriptionFromDescription')
+            ->willReturn('Description de test générée');
 
-        // 4. Données d’entrée simulées
+        $service = new CampaignCreatorService($repositoryMock, $nameGeneratorMock, $descriptionGeneratorMock);
+
         $data = [
             'description' => 'Description de test',
             'type_campaign_id' => 1,
@@ -47,12 +47,10 @@ class CampaignCreatorServiceTest extends TestCase
             'status' => 'Created',
         ];
 
-        // 5. Appel du service
         $campaign = $service->createCampaignFromDescription($data);
 
-        // 6. Assertions
         $this->assertEquals('Nom Généré Test', $campaign->name);
-        $this->assertEquals('Description de test', $campaign->description);
+        $this->assertEquals('Description de test générée', $campaign->description);
         $this->assertEquals(1, $campaign->type_campaign_id);
         $this->assertEquals(42, $campaign->user_id);
         $this->assertEquals(StatusEnum::fromLabel('Created')->value, $campaign->status);
