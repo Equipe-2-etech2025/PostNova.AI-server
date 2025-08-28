@@ -92,8 +92,10 @@ class CampaignRepository implements CampaignRepositoryInterface
             ->withSum('interactions as total_views', 'views')
             ->withSum('interactions as total_likes', 'likes')
             ->withSum('interactions as total_shares', 'shares')
+            ->with(['images' => function ($query) {
+                $query->select('id', 'campaign_id', 'path', 'is_published', 'created_at');
+            }, 'typeCampaign', 'user'])
             ->orderByDesc('created_at')
-            ->limit(2)
             ->get();
     }
 

@@ -3,6 +3,11 @@
 ## À faire
 
 ## En cours
+
+-[EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-76-mes-campagnes`
+  Commit: `EPA-76: Page mes campagnes`
+  
 - [EPA-65] Fix stan, pint et security checker and deploy server (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-65-deploy`
   Commit: `EPA-65: mettre à jour la configuration de docker pour le deploiement`
