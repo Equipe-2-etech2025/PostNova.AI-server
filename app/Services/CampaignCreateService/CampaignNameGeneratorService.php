@@ -2,7 +2,7 @@
 
 namespace App\Services\CampaignCreateService;
 
-use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignNameGeneratorServiceInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -42,7 +42,6 @@ class CampaignNameGeneratorService implements CampaignNameGeneratorServiceInterf
     {
         return "Génère un nom professionnel pour une campagne marketing basée sur: '$description'.
                 Le nom doit être :
-                - En français
                 - Maximum 10 mots
                 - Accrocheur et mémorable
                 Réponds uniquement avec le nom généré, sans guillemets.";

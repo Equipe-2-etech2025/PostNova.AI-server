@@ -34,18 +34,20 @@ use App\Repositories\TarifFeatureRepository;
 use App\Repositories\TarifRepository;
 use App\Repositories\TarifUserRepository;
 use App\Repositories\TypeCampaignRepository;
-use App\Services\CampaignCreateService\CampaignInteractionService;
+use App\Services\CampaignCreateService\CampaignDescriptionGeneratorService;
 use App\Services\CampaignCreateService\CampaignNameGeneratorService;
 use App\Services\CampaignFeaturesService;
+use App\Services\CampaignInteractionService;
 use App\Services\CampaignService;
 use App\Services\CampaignTemplateService;
 use App\Services\ContentService;
 use App\Services\DashboardService;
 use App\Services\FeaturesService;
 use App\Services\ImageService;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignDescriptionGeneratorServiceInterface;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignNameGeneratorServiceInterface;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
 use App\Services\Interfaces\CampaignInteractionServiceInterface;
-use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
 use App\Services\Interfaces\CampaignServiceInterface;
 use App\Services\Interfaces\CampaignTemplateServiceInterface;
 use App\Services\Interfaces\ContentServiceInterface;
@@ -128,6 +130,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             CampaignInteractionRepositoryInterface::class,
             CampaignInteractionRepository::class
+        );
+
+        $this->app->bind(
+            CampaignDescriptionGeneratorServiceInterface::class,
+            CampaignDescriptionGeneratorService::class
         );
 
         $this->app->bind(CampaignTemplateRepositoryInterface::class, CampaignTemplateRepository::class);

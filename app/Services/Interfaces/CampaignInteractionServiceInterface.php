@@ -19,16 +19,9 @@ interface CampaignInteractionServiceInterface
 
     public function getInteractionsByCriteria(array $criteria);
 
-    // // Méthodes spécifiques aux interactions
-    // public function update(int $id, CampaignInteractionDto $dto): CampaignInteraction;
-
-    public function getInteractionsByCampaignId(int $campaignId);
-
     public function getCampaignTotalLikes(int $campaignId): int;
 
     public function getCampaignTotalViews(int $campaignId): int;
 
     public function getCampaignTotalShares(int $campaignId): int;
-
-    public function deleteInteractionByCampaignAndUser(int $campaignId, int $userId);
 }
