@@ -18,9 +18,6 @@ class CampaignInteractionCollection extends ResourceCollection
                 'total_likes' => $this->collection->sum('likes'),
                 'total_shares' => $this->collection->sum('shares'),
             ],
-            'links' => [
-                'self' => $request->fullUrl(),
-            ],
         ];
     }
 }

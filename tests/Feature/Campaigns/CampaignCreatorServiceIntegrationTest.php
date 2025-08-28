@@ -7,6 +7,7 @@ use App\Models\TypeCampaign;
 use App\Models\User;
 use App\Repositories\CampaignRepository;
 use App\Services\CampaignCreateService\CampaignCreatorService;
+use App\Services\CampaignCreateService\CampaignDescriptionGeneratorService;
 use App\Services\CampaignCreateService\CampaignNameGeneratorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Group;
@@ -38,8 +39,12 @@ class CampaignCreatorServiceIntegrationTest extends TestCase
         $mockNameGenerator->method('generateFromDescription')
             ->willReturn('Nom de campagne mocké');
 
+        $mockDesciptionGenerator = $this->createMock(CampaignDescriptionGeneratorService::class);
+        $mockDesciptionGenerator->method('generateDescriptionFromDescription')
+            ->willReturn('Une campagne pour promouvoir un nouveau produit tech');
+
         $repository = new CampaignRepository(new Campaign);
-        $service = new CampaignCreatorService($repository, $mockNameGenerator);
+        $service = new CampaignCreatorService($repository, $mockNameGenerator, $mockDesciptionGenerator);
 
         $data = [
             'description' => 'Une campagne pour promouvoir un nouveau produit tech',
@@ -53,7 +58,7 @@ class CampaignCreatorServiceIntegrationTest extends TestCase
         dump($campaign);
         $this->assertNotEmpty($campaign->name);
         $this->assertEquals('Nom de campagne mocké', $campaign->name);
-        $this->assertEquals($data['description'], $campaign->description);
+        $this->assertEquals('Une campagne pour promouvoir un nouveau produit tech', $campaign->description); // ← Assurez-vous que cela correspond
         $this->assertDatabaseHas('campaigns', ['id' => $campaign->id]);
     }
 }

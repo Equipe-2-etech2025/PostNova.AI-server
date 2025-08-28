@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\TemplateSocialPost;
 use App\Models\CampaignTemplate;
 use App\Models\Social;
+use App\Models\TemplateSocialPost;
+use Illuminate\Database\Seeder;
 
 class TemplateSocialPostSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class TemplateSocialPostSeeder extends Seeder
 
         // Récupérer quelques réseaux sociaux existants
         $facebook = Social::firstOrCreate(['name' => 'Facebook']);
-        $twitter  = Social::firstOrCreate(['name' => 'Twitter']);
+        $twitter = Social::firstOrCreate(['name' => 'Twitter']);
 
         if ($template) {
             TemplateSocialPost::create([

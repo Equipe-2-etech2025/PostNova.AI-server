@@ -43,7 +43,14 @@ class CampaignNameGeneratorServiceTest extends TestCase
         $service = new CampaignNameGeneratorService;
         $name = $service->generateFromDescription('Description de test');
 
-        dump($name);
-        $this->assertEquals('Nom par défaut', $name);
+        $possibleNames = [
+            'Campagne Innovation '.date('Y'),
+            'Campagne Excellence '.date('Y'),
+            'Campagne Future '.date('Y'),
+            'Campagne Projet '.date('Y'),
+            'Campagne Solution '.date('Y'),
+        ];
+
+        $this->assertContains($name, $possibleNames);
     }
 }

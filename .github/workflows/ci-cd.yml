@@ -1,4 +1,4 @@
-name: Laravel CI/CD Pipeline
+name: Laravel CI/CD Pipeline Optimisé
 
 on:
   push:
@@ -31,6 +31,22 @@ jobs:
           coverage: none
           tools: composer:v2
 
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Cache npm packages
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: |
           composer install --prefer-dist --no-interaction --no-progress
@@ -55,7 +71,7 @@ jobs:
       - name: Run security check
         run: composer audit
 
-      - name: Run tests
+      - name: Run tests with fresh database
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
@@ -64,6 +80,8 @@ jobs:
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
         run: |
+          php artisan migrate:fresh --env=testing --force
+          php artisan db:seed --env=testing --force
           php artisan test
 
       - name: Build production assets
@@ -84,6 +102,7 @@ jobs:
             !.github
             !.git
             !node_modules
+            !vendor
 
   deploy-staging:
     needs: validation-test
@@ -96,15 +115,19 @@ jobs:
         with:
           name: laravel-artifact
 
-      - name: Install Render CLI
-        run: curl -fsSL https://raw.githubusercontent.com/renderinc/render-cli/main/install.sh | bash
+      - name: Install Render CLI (new version)
+        run: |
+          curl -L https://github.com/render-oss/cli/releases/download/v1.1.0/cli_1.1.0_linux_amd64.zip -o render.zip
+          unzip render.zip
+          sudo mv cli_v1.1.0 /usr/local/bin/render
 
       - name: Deploy to Render (Staging)
         env:
           RENDER_SERVICE_ID: ${{ secrets.RENDER_STAGING_SERVICE_ID }}
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          CI: true
         run: |
-          render services deploy $RENDER_SERVICE_ID --wait
+          render deploys create $RENDER_SERVICE_ID --output json --confirm --wait
 
   deploy-production:
     needs: validation-test
@@ -117,12 +140,16 @@ jobs:
         with:
           name: laravel-artifact
 
-      - name: Install Render CLI
-        run: curl -fsSL https://raw.githubusercontent.com/renderinc/render-cli/main/install.sh | bash
+      - name: Install Render CLI (new version)
+        run: |
+          curl -L https://github.com/render-oss/cli/releases/download/v1.1.0/cli_1.1.0_linux_amd64.zip -o render.zip
+          unzip render.zip
+          sudo mv cli_v1.1.0 /usr/local/bin/render
 
       - name: Deploy to Render (Production)
         env:
           RENDER_SERVICE_ID: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID }}
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          CI: true
         run: |
-          render services deploy $RENDER_SERVICE_ID --wait
+          render deploys create $RENDER_SERVICE_ID --output json --confirm --wait

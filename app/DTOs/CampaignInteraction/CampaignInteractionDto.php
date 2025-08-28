@@ -2,7 +2,7 @@
 
 namespace App\DTOs\CampaignInteraction;
 
-class CampaignInteractionDto
+class CampaignInteractionDto extends \App\Models\CampaignInteraction
 {
     public function __construct(
         public readonly ?int $id,
