@@ -32,8 +32,18 @@ class CampaignTemplateRepository implements CampaignTemplateRepositoryInterface
 
     public function find(int $id)
     {
-        return $this->model->findOrFail($id);
+        return $this->model
+            ->with([
+                'tags',
+                'typeCampaign',
+                'category',
+                'socialPosts',
+            ])
+            ->withCount('uses')
+            ->withAvg('ratings', 'rating')
+            ->findOrFail($id);
     }
+
 
     public function create(array $data)
     {

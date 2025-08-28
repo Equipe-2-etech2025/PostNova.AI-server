@@ -77,4 +77,13 @@ class CampaignInteractionRepository implements CampaignInteractionRepositoryInte
     {
         return $this->model->where('campaign_id', $campaignId)->sum('shares');
     }
+
+    public function deleteByCampaignAndUser(int $campaignId, int $userId): bool
+    {
+        return $this->model
+            ->where('campaign_id', $campaignId)
+            ->where('user_id', $userId)
+            ->delete() > 0;
+    }
+
 }

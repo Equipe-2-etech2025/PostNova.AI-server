@@ -3,6 +3,7 @@
 namespace App\Services\Interfaces;
 
 use App\DTOs\CampaignInteraction\CampaignInteractionDto;
+use App\Models\CampaignInteraction;
 
 interface CampaignInteractionServiceInterface
 {

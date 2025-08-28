@@ -19,6 +19,8 @@ interface CampaignInteractionRepositoryInterface
 
     public function getByCriteria(array $criteria);
 
+    public function deleteByCampaignAndUser(int $campaignId, int $userId);
+
     public function getTotalLikes(int $campaignId): int;
 
     public function getTotalViews(int $campaignId): int;

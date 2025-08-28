@@ -3,19 +3,6 @@
 ## À faire
 
 ## En cours
-
-
-## Terminé non testé
-- [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
-
-## Terminé(e)
-
-
-- [EPA-74] Mise à jour API SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
-  Branche: `chore/EPA-74-socialpost`
-  Commit: `EPA-74: mise à jour de API pour la post de description socialPost en fonciton de prompt et creation de test`
-
-
 - [EPA-65] Fix stan, pint et security checker and deploy server (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-65-deploy`
   Commit: `EPA-65: mettre à jour la configuration de docker pour le deploiement`
@@ -23,7 +10,7 @@
   Commit: `EPA-65: ajout de workflows ci-cd`
   Commit: `EPA-65: fix error stan`
 - Commit: `EPA-65: fix error pint`
-
+  
 
 - [EPA-63] API génération IMAGE (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-63-API-generate-image`
@@ -44,6 +31,19 @@
 - [EPA-55] Création de fonctionnels (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `feature/EPA-55-test`
   Commit: `EPA-55: feat: ajout des tests fonctionnels pour le CRUD`
+
+#[phpunit.xml](phpunit.xml)# Terminé non testé
+- [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
+
+## Terminé(e)
+
+- [EPA-74] Mise à jour API SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `chore/EPA-74-socialpost`
+  Commit: `EPA-74: mise à jour de API pour la post de description socialPost en fonciton de prompt et creation de test`
+
+- [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-67-voir-all-campaings`
+  Commit: `EPA-67: page explorer + page prévisualisation template campagne`
 
 - [EPA-56] Intégration page d'acceuil (Assigné à: Nathan Rakotoarimanana)
   Branche : `feature/EPA-56-intg-page-accueil`

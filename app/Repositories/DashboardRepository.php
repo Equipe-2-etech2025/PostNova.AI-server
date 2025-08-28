@@ -17,7 +17,6 @@ class DashboardRepository implements DashboardRepositoryInterface
         return CampaignInteraction::whereHas('campaign', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
-            ->where('user_id', '!=', $userId)
             ->selectRaw('
                 COALESCE(SUM(views), 0) as total_views,
                 COALESCE(SUM(likes), 0) as total_likes,
