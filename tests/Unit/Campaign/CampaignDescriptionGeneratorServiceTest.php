@@ -3,12 +3,14 @@
 namespace Tests\Unit\Campaign;
 
 use App\Services\CampaignCreateService\CampaignDescriptionGeneratorService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CampaignDescriptionGeneratorServiceTest extends TestCase
 {
+    use RefreshDatabase;
     #[Test]
     public function test_it_generates_description_from_description()
     {

@@ -37,6 +37,10 @@
 
 ## Terminé(e)
 
+- [EPA-77] Test CI-CD serveur avant la mise en prod (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `test/EPA-77-test-ci-cd`
+  Commit: `EPA-74: test avec mise à jour de ci-cd de serveur`
+
 - [EPA-74] Mise à jour API SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `chore/EPA-74-socialpost`
   Commit: `EPA-74: mise à jour de API pour la post de description socialPost en fonciton de prompt et creation de test`
