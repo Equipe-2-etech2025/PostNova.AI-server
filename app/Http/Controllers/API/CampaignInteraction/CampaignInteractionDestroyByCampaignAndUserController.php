@@ -19,7 +19,7 @@ class CampaignInteractionDestroyByCampaignAndUserController extends Controller
     {
         $validated = $request->validate([
             'campaign_id' => 'required|integer|exists:campaigns,id',
-            'user_id'     => 'required|integer|exists:users,id',
+            'user_id' => 'required|integer|exists:users,id',
         ]);
 
         $deleted = $this->service->deleteInteractionByCampaignAndUser(

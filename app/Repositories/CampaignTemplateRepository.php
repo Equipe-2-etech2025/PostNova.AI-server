@@ -44,7 +44,6 @@ class CampaignTemplateRepository implements CampaignTemplateRepositoryInterface
             ->findOrFail($id);
     }
 
-
     public function create(array $data)
     {
         return $this->model->create($data);

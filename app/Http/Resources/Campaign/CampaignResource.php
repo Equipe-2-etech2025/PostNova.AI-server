@@ -31,14 +31,14 @@ class CampaignResource extends JsonResource
                 ] : null;
             }),
 
-            'user_has_liked' => $this->when($request->user(), function () use ($request) {
+            'user_has_liked' => $this->when((bool) $request->user(), function () use ($request) {
                 return $this->resource->interactions()
                     ->where('user_id', $request->user()->id)
                     ->where('likes', '>', 0)
                     ->exists();
             }, false),
-            
-            'user_has_shared' => $this->when($request->user(), function () use ($request) {
+
+            'user_has_shared' => $this->when((bool) $request->user(), function () use ($request) {
                 return $this->resource->interactions()
                     ->where('user_id', $request->user()->id)
                     ->where('shares', '>', 0)

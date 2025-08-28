@@ -3,7 +3,6 @@
 namespace App\Services\Interfaces;
 
 use App\DTOs\CampaignInteraction\CampaignInteractionDto;
-use App\Models\CampaignInteraction;
 
 interface CampaignInteractionServiceInterface
 {
@@ -24,4 +23,6 @@ interface CampaignInteractionServiceInterface
     public function getCampaignTotalViews(int $campaignId): int;
 
     public function getCampaignTotalShares(int $campaignId): int;
+
+    public function deleteInteractionByCampaignAndUser(int $campaignId, int $userId);
 }

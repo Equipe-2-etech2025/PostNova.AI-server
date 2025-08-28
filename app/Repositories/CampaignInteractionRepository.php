@@ -85,5 +85,4 @@ class CampaignInteractionRepository implements CampaignInteractionRepositoryInte
             ->where('user_id', $userId)
             ->delete() > 0;
     }
-
 }
