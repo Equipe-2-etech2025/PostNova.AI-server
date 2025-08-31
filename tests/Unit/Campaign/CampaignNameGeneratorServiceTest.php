@@ -28,6 +28,7 @@ class CampaignNameGeneratorServiceTest extends TestCase
 
         $service = new CampaignNameGeneratorService;
         $name = $service->generateFromDescription('Description de test');
+        dump($name);
 
         $this->assertEquals('Super Campagne Test', $name);
     }

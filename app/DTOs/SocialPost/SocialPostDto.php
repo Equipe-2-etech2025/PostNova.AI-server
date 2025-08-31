@@ -9,7 +9,8 @@ class SocialPostDto
         public readonly ?string $content,
         public readonly ?int $campaign_id,
         public readonly ?int $social_id,
-        public readonly bool $is_published = false
+        public readonly bool $is_published = false,
+        public readonly ?int $prompt_id = null
     ) {}
 
     public function toArray(): array
@@ -20,6 +21,7 @@ class SocialPostDto
             'campaign_id' => $this->campaign_id,
             'social_id' => $this->social_id,
             'is_published' => $this->is_published,
+            'prompt_id' => $this->prompt_id,
         ];
     }
 }

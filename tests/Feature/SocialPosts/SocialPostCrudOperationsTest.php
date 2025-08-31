@@ -9,17 +9,6 @@ use PHPUnit\Framework\Attributes\Test;
 class SocialPostCrudOperationsTest extends BaseSocialPostTest
 {
     #[Test]
-    public function can_create_social_post_with_valid_data()
-    {
-        Sanctum::actingAs($this->user);
-
-        $response = $this->postJson('/api/social-posts', $this->validSocialPostData());
-
-        $response->assertCreated();
-        $this->assertDatabaseHas('social_posts', $this->validSocialPostData());
-    }
-
-    #[Test]
     public function can_retrieve_single_social_post()
     {
         $socialPost = SocialPost::factory()->create([

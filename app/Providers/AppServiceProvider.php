@@ -69,6 +69,13 @@ use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\LandingPageService;
 use App\Services\PromptService;
+use App\Services\SocialPost\SocialPostCreateService;
+use App\Services\SocialPost\SocialPostGeneratorService;
+use App\Services\SocialPost\SocialPostPlatformManager;
+use App\Services\SocialPost\SocialPostPromptBuilder;
+use App\Services\SocialPost\SocialPostRegenerateService;
+use App\Services\SocialPost\SocialPostResponseParser;
+use App\Services\SocialPost\SocialPostValidationService;
 use App\Services\SocialPostService;
 use App\Services\SocialService;
 use App\Services\SuggestionService;
@@ -141,7 +148,45 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
         $this->app->bind(TemplateRatingRepositoryInterface::class, TemplateRatingRepository::class);
         $this->app->bind(TemplateRatingServiceInterface::class, TemplateRatingService::class);
+        $this->app->singleton(SocialPostPlatformManager::class);
+        $this->app->singleton(SocialPostValidationService::class);
 
+        $this->app->bind(SocialPostPromptBuilder::class, function ($app) {
+            return new SocialPostPromptBuilder($app->make(SocialPostPlatformManager::class));
+        });
+
+        $this->app->bind(SocialPostResponseParser::class, function ($app) {
+            return new SocialPostResponseParser($app->make(SocialPostPlatformManager::class));
+        });
+
+        $this->app->bind(SocialPostGeneratorService::class, function ($app) {
+            return new SocialPostGeneratorService(
+                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostPlatformManager::class),
+                $app->make(SocialPostPromptBuilder::class),
+                $app->make(SocialPostResponseParser::class)
+            );
+        });
+
+        $this->app->bind(SocialPostCreateService::class, function ($app) {
+            return new SocialPostCreateService(
+                $app->make(SocialPostRepository::class),
+                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostGeneratorService::class),
+                $app->make(SocialPostValidationService::class)
+            );
+        });
+
+        $this->app->bind(SocialPostRegenerateService::class, function ($app) {
+            return new SocialPostRegenerateService(
+                $app->make(SocialPostRepositoryInterface::class),
+                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostGeneratorService::class),
+                $app->make(SocialPostValidationService::class)
+            );
+        });
+
+        $this->app->bind(SocialPostRepositoryInterface::class, SocialPostRepository::class);
     }
 
     /**

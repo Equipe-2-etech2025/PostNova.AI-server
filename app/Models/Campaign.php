@@ -29,6 +29,7 @@ class Campaign extends Model
         'description',
         'user_id',
         'type_campaign_id',
+        'is_published',
     ];
 
     protected $casts = [
@@ -40,6 +41,7 @@ class Campaign extends Model
         'updated_at' => 'datetime',
         'user_id' => 'integer',
         'type_campaign_id' => 'integer',
+        'is_published' => 'boolean',
     ];
 
     public function user()
