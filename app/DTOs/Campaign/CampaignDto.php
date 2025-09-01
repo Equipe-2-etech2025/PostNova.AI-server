@@ -11,6 +11,7 @@ class CampaignDto
         public readonly ?int $type_campaign_id,
         public readonly ?int $user_id,
         public readonly ?int $status,
+        public readonly ?bool $is_published
     ) {}
 
     public function toArray(): array
@@ -22,6 +23,7 @@ class CampaignDto
             'type_campaign_id' => $this->type_campaign_id,
             'user_id' => $this->user_id,
             'status' => $this->status,
+            'is_published' => $this->is_published,
         ], fn ($v) => ! is_null($v));
     }
 }

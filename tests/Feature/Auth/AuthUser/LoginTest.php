@@ -3,12 +3,14 @@
 namespace Tests\Feature\Auth\AuthUser;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+    use RefreshDatabase;
     #[Test]
     public function user_can_login_with_valid_credentials()
     {

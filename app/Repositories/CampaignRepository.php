@@ -39,7 +39,7 @@ class CampaignRepository implements CampaignRepositoryInterface
     {
         $query = $this->model->newQuery();
 
-        $availableFields = ['id', 'name', 'description', 'user_id', 'type_campaign_id', 'status'];
+        $availableFields = ['id', 'name', 'description', 'user_id', 'type_campaign_id', 'status', 'is_published'];
         $searchableFields = ['name', 'description'];
 
         foreach ($criteria as $field => $value) {

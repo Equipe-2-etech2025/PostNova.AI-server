@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DTOs\Social\SocialDto;
 use App\Models\Social;
+use App\Models\SocialPost;
 use App\Repositories\Interfaces\SocialRepositoryInterface;
 
 class SocialRepository implements SocialRepositoryInterface
@@ -63,5 +64,10 @@ class SocialRepository implements SocialRepositoryInterface
     public function delete(int $id)
     {
         return $this->model->destroy($id);
+    }
+
+    public function findWithPrompt(int $id): ?SocialPost
+    {
+        return SocialPost::with('prompt')->find($id);
     }
 }

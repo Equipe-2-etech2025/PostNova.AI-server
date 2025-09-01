@@ -26,6 +26,8 @@ class CreateSocialPostRequest extends FormRequest
             'content' => 'required|string|max:5000',
             'social_id' => 'required|integer|exists:socials,id',
             'campaign_id' => 'required|integer|exists:campaigns,id',
+            'prompt_id' => 'required|integer|exists:prompts,id',
+
         ];
     }
 
@@ -41,6 +43,9 @@ class CreateSocialPostRequest extends FormRequest
 
             'campaign_id.required' => 'La campagne est obligatoire.',
             'campaign_id.exists' => 'La campagne sélectionnée est invalide.',
+
+            'prompt_id.required' => 'Le prompt est obligatoire.',
+            'prompt_id.exists' => 'Le prompt sélectionné est invalide.',
         ];
     }
 
@@ -57,7 +62,8 @@ class CreateSocialPostRequest extends FormRequest
             null,
             content: $this->input('content'),
             campaign_id: $this->input('campaign_id'),
-            social_id: $this->input('social_id')
+            social_id: $this->input('social_id'),
+            prompt_id: $this->input('prompt_id')
         );
     }
 }

@@ -74,6 +74,7 @@ use App\Http\Controllers\API\Social\SocialUpdateController;
 use App\Http\Controllers\API\SocialPost\SocialPostCriteriaController;
 use App\Http\Controllers\API\SocialPost\SocialPostDestroyController;
 use App\Http\Controllers\API\SocialPost\SocialPostIndexController;
+use App\Http\Controllers\API\SocialPost\SocialPostRegenerateController;
 use App\Http\Controllers\API\SocialPost\SocialPostShowController;
 use App\Http\Controllers\API\SocialPost\SocialPostStoreController;
 use App\Http\Controllers\API\SocialPost\SocialPostUpdateController;
@@ -227,6 +228,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', SocialPostUpdateController::class);
         Route::delete('/{id}', SocialPostDestroyController::class);
         Route::post('/generate', SocialsPostsGenerateController::class);
+        Route::put('/regenerate/{post}', SocialPostRegenerateController::class);
+        Route::post('/regenerate-preview', [SocialPostRegenerateController::class, '__invoke']);
     });
 
     Route::prefix('tarifs')->group(function () {

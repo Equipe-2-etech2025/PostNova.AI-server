@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Campaign;
 use App\Models\Prompt;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +21,10 @@ class PromptFactory extends Factory
     public function definition(): array
     {
         return [
-
+            'content' => $content = $this->faker->sentence(),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'campaign_id' => Campaign::factory(),
         ];
     }
 }

@@ -3,8 +3,12 @@
 -[EPA-81] Creation image (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-81-creation-image`
   Commit:  `EPA-81: creation-image`
-  
--[EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
+
+- [EPA-82] Mise à jour de génération social post SERVEUR  (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `chore/EPA-82-socialpost-generation`
+  Commit: `EPA-82: chore: mise à jour de génération social post`
+
+ -[EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-76-mes-campagnes`
   Commit: `EPA-76: Page mes campagnes`
   
