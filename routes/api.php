@@ -110,6 +110,7 @@ use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
+use App\Http\Controllers\API\Image\ImageGenerationController;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques
@@ -279,4 +280,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/campaign-templates/categories', [CategoryController::class, 'index']);
 
     Route::post('campaign-templates/ratings/{templateId}', TemplateRatingController::class);
+
+    Route::post('/generate-images', [ImageGenerationController::class, 'generateImage']);
 });

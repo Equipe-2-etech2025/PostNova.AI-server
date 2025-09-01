@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+-[EPA-81] Creation image (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-81-creation-image`
+  Commit:  `EPA-81: creation-image`
+  
 -[EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-76-mes-campagnes`
   Commit: `EPA-76: Page mes campagnes`
