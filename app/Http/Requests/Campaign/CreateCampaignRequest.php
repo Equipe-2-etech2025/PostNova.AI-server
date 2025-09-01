@@ -21,6 +21,7 @@ class CreateCampaignRequest extends FormRequest
             'status' => ['nullable', Rule::in(StatusEnum::values())],
             'description' => 'required|string|max:1000',
             'type_campaign_id' => 'required|exists:type_campaigns,id',
+            'is_published' => 'boolean',
         ];
     }
 
@@ -31,6 +32,7 @@ class CreateCampaignRequest extends FormRequest
             'description.required' => 'La description de la campaign kkkkkk est obligatoire.',
             'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
             'type_campaign_id.exists' => 'Type de campaign invalide.',
+
         ];
     }
 
@@ -51,7 +53,8 @@ class CreateCampaignRequest extends FormRequest
             description: $this->input('description'),
             type_campaign_id: $this->input('type_campaign_id'),
             user_id: $this->user()->id,
-            status: $this->input('status', StatusEnum::Created->value)
+            status: $this->input('status', StatusEnum::Created->value),
+            is_published: $this->input('is_published') ?? false
         );
     }
 }

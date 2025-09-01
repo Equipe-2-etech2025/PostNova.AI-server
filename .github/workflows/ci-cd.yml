@@ -52,7 +52,9 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress
+          composer require --dev laravel/pint phpstan/phpstan larastan/larastan --with-all-dependencies
 
       - name: Create testing environment
         run: |
@@ -67,9 +69,23 @@ jobs:
           echo "GEMINI_API_KEY=fake-key-for-ci" >> .env.testing
           echo "GEMINI_API_URL=http://localhost/fake-api" >> .env.testing
 
+      - name: Run Pint validation
+        run: vendor/bin/pint --test
+
+      - name: Run PHPStan analysis
+        run: vendor/bin/phpstan analyse --memory-limit=1G
+
+      - name: Run security check
+        run: composer audit
+
       - name: Run tests
         env:
-          APP_ENV: testing
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: postnova_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
         run: |
           php artisan migrate:fresh --force
           php artisan db:seed --force

@@ -21,6 +21,7 @@ class CampaignResource extends JsonResource
                 'value' => $this->resource->status,
                 'label' => StatusEnum::from($this->resource->status)->label(),
             ],
+            'is_published' => $this->is_published,
             'description' => $this->resource->description,
 
             'user' => $this->whenLoaded('user', function () {
@@ -37,8 +38,8 @@ class CampaignResource extends JsonResource
                     ->where('likes', '>', 0)
                     ->exists();
             }, false),
-
             'user_has_shared' => $this->when((bool) $request->user(), function () use ($request) {
+
                 return $this->resource->interactions()
                     ->where('user_id', $request->user()->id)
                     ->where('shares', '>', 0)

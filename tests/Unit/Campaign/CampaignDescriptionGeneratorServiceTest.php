@@ -29,7 +29,7 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignDescriptionGeneratorService;
-        $description = $service->generateDescriptionFromDescription('Description de test');
+        $description = $service->generateDescriptionFromDescription('Description de test', "type de campagne");
 
         $this->assertEquals('Description professionnelle générée pour la campagne', $description);
     }
@@ -42,10 +42,10 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignDescriptionGeneratorService;
-        $description = $service->generateDescriptionFromDescription('Description de test spécifique');
+        $description = $service->generateDescriptionFromDescription('Description de test spécifique', 'type de campagne');
 
         $this->assertStringContainsString('Description de test spécifique', $description);
-        $this->assertStringContainsString('Campagne marketing conçue pour atteindre des objectifs spécifiques', $description);
+        $this->assertStringContainsString('Campagne type de campagne conçue pour atteindre des objectifs spécifiques', $description);
         $this->assertStringContainsString('Stratégie optimisée pour maximiser l\'engagement et les résultats', $description);
     }
 
@@ -57,9 +57,9 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignDescriptionGeneratorService;
-        $description = $service->generateDescriptionFromDescription('Test exception');
+        $description = $service->generateDescriptionFromDescription('Test exception', "type de campagne");
         $this->assertStringContainsString('Test exception', $description);
-        $this->assertStringContainsString('Campagne marketing conçue pour atteindre des objectifs spécifiques', $description);
+        $this->assertStringContainsString('Campagne type de campagne conçue pour atteindre des objectifs spécifiques', $description);
     }
 
     #[Test]
@@ -70,7 +70,7 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         $reflection = new \ReflectionClass($service);
         $method = $reflection->getMethod('cleanResponse');
 
-        $result = $method->invokeArgs($service, ['"Description : \'texte de test\'"']);
+        $result = $method->invokeArgs($service, ['"texte de test"']);
 
         $this->assertEquals('texte de test', $result);
     }
@@ -83,9 +83,9 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         $reflection = new \ReflectionClass($service);
         $method = $reflection->getMethod('generateFallbackDescription');
 
-        $result = $method->invokeArgs($service, ['description originale']);
+        $result = $method->invokeArgs($service, ['description originale', 'campagne type']);
 
         $this->assertStringContainsString('description originale', $result);
-        $this->assertStringContainsString('Campagne marketing conçue', $result);
+        $this->assertStringContainsString('Campagne campagne type conçue', $result);
     }
 }

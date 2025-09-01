@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Campaign;
+use App\Models\Prompt;
 use App\Models\Social;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,10 +20,12 @@ class SocialPostFactory extends Factory
     public function definition(): array
     {
         return [
+            'content' => $this->faker->sentence(),
             'created_at' => now(),
             'updated_at' => now(),
             'social_id' => Social::factory(),
-            'campaign_id' => \App\Models\Campaign::inRandomOrder()->first()?->id ?? \App\Models\Campaign::factory(),
+            'campaign_id' => Campaign::factory(),
+            'prompt_id' => Prompt::factory()
         ];
     }
 }
