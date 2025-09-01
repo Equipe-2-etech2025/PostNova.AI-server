@@ -28,10 +28,6 @@ class CampaignCriteriaController extends Controller
 
         $criteria = $request->query();
 
-        if (! $user->isAdmin()) {
-            $criteria['user_id'] = $user->id;
-        }
-
         $results = $this->campaignService->getCampaignByCriteria($criteria);
 
         return new CampaignCollection($results);

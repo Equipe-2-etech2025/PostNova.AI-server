@@ -37,7 +37,18 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function findByCriteria(array $criteria)
     {
-        $query = $this->model->newQuery();
+        $query = $this->model
+            ->withCount(['images', 'landingPages', 'socialPosts'])
+            ->withSum('interactions as total_views', 'views')
+            ->withSum('interactions as total_likes', 'likes')
+            ->withSum('interactions as total_shares', 'shares')
+            ->with([
+                'images' => function ($query) {
+                    $query->select('id', 'campaign_id', 'path', 'is_published', 'created_at');
+                },
+                'typeCampaign',
+                'user'
+            ]);
 
         $availableFields = ['id', 'name', 'description', 'user_id', 'type_campaign_id', 'status', 'is_published'];
         $searchableFields = ['name', 'description'];
@@ -52,7 +63,6 @@ class CampaignRepository implements CampaignRepositoryInterface
                     $value = StatusEnum::fromLabel($value)->value;
                 }
                 $query->where('status', $value);
-
                 continue;
             }
 
@@ -63,8 +73,9 @@ class CampaignRepository implements CampaignRepositoryInterface
             }
         }
 
-        return $query->get();
+        return $query->orderByDesc('created_at')->get();
     }
+
 
     public function create(CampaignDto $campaignDto): Campaign
     {
