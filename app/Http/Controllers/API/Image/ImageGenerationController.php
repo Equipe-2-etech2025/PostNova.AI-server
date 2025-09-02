@@ -17,7 +17,8 @@ class ImageGenerationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'prompt' => 'required|string|min:10|max:1000',
-            'campaign_id' => 'required|integer|exists:campaigns,id'
+            'campaign_id' => 'required|integer|exists:campaigns,id',
+            'prompt_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {

@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+-[EPA-86] Amélioration image (Assigné à: Nathan Rakotoarimanana)
+  Branche: `enhance/EPA-86-affichage-image`
+  Commit:  `EPA-86: amélioration affichage image`
+
 -[EPA-81] Creation image (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-81-creation-image`
   Commit:  `EPA-81: creation-image`

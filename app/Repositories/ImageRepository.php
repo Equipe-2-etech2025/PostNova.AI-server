@@ -22,8 +22,9 @@ class ImageRepository implements ImageRepositoryInterface
 
     public function find(int $id)
     {
-        return $this->model->find($id);
+        return $this->model->with('prompt')->find($id);
     }
+
 
     public function findBy(array $criteria)
     {
