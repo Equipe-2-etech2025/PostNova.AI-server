@@ -34,6 +34,7 @@ class ImageCreateService
             null,
             path: $generatedImage['path'], // URL complète stockée en base
             campaign_id: $params['campaign_id'],
+            prompt_id: $params['prompt_id'],
             is_published: $params['is_published'] ?? false
         );
 
