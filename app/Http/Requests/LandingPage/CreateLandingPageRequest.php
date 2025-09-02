@@ -23,7 +23,6 @@ class CreateLandingPageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'path' => 'required|string|max:255',
             'content' => 'required|array',
             'campaign_id' => 'required|exists:campaigns,id',
         ];
@@ -32,7 +31,6 @@ class CreateLandingPageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'path.required' => 'Le chemin est obligatoire.',
             'content.required' => 'Le contenu est requis.',
             'campaign_id.required' => 'La campagne associée est obligatoire.',
             'campaign_id.exists' => 'La campagne spécifiée n\'existe pas.',
@@ -52,9 +50,9 @@ class CreateLandingPageRequest extends FormRequest
     {
         return new LandingPageDto(
             null,
-            path: $this->input('path'),
             content: $this->input('content'),
             campaign_id: $this->input('campaign_id'),
+            is_published: $this->input('is_published')
         );
     }
 }

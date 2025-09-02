@@ -47,7 +47,7 @@ class CampaignRepository implements CampaignRepositoryInterface
                     $query->select('id', 'campaign_id', 'path', 'is_published', 'created_at');
                 },
                 'typeCampaign',
-                'user'
+                'user',
             ]);
 
         $availableFields = ['id', 'name', 'description', 'user_id', 'type_campaign_id', 'status', 'is_published'];
@@ -63,6 +63,7 @@ class CampaignRepository implements CampaignRepositoryInterface
                     $value = StatusEnum::fromLabel($value)->value;
                 }
                 $query->where('status', $value);
+
                 continue;
             }
 
@@ -75,7 +76,6 @@ class CampaignRepository implements CampaignRepositoryInterface
 
         return $query->orderByDesc('created_at')->get();
     }
-
 
     public function create(CampaignDto $campaignDto): Campaign
     {

@@ -25,7 +25,7 @@ class ImageGenerationController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -38,15 +38,15 @@ class ImageGenerationController extends Controller
                 'images' => [$imageData], // Wrapper dans un tableau pour correspondre au frontend
                 'data' => [
                     'image' => $imageData,
-                    'image_url' => $imageData['url']
-                ]
+                    'image_url' => $imageData['url'],
+                ],
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de la génération de l\'image',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
@@ -55,7 +55,7 @@ class ImageGenerationController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => $this->imageService->getModelInfo()
+            'data' => $this->imageService->getModelInfo(),
         ]);
     }
 }

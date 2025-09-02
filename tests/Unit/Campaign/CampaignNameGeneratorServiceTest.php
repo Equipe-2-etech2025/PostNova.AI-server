@@ -27,7 +27,7 @@ class CampaignNameGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignNameGeneratorService;
-        $name = $service->generateFromDescription('Description de test');
+        $name = $service->generateFromDescription('Description de test', 'type');
         dump($name);
 
         $this->assertEquals('Super Campagne Test', $name);
@@ -41,14 +41,14 @@ class CampaignNameGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignNameGeneratorService;
-        $name = $service->generateFromDescription('Description de test');
+        $name = $service->generateFromDescription('Description de test', 'type');
 
         $possibleNames = [
-            'Campagne Innovation '.date('Y'),
-            'Campagne Excellence '.date('Y'),
-            'Campagne Future '.date('Y'),
-            'Campagne Projet '.date('Y'),
-            'Campagne Solution '.date('Y'),
+            'Campagne type Innovation '.date('Y'),
+            'Campagne type Excellence '.date('Y'),
+            'Campagne type Future '.date('Y'),
+            'Campagne type Projet '.date('Y'),
+            'Campagne type Solution '.date('Y'),
         ];
 
         $this->assertContains($name, $possibleNames);

@@ -37,7 +37,7 @@ class LandingPageGenerateService
         'footer' => [
             'text_limit' => 200,
         ],
-        'sectionMaxCount' => 3
+        'sectionMaxCount' => 3,
     ];
 
     public function __construct(
@@ -50,15 +50,15 @@ class LandingPageGenerateService
         try {
             $response = $this->generateLandingPage($params);
             $rawContent = $response['candidates'][0]['content']['parts'][0]['text'] ?? '';
-            
-            if (!$rawContent) {
+
+            if (! $rawContent) {
                 Log::error('Generated content is empty');
                 throw new \RuntimeException('Generated content is empty');
             }
 
             $parsedContent = $this->parseResponseContent($rawContent);
 
-            if (!$parsedContent) {
+            if (! $parsedContent) {
                 Log::error('Failed to parse generated content');
                 throw new \RuntimeException('Failed to parse generated content');
             }
@@ -67,23 +67,23 @@ class LandingPageGenerateService
             switch ($resReason) {
                 case 'STOP':
                     Log::info('LandingPage generation stopped and content genereted successfully', [
-                        'reason' => $resReason
+                        'reason' => $resReason,
                     ]);
                     break;
                 case 'MAX_TOKENS':
                     Log::error('LandingPage generation finished due to max tokens reached', [
-                        'reason' => $resReason
+                        'reason' => $resReason,
                     ]);
                     throw new \RuntimeException('LandingPage generation finished due to max tokens reached');
                 default:
                     Log::error('LandingPage generation finished with unhandled reason', [
-                        'reason' => $resReason
+                        'reason' => $resReason,
                     ]);
                     throw new \RuntimeException('LandingPage generation finished with unhandled reason');
             }
 
             Log::info('LandingPage generation successful', [
-                'parsed_content' => $parsedContent
+                'parsed_content' => $parsedContent,
             ]);
 
             $dto = new LandingPageDto(
@@ -97,8 +97,9 @@ class LandingPageGenerateService
             return $dto->toArray();
         } catch (\Exception $e) {
             Log::error('LandingPage generation failed', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
+
             return $this->generateFallback($params);
         }
     }
@@ -106,7 +107,7 @@ class LandingPageGenerateService
     private function generateLandingPage(array $params): array
     {
         $campaign = $this->campaignRepository->find($params['campaign_id']);
-        if (!$campaign) {
+        if (! $campaign) {
             throw new \InvalidArgumentException('Invalid campaign ID');
         }
 
@@ -118,7 +119,7 @@ class LandingPageGenerateService
             $response = Http::timeout(120)
                 ->connectTimeout(30)
                 ->retry(3, 2000)
-                ->post(config('services.gemini.api_url') . '?key=' . config('services.gemini.api_key'), [
+                ->post(config('services.gemini.api_url').'?key='.config('services.gemini.api_key'), [
                     'contents' => [['parts' => [['text' => $prompt]]]],
                     'generationConfig' => ['maxOutputTokens' => 10000],
                 ]);
@@ -126,17 +127,17 @@ class LandingPageGenerateService
             Log::info('LandingPage API call completed', [
                 'status' => $response->status(),
                 'successful' => $response->successful(),
-                'text' => $response->body()
+                'text' => $response->body(),
             ]);
 
             $endTime = microtime(true);
             $duration = round(($endTime - $startTime) * 1000, 2);
 
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 Log::error('API request failed', [
                     'status' => $response->status(),
                     'body' => $response->body(),
-                    'duration_ms' => $duration
+                    'duration_ms' => $duration,
                 ]);
                 throw new \RuntimeException("API request failed with status: {$response->status()}");
             }
@@ -146,7 +147,7 @@ class LandingPageGenerateService
             $endTime = microtime(true);
             $duration = round(($endTime - $startTime) * 1000, 2);
 
-            throw new \RuntimeException('API connection timeout after ' . $duration . 'ms');
+            throw new \RuntimeException('API connection timeout after '.$duration.'ms');
         } catch (RequestException $e) {
             $endTime = microtime(true);
             $duration = round(($endTime - $startTime) * 1000, 2);
@@ -154,10 +155,10 @@ class LandingPageGenerateService
             Log::error('API request exception', [
                 'duration_ms' => $duration,
                 'error' => $e->getMessage(),
-                'response' => $e->response ? $e->response->body() : null
+                'response' => $e->response ? $e->response->body() : null,
             ]);
 
-            throw new \RuntimeException('API request failed: ' . $e->getMessage());
+            throw new \RuntimeException('API request failed: '.$e->getMessage());
         }
     }
 
@@ -248,7 +249,7 @@ PROMPT;
     {
         // Extraire le HTML du bloc de code markdown
         $html = $this->extractHtmlBlock($content);
-        
+
         // Extraire les blocs JSON
         $hero = $this->extractJsonBlock($content, 'HERO');
         $sections = $this->extractJsonBlock($content, 'SECTIONS');
@@ -260,7 +261,7 @@ PROMPT;
             'hero_found' => $hero !== null,
             'sections_found' => $sections !== null,
             'footer_found' => $footer !== null,
-            'html_preview' => substr($html, 0, 200) . '...'
+            'html_preview' => substr($html, 0, 200).'...',
         ]);
 
         return [
@@ -270,7 +271,7 @@ PROMPT;
                     'hero' => $hero,
                     'sections' => $sections,
                     'footer' => $footer,
-                ]
+                ],
             ],
         ];
     }
@@ -280,17 +281,18 @@ PROMPT;
         // Extraire le format HTML: `...` avec caractères Unicode échappés
         if (preg_match('/HTML:\s*`([^`]+)`/s', $content, $matches)) {
             $html = $matches[1];
-            
+
             // Décoder les caractères Unicode échappés (\u003c devient <, etc.)
-            $decodedHtml = json_decode('"' . $html . '"');
-            
+            $decodedHtml = json_decode('"'.$html.'"');
+
             if ($decodedHtml !== null) {
                 // Nettoyer les échappements supplémentaires
                 $decodedHtml = str_replace('\\\\', '\\', $decodedHtml);
                 $decodedHtml = str_replace('\\"', '"', $decodedHtml);
+
                 return trim($decodedHtml);
             }
-            
+
             // Si le décodage JSON échoue, essayer de remplacer manuellement
             $html = str_replace('\\u003c', '<', $html);
             $html = str_replace('\\u003e', '>', $html);
@@ -298,10 +300,10 @@ PROMPT;
             $html = str_replace('\\"', '"', $html);
             $html = str_replace('\\/', '/', $html);
             $html = str_replace('\\\\', '\\', $html);
-            
+
             return trim($html);
         }
-        
+
         // Fallback pour format avec guillemets doubles
         if (preg_match('/HTML:\s*"([^"]+)"/s', $content, $matches)) {
             $html = $matches[1];
@@ -309,31 +311,34 @@ PROMPT;
             $html = str_replace('\\n', "\n", $html);
             $html = str_replace('\\/', '/', $html);
             $html = str_replace('\\\\', '\\', $html);
+
             return trim($html);
         }
-        
+
         return '';
     }
 
     private function extractJsonBlock(string $content, string $blockName): ?array
     {
-        $pattern = '/' . preg_quote($blockName) . ':\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*(?=\n[A-Z]+:|$)/';
-        
+        $pattern = '/'.preg_quote($blockName).':\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*(?=\n[A-Z]+:|$)/';
+
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
-            
+
             try {
                 $decoded = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
+
                 return $decoded;
             } catch (\JsonException $e) {
                 Log::error("Failed to parse JSON for {$blockName}", [
                     'json_string' => $jsonString,
-                    'error' => $e->getMessage()
+                    'error' => $e->getMessage(),
                 ]);
+
                 return null;
             }
         }
-        
+
         return null;
     }
 
@@ -349,7 +354,7 @@ PROMPT;
             ],
             'sections' => [],
             'footer' => [
-                'text' => '© ' . date('Y') . ' ' . ($params['company'] ?? 'Entreprise'),
+                'text' => '© '.date('Y').' '.($params['company'] ?? 'Entreprise'),
                 'links' => [],
             ],
         ];

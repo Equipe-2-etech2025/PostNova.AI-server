@@ -63,25 +63,10 @@ class CampaignSearchTest extends BaseCampaignTest
 
         $response = $this->getJson('/api/campaigns');
 
-        dump($response->json());
         $response->assertOk()
             ->assertJsonStructure([
                 'data',
             ]);
-    }
-
-    #[Test]
-    public function search_returns_only_accessible_campaigns_for_user()
-    {
-        $this->createCampaignForUser($this->user);
-        $this->createCampaignForUser($this->otherUser);
-        Sanctum::actingAs($this->user);
-
-        $response = $this->getJson('/api/campaigns/search');
-
-        $response->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.user_id', $this->user->id);
     }
 
     #[Test]

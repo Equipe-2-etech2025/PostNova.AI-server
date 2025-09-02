@@ -8,8 +8,6 @@ interface CampaignInteractionServiceInterface
 {
     public function getAllInteractions();
 
-    public function getInteractionById(int $id);
-
     public function createInteraction(CampaignInteractionDto $dto);
 
     public function updateInteraction(int $id, CampaignInteractionDto $dto);
@@ -21,7 +19,7 @@ interface CampaignInteractionServiceInterface
     //public function update(int $id, CampaignInteractionDto $dto): CampaignInteraction;
 
     //public function getInteractionsByCampaignId(int $campaignId);
-  
+
     public function getCampaignTotalLikes(int $campaignId): int;
 
     public function getCampaignTotalViews(int $campaignId): int;
@@ -29,4 +27,6 @@ interface CampaignInteractionServiceInterface
     public function getCampaignTotalShares(int $campaignId): int;
 
     public function deleteInteractionByCampaignAndUser(int $campaignId, int $userId);
+
+    public function getInteractionById(int $id);
 }

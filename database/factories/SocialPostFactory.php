@@ -25,7 +25,7 @@ class SocialPostFactory extends Factory
             'updated_at' => now(),
             'social_id' => Social::factory(),
             'campaign_id' => Campaign::factory(),
-            'prompt_id' => Prompt::factory()
+            'prompt_id' => Prompt::factory(),
         ];
     }
 }

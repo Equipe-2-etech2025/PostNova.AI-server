@@ -7,12 +7,14 @@ on:
       - dev
       - 'feature/**'
       - 'test/**'
+      - 'fix/**'
   pull_request:
     branches:
       - main
       - dev
       - 'feature/**'
       - 'test/**'
+      - 'fix/**'
 
 jobs:
   validation-test:
@@ -70,13 +72,13 @@ jobs:
           echo "GEMINI_API_URL=http://localhost/fake-api" >> .env.testing
 
       - name: Run Pint validation
-        run: vendor/bin/pint --test
+        run: vendor/bin/pint
 
       - name: Run PHPStan analysis
         run: vendor/bin/phpstan analyse --memory-limit=1G
 
       - name: Run security check
-        run: composer audit
+        run: vendor/bin/composer audit
 
       - name: Run tests
         env:

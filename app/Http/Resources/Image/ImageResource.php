@@ -27,5 +27,4 @@ class ImageResource extends JsonResource
             'prompt' => $this->resource->prompt ? $this->resource->prompt->content : null,
         ];
     }
-
 }

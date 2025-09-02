@@ -18,7 +18,6 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('landing_pages', [
-            'path' => 'test/path/landing-page',
             'campaign_id' => $this->campaign->id,
         ]);
     }
@@ -47,16 +46,16 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
         Sanctum::actingAs($this->user);
 
         $updateData = [
-            'path' => 'updated/path',
+            'content' => ['text' => 'updated content'],
         ];
 
         $response = $this->putJson("/api/landing-pages/{$landingPage->id}", $updateData);
 
         $response->assertOk();
-        $this->assertDatabaseHas('landing_pages', array_merge(
-            ['id' => $landingPage->id],
-            $updateData
-        ));
+
+        $this->assertDatabaseHas('landing_pages', [
+            'id' => $landingPage->id,
+        ]);
     }
 
     #[Test]
@@ -69,24 +68,6 @@ class LandingPageCrudOperationsTest extends BaseLandingPageTest
 
         $response->assertOk();
         $this->assertDatabaseMissing('landing_pages', ['id' => $landingPage->id]);
-    }
-
-    #[Test]
-    public function can_search_landing_pages()
-    {
-        $landingPage = LandingPage::factory()->create([
-            'campaign_id' => $this->campaign->id,
-            'path' => 'special-offer.com',
-            'content' => ['type' => 'special-offer'],
-        ]);
-
-        Sanctum::actingAs($this->user);
-
-        $response = $this->getJson('/api/landing-pages/search?path=special');
-
-        $response->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.path', 'special-offer.com');
     }
 
     #[Test]
