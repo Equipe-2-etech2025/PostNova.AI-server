@@ -173,7 +173,6 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(SocialPostRepository::class),
                 $app->make(CampaignRepositoryInterface::class),
                 $app->make(SocialPostGeneratorService::class),
-                $app->make(SocialPostValidationService::class)
             );
         });
 
@@ -182,7 +181,6 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(SocialPostRepositoryInterface::class),
                 $app->make(CampaignRepositoryInterface::class),
                 $app->make(SocialPostGeneratorService::class),
-                $app->make(SocialPostValidationService::class)
             );
         });
 

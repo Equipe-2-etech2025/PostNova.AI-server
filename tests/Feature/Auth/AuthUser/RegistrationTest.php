@@ -2,14 +2,11 @@
 
 namespace Tests\Feature\Auth\AuthUser;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
-    use RefreshDatabase;
-
     #[Test]
     public function user_can_register_with_valid_data()
     {

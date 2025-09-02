@@ -3,7 +3,6 @@
 namespace App\Services\SocialPost;
 
 use App\DTOs\SocialPost\SocialPostDto;
-use App\Repositories\Interfaces\CampaignRepositoryInterface;
 use App\Repositories\SocialPostRepository;
 use Illuminate\Support\Facades\Log;
 
@@ -11,7 +10,6 @@ class SocialPostCreateService
 {
     public function __construct(
         private readonly SocialPostRepository $socialPostRepository,
-        private readonly CampaignRepositoryInterface $campaignRepository,
         private readonly SocialPostGeneratorService $generatorService,
         private readonly SocialPostValidationService $validationService
     ) {}

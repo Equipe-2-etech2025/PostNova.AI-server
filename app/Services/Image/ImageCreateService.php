@@ -6,11 +6,11 @@ use App\DTOs\Image\ImageDto;
 use App\Repositories\ImageRepository;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class ImageCreateService
 {
     private const DEFAULT_MODEL = 'stable-diffusion-xl';
+
     private const MODEL_ID = 'stabilityai/stable-diffusion-xl-base-1.0';
 
     public function __construct(
@@ -23,12 +23,12 @@ class ImageCreateService
     public function generateAndCreateImage(array $params): array
     {
         $generatedImage = $this->generateImage($params);
-        
+
         // Si la génération a échoué, retourner l'erreur
         if (isset($generatedImage['error'])) {
             throw new \RuntimeException($generatedImage['error']);
         }
-        
+
         // $generatedImage['path'] contient maintenant l'URL complète
         $dto = new ImageDto(
             null,
@@ -51,7 +51,7 @@ class ImageCreateService
             'url' => $createdImage->path, // Même chose que path maintenant
             'prompt' => $generatedImage['prompt'],
             'enhanced_prompt' => $generatedImage['enhanced_prompt'] ?? null,
-            'model_used' => $generatedImage['model_used'] ?? self::DEFAULT_MODEL
+            'model_used' => $generatedImage['model_used'] ?? self::DEFAULT_MODEL,
         ];
     }
 
@@ -66,16 +66,16 @@ class ImageCreateService
                 $params['campaign_id']
             );
         } catch (\Exception $e) {
-            Log::error("Failed to generate image", [
+            Log::error('Failed to generate image', [
                 'error' => $e->getMessage(),
-                'prompt' => $params['prompt']
+                'prompt' => $params['prompt'],
             ]);
 
             return [
                 'path' => null,
                 'prompt' => $params['prompt'],
                 'campaign_id' => $params['campaign_id'],
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ];
         }
     }
@@ -86,15 +86,15 @@ class ImageCreateService
 
         Log::info('Envoi requête à Hugging Face', [
             'prompt' => $enhancedPrompt,
-            'model' => self::MODEL_ID
+            'model' => self::MODEL_ID,
         ]);
 
         $response = Http::retry(3, 1000)
             ->timeout(300)
             ->withHeaders([
-                'Authorization' => 'Bearer ' . config('services.huggingface.api_key'),
+                'Authorization' => 'Bearer '.config('services.huggingface.api_key'),
             ])
-            ->post("https://api-inference.huggingface.co/models/" . self::MODEL_ID, [
+            ->post('https://api-inference.huggingface.co/models/'.self::MODEL_ID, [
                 'inputs' => $enhancedPrompt,
                 'parameters' => [
                     'num_inference_steps' => 20,
@@ -104,8 +104,8 @@ class ImageCreateService
                 ],
                 'options' => [
                     'wait_for_model' => true,
-                    'use_cache' => false
-                ]
+                    'use_cache' => false,
+                ],
             ]);
 
         $statusCode = $response->status();
@@ -114,22 +114,22 @@ class ImageCreateService
         Log::info('Réponse Hugging Face', [
             'status' => $statusCode,
             'content_type' => $contentType,
-            'headers' => $response->headers()
+            'headers' => $response->headers(),
         ]);
 
         // Gestion des erreurs HTTP
         if ($statusCode !== 200) {
             $errorData = $response->json();
-            
+
             if ($statusCode === 503 && isset($errorData['estimated_time'])) {
-                throw new \RuntimeException("Modèle en cours de chargement. Réessayez dans " . $errorData['estimated_time'] . " secondes");
+                throw new \RuntimeException('Modèle en cours de chargement. Réessayez dans '.$errorData['estimated_time'].' secondes');
             }
-            
+
             if ($statusCode === 429) {
-                throw new \RuntimeException("Limite de requêtes dépassée. Veuillez patienter.");
+                throw new \RuntimeException('Limite de requêtes dépassée. Veuillez patienter.');
             }
-            
-            throw new \RuntimeException("Erreur API ($statusCode): " . $response->body());
+
+            throw new \RuntimeException("Erreur API ($statusCode): ".$response->body());
         }
 
         // Vérifier le type de contenu
@@ -139,11 +139,11 @@ class ImageCreateService
         } elseif ($contentType === 'application/json') {
             // Réponse JSON - analyser la structure
             $responseData = $response->json();
-            
+
             if (isset($responseData['error'])) {
-                throw new \RuntimeException("Erreur Hugging Face: " . $responseData['error']);
+                throw new \RuntimeException('Erreur Hugging Face: '.$responseData['error']);
             }
-            
+
             if (isset($responseData[0]['generated_image'])) {
                 // Format avec generated_image en base64
                 $imageData = base64_decode($responseData[0]['generated_image']);
@@ -156,7 +156,7 @@ class ImageCreateService
             } else {
                 // Log de debug pour voir la structure
                 Log::error('Format de réponse JSON inattendu', ['response' => $responseData]);
-                throw new \RuntimeException("Format de réponse JSON non supporté");
+                throw new \RuntimeException('Format de réponse JSON non supporté');
             }
         } else {
             throw new \RuntimeException("Type de contenu non supporté: $contentType");
@@ -164,7 +164,7 @@ class ImageCreateService
 
         // Vérifier que les données image ne sont pas vides
         if (empty($imageData)) {
-            throw new \RuntimeException("Aucune donnée image reçue");
+            throw new \RuntimeException('Aucune donnée image reçue');
         }
 
         // Sauvegarder l'image
@@ -175,7 +175,7 @@ class ImageCreateService
             'prompt' => $prompt,
             'enhanced_prompt' => $enhancedPrompt,
             'campaign_id' => $campaignId,
-            'model_used' => self::DEFAULT_MODEL
+            'model_used' => self::DEFAULT_MODEL,
         ];
     }
 
@@ -184,38 +184,38 @@ class ImageCreateService
         $qualityKeywords = [
             'high quality', 'professional', 'detailed', 'sharp focus',
             'masterpiece', 'best quality', 'ultra detailed', '4k',
-            'photorealistic', 'cinematic lighting', 'studio quality'
+            'photorealistic', 'cinematic lighting', 'studio quality',
         ];
-        
-        return $prompt . ', ' . implode(', ', $qualityKeywords);
+
+        return $prompt.', '.implode(', ', $qualityKeywords);
     }
 
     private function saveImageLocally(string $imageData, int $campaignId, string $prompt): string
     {
-        $filename = 'campaign_' . $campaignId . '_' . time() . '.jpg';
-        
+        $filename = 'campaign_'.$campaignId.'_'.time().'.jpg';
+
         // Chemin absolu pour forcer la création
-        $absoluteDirectory = storage_path('app/public/images/campaigns/' . $campaignId);
-        $relativePath = 'images/campaigns/' . $campaignId . '/' . $filename;
-        
+        $absoluteDirectory = storage_path('app/public/images/campaigns/'.$campaignId);
+        $relativePath = 'images/campaigns/'.$campaignId.'/'.$filename;
+
         // Créer le dossier avec mkdir PHP natif
-        if (!file_exists($absoluteDirectory)) {
+        if (! file_exists($absoluteDirectory)) {
             mkdir($absoluteDirectory, 0755, true);
             Log::info('Created directory', ['path' => $absoluteDirectory]);
         }
-        
+
         // Sauvegarder avec file_put_contents
-        $absoluteFilePath = $absoluteDirectory . '/' . $filename;
+        $absoluteFilePath = $absoluteDirectory.'/'.$filename;
         $bytes = file_put_contents($absoluteFilePath, $imageData);
-        
+
         Log::info('Image saved', [
             'path' => $absoluteFilePath,
             'bytes' => $bytes,
-            'exists' => file_exists($absoluteFilePath)
+            'exists' => file_exists($absoluteFilePath),
         ]);
-        
+
         // Retourner l'URL complète au lieu du chemin relatif
-        return config('app.url') . '/storage/' . $relativePath;
+        return config('app.url').'/storage/'.$relativePath;
     }
 
     /**
@@ -226,7 +226,7 @@ class ImageCreateService
         return [
             'model' => self::DEFAULT_MODEL,
             'model_id' => self::MODEL_ID,
-            'image_size' => '1024x1024'
+            'image_size' => '1024x1024',
         ];
     }
 }

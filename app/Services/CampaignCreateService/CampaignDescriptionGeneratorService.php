@@ -51,7 +51,7 @@ class CampaignDescriptionGeneratorService implements CampaignDescriptionGenerato
 
     protected function cleanResponse(string $response): string
     {
-        return trim(str_replace([ '"'], '', $response));
+        return trim(str_replace(['"'], '', $response));
     }
 
     protected function generateFallbackDescription(string $description, string $campaignType): string

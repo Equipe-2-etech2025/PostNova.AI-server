@@ -16,7 +16,7 @@ class SocialPostAuthorizationTest extends BaseSocialPostTest
         $endpoints = [
             ['method' => 'getJson', 'url' => '/api/social-posts'],
             ['method' => 'getJson', 'url' => '/api/social-posts/search'],
-          //  ['method' => 'postJson', 'url' => '/api/social-posts', 'data' => $this->validSocialPostData()],
+            //  ['method' => 'postJson', 'url' => '/api/social-posts', 'data' => $this->validSocialPostData()],
             ['method' => 'getJson', 'url' => "/api/social-posts/{$socialPost->id}"],
             ['method' => 'putJson', 'url' => "/api/social-posts/{$socialPost->id}", 'data' => ['content' => 'Updated']],
             ['method' => 'deleteJson', 'url' => "/api/social-posts/{$socialPost->id}"],

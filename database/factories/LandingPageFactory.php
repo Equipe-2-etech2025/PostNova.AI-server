@@ -21,7 +21,6 @@ class LandingPageFactory extends Factory
     public function definition(): array
     {
         return [
-            'path' => $this->faker->url(),
             'content' => [
                 'hero' => [
                     'title' => $this->faker->sentence(4),

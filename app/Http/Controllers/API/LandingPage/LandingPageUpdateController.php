@@ -25,7 +25,7 @@ class LandingPageUpdateController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Landing page mise à jour avec succès',
-            'data' => new LandingPageResource($updatedLandingPage)
+            'data' => new LandingPageResource($updatedLandingPage),
         ], 200);
     }
 }

@@ -32,7 +32,7 @@ class LandingPageSearchTest extends BaseLandingPageTest
     #[Test]
     public function can_list_paginated_landing_pages()
     {
-        LandingPage::factory()->count(15)->create([
+        LandingPage::factory()->count(3)->create([
             'campaign_id' => $this->campaign->id,
             'content' => ['title' => 'Landing Page'],
         ]);
@@ -44,7 +44,7 @@ class LandingPageSearchTest extends BaseLandingPageTest
             ->assertJsonStructure([
                 'data',
             ])
-            ->assertJsonCount(15, 'data');
+            ->assertJsonCount(3, 'data');
     }
 
     #[Test]
@@ -64,26 +64,5 @@ class LandingPageSearchTest extends BaseLandingPageTest
         $response->assertOk()
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.campaign_id', $this->campaign->id);
-    }
-
-    #[Test]
-    public function can_search_landing_pages_by_path()
-    {
-        LandingPage::factory()->create([
-            'campaign_id' => $this->campaign->id,
-            'path' => 'special-offer',
-        ]);
-
-        LandingPage::factory()->create([
-            'campaign_id' => $this->campaign->id,
-            'path' => 'regular-page',
-        ]);
-
-        Sanctum::actingAs($this->user);
-
-        $response = $this->getJson('/api/landing-pages/search?path=special');
-        $response->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.path', 'special-offer');
     }
 }

@@ -11,6 +11,7 @@ use Tests\TestCase;
 class CampaignDescriptionGeneratorServiceTest extends TestCase
 {
     use RefreshDatabase;
+
     #[Test]
     public function test_it_generates_description_from_description()
     {
@@ -29,7 +30,7 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignDescriptionGeneratorService;
-        $description = $service->generateDescriptionFromDescription('Description de test', "type de campagne");
+        $description = $service->generateDescriptionFromDescription('Description de test', 'type de campagne');
 
         $this->assertEquals('Description professionnelle générée pour la campagne', $description);
     }
@@ -57,7 +58,7 @@ class CampaignDescriptionGeneratorServiceTest extends TestCase
         ]);
 
         $service = new CampaignDescriptionGeneratorService;
-        $description = $service->generateDescriptionFromDescription('Test exception', "type de campagne");
+        $description = $service->generateDescriptionFromDescription('Test exception', 'type de campagne');
         $this->assertStringContainsString('Test exception', $description);
         $this->assertStringContainsString('Campagne type de campagne conçue pour atteindre des objectifs spécifiques', $description);
     }
