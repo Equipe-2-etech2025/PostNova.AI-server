@@ -67,7 +67,7 @@ use App\Services\Interfaces\TarifUserServiceInterface;
 use App\Services\Interfaces\TemplateRatingServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
-use App\Services\LandingPageService;
+use App\Services\LandingPage\LandingPageService;
 use App\Services\PromptService;
 use App\Services\SocialPost\SocialPostCreateService;
 use App\Services\SocialPost\SocialPostGeneratorService;

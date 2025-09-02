@@ -37,6 +37,7 @@ return [
 
     'gemini' => [
         'api_key' => env('GEMINI_API_KEY'),
+        'api_url' => env('GEMINI_API_URL'),
     ],
 
     'huggingface' => [

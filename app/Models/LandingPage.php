@@ -28,7 +28,6 @@ class LandingPage extends Model
 
     protected $fillable = [
         'type',
-        'path',
         'content',
         'is_published',
         'campaign_id',
@@ -36,8 +35,6 @@ class LandingPage extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'type' => 'string',
-        'path' => 'string',
         'content' => 'array',
         'is_published' => 'boolean',
         'created_at' => 'datetime',

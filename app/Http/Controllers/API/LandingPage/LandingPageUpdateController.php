@@ -22,6 +22,10 @@ class LandingPageUpdateController extends Controller
         $this->authorize('update', $landingPage);
         $updatedLandingPage = $this->service->updateLandingPage($id, $request->toDto($landingPage));
 
-        return new LandingPageResource($updatedLandingPage);
+        return response()->json([
+            'success' => true,
+            'message' => 'Landing page mise à jour avec succès',
+            'data' => new LandingPageResource($updatedLandingPage)
+        ], 200);
     }
 }
