@@ -25,6 +25,7 @@ use App\Repositories\Interfaces\SocialRepositoryInterface;
 use App\Repositories\Interfaces\TarifFeatureRepositoryInterface;
 use App\Repositories\Interfaces\TarifRepositoryInterface;
 use App\Repositories\Interfaces\TarifUserRepositoryInterface;
+use App\Repositories\Interfaces\TemplateRatingRepositoryInterface;
 use App\Repositories\Interfaces\TypeCampaignRepositoryInterface;
 use App\Repositories\LandingPageRepository;
 use App\Repositories\PromptRepository;
@@ -33,19 +34,22 @@ use App\Repositories\SocialRepository;
 use App\Repositories\TarifFeatureRepository;
 use App\Repositories\TarifRepository;
 use App\Repositories\TarifUserRepository;
+use App\Repositories\TemplateRatingRepository;
 use App\Repositories\TypeCampaignRepository;
-use App\Services\CampaignCreateService\CampaignInteractionService;
+use App\Services\CampaignCreateService\CampaignDescriptionGeneratorService;
 use App\Services\CampaignCreateService\CampaignNameGeneratorService;
 use App\Services\CampaignFeaturesService;
+use App\Services\CampaignInteractionService;
 use App\Services\CampaignService;
 use App\Services\CampaignTemplateService;
 use App\Services\ContentService;
 use App\Services\DashboardService;
 use App\Services\FeaturesService;
 use App\Services\ImageService;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignDescriptionGeneratorServiceInterface;
+use App\Services\Interfaces\CampagnGenerateInterface\CampaignNameGeneratorServiceInterface;
 use App\Services\Interfaces\CampaignFeaturesServiceInterface;
 use App\Services\Interfaces\CampaignInteractionServiceInterface;
-use App\Services\Interfaces\CampaignNameGeneratorServiceInterface;
 use App\Services\Interfaces\CampaignServiceInterface;
 use App\Services\Interfaces\CampaignTemplateServiceInterface;
 use App\Services\Interfaces\ContentServiceInterface;
@@ -60,16 +64,25 @@ use App\Services\Interfaces\SuggestionServiceInterface;
 use App\Services\Interfaces\TarifFeatureServiceInterface;
 use App\Services\Interfaces\TarifServiceInterface;
 use App\Services\Interfaces\TarifUserServiceInterface;
+use App\Services\Interfaces\TemplateRatingServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\LandingPage\LandingPageService;
 use App\Services\PromptService;
+use App\Services\SocialPost\SocialPostCreateService;
+use App\Services\SocialPost\SocialPostGeneratorService;
+use App\Services\SocialPost\SocialPostPlatformManager;
+use App\Services\SocialPost\SocialPostPromptBuilder;
+use App\Services\SocialPost\SocialPostRegenerateService;
+use App\Services\SocialPost\SocialPostResponseParser;
+use App\Services\SocialPost\SocialPostValidationService;
 use App\Services\SocialPostService;
 use App\Services\SocialService;
 use App\Services\SuggestionService;
 use App\Services\TarifFeatureService;
 use App\Services\TarifService;
 use App\Services\TarifUserService;
+use App\Services\TemplateRatingService;
 use App\Services\TypeCampaignService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\URL;
@@ -126,9 +139,54 @@ class AppServiceProvider extends ServiceProvider
             CampaignInteractionRepository::class
         );
 
+        $this->app->bind(
+            CampaignDescriptionGeneratorServiceInterface::class,
+            CampaignDescriptionGeneratorService::class
+        );
+
         $this->app->bind(CampaignTemplateRepositoryInterface::class, CampaignTemplateRepository::class);
         $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
+        $this->app->bind(TemplateRatingRepositoryInterface::class, TemplateRatingRepository::class);
+        $this->app->bind(TemplateRatingServiceInterface::class, TemplateRatingService::class);
+        $this->app->singleton(SocialPostPlatformManager::class);
+        $this->app->singleton(SocialPostValidationService::class);
 
+        $this->app->bind(SocialPostPromptBuilder::class, function ($app) {
+            return new SocialPostPromptBuilder($app->make(SocialPostPlatformManager::class));
+        });
+
+        $this->app->bind(SocialPostResponseParser::class, function ($app) {
+            return new SocialPostResponseParser($app->make(SocialPostPlatformManager::class));
+        });
+
+        $this->app->bind(SocialPostGeneratorService::class, function ($app) {
+            return new SocialPostGeneratorService(
+                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostPlatformManager::class),
+                $app->make(SocialPostPromptBuilder::class),
+                $app->make(SocialPostResponseParser::class)
+            );
+        });
+
+        $this->app->bind(SocialPostCreateService::class, function ($app) {
+            return new SocialPostCreateService(
+                $app->make(SocialPostRepository::class),
+                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostGeneratorService::class),
+                $app->make(SocialPostValidationService::class)
+            );
+        });
+
+        $this->app->bind(SocialPostRegenerateService::class, function ($app) {
+            return new SocialPostRegenerateService(
+                $app->make(SocialPostRepositoryInterface::class),
+                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostGeneratorService::class),
+                $app->make(SocialPostValidationService::class)
+            );
+        });
+
+        $this->app->bind(SocialPostRepositoryInterface::class, SocialPostRepository::class);
     }
 
     /**

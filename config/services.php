@@ -40,4 +40,8 @@ return [
         'api_url' => env('GEMINI_API_URL'),
     ],
 
+    'huggingface' => [
+        'api_key' => env('HUGGINGFACE_API_KEY'),
+    ],
+
 ];

@@ -23,6 +23,7 @@ class SocialPostResource extends JsonResource
             'is_published' => $this->resource->is_published,
             'social_id' => $this->resource->social_id,
             'campaign_id' => $this->resource->campaign_id,
+            'prompt_id' => $this->resource->prompt_id,
             'created_at' => $this->resource->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->resource->updated_at?->format('Y-m-d H:i:s'),
             'social' => $this->whenLoaded('social'),

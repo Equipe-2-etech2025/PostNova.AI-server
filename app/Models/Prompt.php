@@ -20,9 +20,11 @@ class Prompt extends Model
 
     protected $keyType = 'int';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public const CREATED_AT = 'created_at';
+
+    public const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
         'content',
@@ -34,6 +36,7 @@ class Prompt extends Model
         'content' => 'string',
         'campaign_id' => 'string',
         'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function campaign()

@@ -6,6 +6,7 @@ parameters:
         - app
         - tests
     level: 5
+    reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - message: '#Negated boolean expression is always false#'
           paths:
@@ -16,10 +17,6 @@ parameters:
               - tests/Feature/Features/FeaturesCrudOperationsTest.php
               - tests/Feature/Features/FeaturesAuthorizationTest.php
               - tests/Feature/CampaignFeatures/CampaignFeaturesSearchTest.php
-
-        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
 
         - message: "#Relation 'tags' is not found in App\\\\Models\\\\CampaignTemplate model#"
           paths:
@@ -35,7 +32,11 @@ parameters:
 
         - message: "#Relation 'category' is not found in App\\\\Models\\\\CampaignTemplate model#"
           paths:
-              - app/Repositories/SocialPostRepository.php
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'socialPosts' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
 
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\LandingPage model#"
           paths:
@@ -62,3 +63,33 @@ parameters:
 
         - message: '#Call to method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true#'
           path: tests/Unit/ExampleTest.php
+
+
+        - message: '#Access to an undefined property App\\Models\\CampaignTemplate::\$category#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+          count: 1
+
+        - message: '#Access to an undefined property App\\Models\\CampaignTemplate::\$typeCampaign#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+          count: 1
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$author#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$thumbnail#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$created_at#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$socialPosts#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$tags#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$is_premium#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$preview#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php

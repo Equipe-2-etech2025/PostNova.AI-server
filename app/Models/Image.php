@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property-read \App\Models\Campaign $campaign
+ * @property-read \App\Models\Prompt $prompt
  */
 class Image extends Model
 {
@@ -30,6 +31,7 @@ class Image extends Model
         'path',
         'is_published',
         'campaign_id',
+        'prompt_id',
     ];
 
     protected $casts = [
@@ -39,10 +41,16 @@ class Image extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'campaign_id' => 'integer',
+        'prompt_id' => 'integer',
     ];
 
     public function campaign()
     {
         return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
+    }
+
+    public function prompt()
+    {
+        return $this->belongsTo(Prompt::class, 'prompt_id', 'id');
     }
 }

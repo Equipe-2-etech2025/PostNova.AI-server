@@ -24,6 +24,8 @@ class ImageResource extends JsonResource
             'campaign_id' => $this->resource->campaign_id,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
+            'prompt' => $this->resource->prompt ? $this->resource->prompt->content : null,
         ];
     }
+
 }

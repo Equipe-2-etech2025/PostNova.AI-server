@@ -27,6 +27,7 @@ use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesShowController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesStoreController;
 use App\Http\Controllers\API\CampaignFeatures\CampaignFeaturesUpdateController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionCriteriaController;
+use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionDestroyByCampaignAndUserController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionDestroyController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionIndexController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionLikeController;
@@ -35,7 +36,9 @@ use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionStatsControl
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionStoreController;
 use App\Http\Controllers\API\CampaignInteraction\CampaignInteractionUpdateController;
 use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateController;
+use App\Http\Controllers\API\CampaignTemplate\CampaignTemplateShowController;
 use App\Http\Controllers\API\CampaignTemplate\CategoryController;
+use App\Http\Controllers\API\CampaignTemplate\TemplateRatingController;
 use App\Http\Controllers\API\Dashboard\DashboardController;
 use App\Http\Controllers\API\Features\FeaturesCriteriaController;
 use App\Http\Controllers\API\Features\FeaturesDestroyController;
@@ -72,6 +75,7 @@ use App\Http\Controllers\API\Social\SocialUpdateController;
 use App\Http\Controllers\API\SocialPost\SocialPostCriteriaController;
 use App\Http\Controllers\API\SocialPost\SocialPostDestroyController;
 use App\Http\Controllers\API\SocialPost\SocialPostIndexController;
+use App\Http\Controllers\API\SocialPost\SocialPostRegenerateController;
 use App\Http\Controllers\API\SocialPost\SocialPostShowController;
 use App\Http\Controllers\API\SocialPost\SocialPostStoreController;
 use App\Http\Controllers\API\SocialPost\SocialPostUpdateController;
@@ -108,6 +112,7 @@ use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
+use App\Http\Controllers\API\Image\ImageGenerationController;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques
@@ -227,6 +232,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('/{id}', SocialPostUpdateController::class);
         Route::delete('/{id}', SocialPostDestroyController::class);
         Route::post('/generate', SocialsPostsGenerateController::class);
+        Route::put('/regenerate/{post}', SocialPostRegenerateController::class);
+        Route::post('/regenerate-preview', [SocialPostRegenerateController::class, '__invoke']);
     });
 
     Route::prefix('tarifs')->group(function () {
@@ -266,12 +273,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/search/criteria', CampaignInteractionCriteriaController::class);
         Route::get('/campaign/{campaignId}/stats', CampaignInteractionStatsController::class);
         Route::post('/{interactionId}/like', CampaignInteractionLikeController::class);
+        Route::post('/dislike', CampaignInteractionDestroyByCampaignAndUserController::class);
     });
 
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 
     Route::get('/suggestion/{userId}', SuggestionController::class);
+
     Route::get('/campaign-templates', CampaignTemplateController::class);
 
+    Route::get('campaign-templates/find/{id}', CampaignTemplateShowController::class);
+
     Route::get('/campaign-templates/categories', [CategoryController::class, 'index']);
+
+    Route::post('campaign-templates/ratings/{templateId}', TemplateRatingController::class);
+
+    Route::post('/generate-images', [ImageGenerationController::class, 'generateImage']);
 });

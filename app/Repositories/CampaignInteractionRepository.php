@@ -30,7 +30,7 @@ class CampaignInteractionRepository implements CampaignInteractionRepositoryInte
         return $this->model->create($dto->toArray());
     }
 
-    public function update(int $id, CampaignInteractionDto|CampaignInteraction $dto): CampaignInteraction
+    public function update(int $id, CampaignInteraction $dto): CampaignInteraction
     {
         $interaction = $this->model->findOrFail($id);
         $interaction->update($dto->toArray());
@@ -76,5 +76,13 @@ class CampaignInteractionRepository implements CampaignInteractionRepositoryInte
     public function getTotalShares(int $campaignId): int
     {
         return $this->model->where('campaign_id', $campaignId)->sum('shares');
+    }
+
+    public function deleteByCampaignAndUser(int $campaignId, int $userId): bool
+    {
+        return $this->model
+            ->where('campaign_id', $campaignId)
+            ->where('user_id', $userId)
+            ->delete() > 0;
     }
 }

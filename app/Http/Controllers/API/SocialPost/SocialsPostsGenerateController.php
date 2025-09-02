@@ -20,6 +20,7 @@ class SocialsPostsGenerateController extends Controller
             'topic' => ['required', 'string'],
             'platforms' => ['required', 'array', 'in:linkedin,x,tiktok'],
             'campaign_id' => ['required', 'int', 'exists:campaigns,id'],
+            'prompt_id' => ['required', 'int', 'exists:prompts,id'],
             'tone' => ['sometimes', 'string', 'in:professional,friendly,creative'],
             'language' => ['sometimes', 'string', 'in:french,english'],
             'hashtags' => ['sometimes', 'string'],
@@ -36,6 +37,7 @@ class SocialsPostsGenerateController extends Controller
                 'hashtags' => $validated['hashtags'] ?? '',
                 'target_audience' => $validated['target_audience'] ?? '',
                 'campaign_id' => $validated['campaign_id'],
+                'prompt_id' => $validated['prompt_id'],
                 'is_published' => $validated['is_published'] ?? false,
             ]);
 
