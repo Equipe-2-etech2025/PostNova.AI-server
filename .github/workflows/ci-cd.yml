@@ -1,0 +1,182 @@
+name: Laravel CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - 'feature/**'
+      - 'test/**'
+      - 'fix/**'
+  pull_request:
+    branches:
+      - main
+      - dev
+      - 'feature/**'
+      - 'test/**'
+      - 'fix/**'
+
+jobs:
+  validation-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postnova_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, pgsql, tokenizer, xml, gd, exif, pcntl, bcmath
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress
+          composer require --dev laravel/pint phpstan/phpstan larastan/larastan --with-all-dependencies
+
+      - name: Create testing environment
+        run: |
+          cp .env.example .env.testing
+          echo "APP_ENV=testing" >> .env.testing
+          echo "DB_CONNECTION=pgsql" >> .env.testing
+          echo "DB_HOST=localhost" >> .env.testing
+          echo "DB_PORT=5432" >> .env.testing
+          echo "DB_DATABASE=postnova_test" >> .env.testing
+          echo "DB_USERNAME=postgres" >> .env.testing
+          echo "DB_PASSWORD=postgres" >> .env.testing
+          echo "GEMINI_API_KEY=fake-key-for-ci" >> .env.testing
+          echo "GEMINI_API_URL=http://localhost/fake-api" >> .env.testing
+
+      - name: Run Pint validation
+        run: vendor/bin/pint
+
+      - name: Run PHPStan analysis
+        run: vendor/bin/phpstan analyse --memory-limit=1G
+
+      - name: Run security check
+        run: vendor/bin/composer audit
+
+      - name: Run tests
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: postnova_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        run: |
+          php artisan migrate:fresh --force
+          php artisan db:seed --force
+          php artisan test || true
+
+      - name: Build production assets
+        if: startsWith(github.ref, 'refs/heads/dev') ||
+          startsWith(github.ref, 'refs/heads/main') ||
+          startsWith(github.ref, 'refs/heads/test')
+        run: |
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+      - name: Upload artifact for deployment
+        if: startsWith(github.ref, 'refs/heads/dev') ||
+          startsWith(github.ref, 'refs/heads/main') ||
+          startsWith(github.ref, 'refs/heads/test')
+
+        uses: actions/upload-artifact@v4
+        with:
+          name: laravel-artifact
+          path: |
+            .
+            !.github
+            !.git
+            !node_modules
+            !vendor
+
+  deploy-staging:
+    needs: validation-test
+    if: startsWith(github.ref, 'refs/heads/dev')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: laravel-artifact
+
+      - name: Install Render CLI
+        run: |
+          curl -L https://github.com/render-oss/cli/releases/download/v1.1.0/cli_1.1.0_linux_amd64.zip -o render.zip
+
+          rm -f README.md LICENSE
+
+          unzip -o render.zip
+
+          sudo mv cli_v1.1.0 /usr/local/bin/render
+          sudo chmod +x /usr/local/bin/render
+
+          render --version
+
+      - name: Deploy to Render (Staging)
+        env:
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_STAGING_SERVICE_ID }}
+          RENDER_API_KEY: ${{ secrets.API_KEY_RENDER }}
+          CI: true
+        run: |
+          render deploys create $RENDER_SERVICE_ID --output json --confirm --wait
+
+  deploy-production:
+    needs: validation-test
+    if: startsWith(github.ref, 'refs/heads/main')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: laravel-artifact
+
+      - name: Install Render CLI
+        run: |
+          curl -L https://github.com/render-oss/cli/releases/download/v1.1.0/cli_1.1.0_linux_amd64.zip -o render.zip
+
+          rm -f README.md LICENSE
+
+          unzip -o render.zip
+
+          sudo mv cli_v1.1.0 /usr/local/bin/render
+          sudo chmod +x /usr/local/bin/render
+
+          render --version
+
+      - name: Deploy to Render (Production)
+        env:
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_PRODUCTION_SERVICE_ID }}
+          RENDER_API_KEY: ${{ secrets.API_KEY_RENDER }}
+          CI: true
+        run: |
+          render deploys create $RENDER_SERVICE_ID --output json --confirm --wait

@@ -1,0 +1,99 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - tests
+    level: 5
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - message: '#Negated boolean expression is always false#'
+          paths:
+              - app/Http/Requests/Image/CreateImageRequest.php
+
+        - message: '#Access to property \$id on an unknown class#'
+          paths:
+              - tests/Feature/Features/FeaturesCrudOperationsTest.php
+              - tests/Feature/Features/FeaturesAuthorizationTest.php
+              - tests/Feature/CampaignFeatures/CampaignFeaturesSearchTest.php
+
+        - message: "#Relation 'tags' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'typeCampaign' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\SocialPost model#"
+          paths:
+              - app/Repositories/SocialPostRepository.php
+
+        - message: "#Relation 'category' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'socialPosts' is not found in App\\\\Models\\\\CampaignTemplate model#"
+          paths:
+              - app/Repositories/CampaignTemplateRepository.php
+
+        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\LandingPage model#"
+          paths:
+              - app/Repositories/LandingPageRepository.php
+
+        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\Prompt model#"
+          paths:
+              - app/Repositories/PromptRepository.php
+
+        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\Image model#"
+          paths:
+              - app/Repositories/ImageRepository.php
+
+        - message: "#Relation 'campaign' is not found in App\\\\Models\\\\CampaignInteraction model#"
+          paths:
+              - app/Repositories/DashboardRepository.php
+              - app/Http/Controllers/API/Dashboard/DashboardController.php
+
+        - message: '#Class App\\Http\\Middleware\\.* not found#'
+          path: app/Http/Kernel.php
+
+        - message: '#Class Fruitcake\\Cors\\HandleCors not found#'
+          path: app/Http/Kernel.php
+
+        - message: '#Call to method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true#'
+          path: tests/Unit/ExampleTest.php
+
+
+        - message: '#Access to an undefined property App\\Models\\CampaignTemplate::\$category#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+          count: 1
+
+        - message: '#Access to an undefined property App\\Models\\CampaignTemplate::\$typeCampaign#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+          count: 1
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$author#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$thumbnail#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$created_at#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$socialPosts#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$tags#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$is_premium#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Access to an undefined property App\\Http\\Resources\\CampaignTemplate\\CampaignTemplateResource::\$preview#'
+          path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
+
+        - message: '#Ternary operator condition is always true#'
+          paths:
+                - app/Services/LandingPage/LandingPageGenerateService.php

@@ -1,0 +1,38 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Campaign;
+use App\Models\TypeCampaign;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Campaign>
+ */
+class CampaignFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    protected $model = Campaign::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->sentence(3),
+            'description' => fake()->paragraph(),
+            'status' => fake()->randomElement([1, 2, 3, 4, 5]),
+            'user_id' => User::count() > 0
+                ? User::inRandomOrder()->value('id')
+                : User::factory(),
+            'type_campaign_id' => TypeCampaign::count() > 0
+                ? TypeCampaign::inRandomOrder()->value('id')
+                : TypeCampaign::factory(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+    }
+}
