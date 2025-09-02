@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\LandingPage;
 
 use App\DTOs\LandingPage\LandingPageDto;
 use App\Repositories\Interfaces\LandingPageRepositoryInterface;

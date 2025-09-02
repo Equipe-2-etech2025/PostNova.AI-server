@@ -20,4 +20,6 @@ interface LandingPageRepositoryInterface
     public function delete(int $id);
 
     public function findByUserId(int $id);
+
+    public function findByCampaignId(int $id);
 }

@@ -21,6 +21,9 @@ class LandingPageDestroyController extends Controller
         $this->authorize('delete', $landingPage);
         $this->service->deleteLandingPage($id);
 
-        return response()->json(['message' => 'Supprimé avec succès.'], 200);
+        return response()->json([
+            'success' => true,
+            'message' => 'Landing page supprimée avec succès'
+        ], 200);
     }
 }

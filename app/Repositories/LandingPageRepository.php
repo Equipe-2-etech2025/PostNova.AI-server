@@ -79,4 +79,9 @@ class LandingPageRepository implements LandingPageRepositoryInterface
             $query->where('user_id', $userId);
         })->get();
     }
+
+    public function findByCampaignId(int $id)
+    {
+        return LandingPage::where('campaign_id', $id)->get();
+    }
 }

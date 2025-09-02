@@ -15,6 +15,7 @@ class LandingPageCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
+            'success' => true,
             'data' => LandingPageResource::collection($this->collection),
             'meta' => [
                 'total' => $this->count(),

@@ -18,7 +18,7 @@ class LandingPagePolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, LandingPage $landingPage): bool
     {
         return true;
     }

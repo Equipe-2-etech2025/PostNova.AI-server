@@ -55,6 +55,7 @@ use App\Http\Controllers\API\LandingPage\LandingPageIndexController;
 use App\Http\Controllers\API\LandingPage\LandingPageShowController;
 use App\Http\Controllers\API\LandingPage\LandingPageStoreController;
 use App\Http\Controllers\API\LandingPage\LandingPageUpdateController;
+use App\Http\Controllers\API\LandingPage\LandingPageGenerateController;
 use App\Http\Controllers\API\Prompt\PromptCriteriaController;
 use App\Http\Controllers\API\Prompt\PromptDestroyController;
 use App\Http\Controllers\API\Prompt\PromptIndexController;
@@ -203,6 +204,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', LandingPageStoreController::class);
         Route::put('/{id}', LandingPageUpdateController::class);
         Route::delete('/{id}', LandingPageDestroyController::class);
+        
+        // role User
+        Route::post('/generate', LandingPageGenerateController::class);
     });
 
     Route::prefix('prompts')->group(function () {

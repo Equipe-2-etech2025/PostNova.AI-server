@@ -62,7 +62,7 @@ use App\Services\Interfaces\TarifServiceInterface;
 use App\Services\Interfaces\TarifUserServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
-use App\Services\LandingPageService;
+use App\Services\LandingPage\LandingPageService;
 use App\Services\PromptService;
 use App\Services\SocialPostService;
 use App\Services\SocialService;

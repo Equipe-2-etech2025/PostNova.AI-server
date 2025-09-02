@@ -24,7 +24,6 @@ class UpdateLandingPageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'path' => 'sometimes|string|max:255',
             'content' => 'sometimes|array',
             'is_published' => 'sometimes|boolean',
             'campaign_id' => 'sometimes|exists:campaigns,id',
@@ -34,7 +33,6 @@ class UpdateLandingPageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'path.string' => 'Le chemin doit être une chaîne de caractères.',
             'content.array' => 'Le contenu doit être un tableau JSON.',
             'is_published.boolean' => 'Le champ de publication doit être un booléen.',
             'campaign_id.exists' => 'La campagne spécifiée n\'existe pas.',
@@ -54,10 +52,9 @@ class UpdateLandingPageRequest extends FormRequest
     {
         return new LandingPageDto(
             id: $landingPage?->id,
-            path: $this->input('path', $landingPage->path),
-            content: $this->input('content', $landingPage->content) ?? [],
-            campaign_id: $this->input('campaign_id', $landingPage->campaign_id),
-            is_published: (bool) $this->input('is_published', $landingPage->is_published ?? false)
+            content: $this->input('content', $landingPage?->content ?? []),
+            campaign_id: $this->input('campaign_id', $landingPage?->campaign_id),
+            is_published: (bool) $this->input('is_published', $landingPage?->is_published ?? false)
         );
     }
 }

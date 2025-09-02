@@ -7,7 +7,7 @@ use App\Http\Resources\LandingPage\LandingPageCollection;
 use App\Models\Campaign;
 use App\Services\Interfaces\LandingPageServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LandingPageIndexController extends Controller
 {
@@ -17,15 +17,22 @@ class LandingPageIndexController extends Controller
         private readonly LandingPageServiceInterface $service
     ) {}
 
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $user = Auth::user();
-        $this->authorize('viewAny', Campaign::class);
+        $campaignId = $request->query('campaign_id');
 
-        $landingPages = $user->hasRole('admin')
-            ? $this->service->getAllLandingPages()
-            : $this->service->getLandingPageByUserId($user->id);
+        $landingPages = [];
 
-        return new LandingPageCollection($landingPages);
+        if ($campaignId) {
+            $campaign = Campaign::findOrFail($campaignId);
+            $this->authorize('view', $campaign);
+            
+            $landingPages = $this->service->getLandingPageByCriteria(['campaign_id' => $campaignId]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => new LandingPageCollection(collect($landingPages)),
+        ], 200);
     }
 }
