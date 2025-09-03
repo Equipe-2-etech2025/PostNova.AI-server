@@ -83,6 +83,7 @@ class CampaignInteractionRepository implements CampaignInteractionRepositoryInte
         return $this->model
             ->where('campaign_id', $campaignId)
             ->where('user_id', $userId)
+            ->where('likes', '>', 0)
             ->delete() > 0;
     }
 }

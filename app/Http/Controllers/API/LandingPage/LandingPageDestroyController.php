@@ -23,7 +23,7 @@ class LandingPageDestroyController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Landing page supprimée avec succès'
+            'message' => 'Landing page supprimée avec succès',
         ], 200);
     }
 }

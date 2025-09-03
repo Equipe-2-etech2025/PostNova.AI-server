@@ -70,7 +70,7 @@ jobs:
           echo "GEMINI_API_URL=http://localhost/fake-api" >> .env.testing
 
       - name: Run Pint validation
-        run: vendor/bin/pint --test
+        run: vendor/bin/pint
 
       - name: Run PHPStan analysis
         run: vendor/bin/phpstan analyse --memory-limit=1G

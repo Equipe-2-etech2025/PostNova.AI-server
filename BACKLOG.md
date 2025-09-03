@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+-[EPA-87] Utiliser templates (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-87-utiliser-template`
+  Commit:  `EPA-87: fonctionnalité utiliser template`
+
 -[EPA-86] Amélioration image (Assigné à: Nathan Rakotoarimanana)
   Branche: `enhance/EPA-86-affichage-image`
   Commit:  `EPA-86: amélioration affichage image`

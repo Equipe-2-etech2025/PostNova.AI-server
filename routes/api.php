@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Campaign\CampaignDestroyController;
 use App\Http\Controllers\API\Campaign\CampaignGenerateNameController;
 use App\Http\Controllers\API\Campaign\CampaignIndexController;
 use App\Http\Controllers\API\Campaign\CampaignShowController;
+use App\Http\Controllers\API\Campaign\CampaignStoreByTemplateController;
 use App\Http\Controllers\API\Campaign\CampaignStoreController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\CampaignUserController;
@@ -48,17 +49,18 @@ use App\Http\Controllers\API\Features\FeaturesStoreController;
 use App\Http\Controllers\API\Features\FeaturesUpdateController;
 use App\Http\Controllers\API\Image\ImageCriteriaController;
 use App\Http\Controllers\API\Image\ImageDestroyController;
+use App\Http\Controllers\API\Image\ImageGenerationController;
 use App\Http\Controllers\API\Image\ImageIndexController;
 use App\Http\Controllers\API\Image\ImageShowController;
 use App\Http\Controllers\API\Image\ImageStoreController;
 use App\Http\Controllers\API\Image\ImageUpdateController;
 use App\Http\Controllers\API\LandingPage\LandingPageCriteriaController;
 use App\Http\Controllers\API\LandingPage\LandingPageDestroyController;
+use App\Http\Controllers\API\LandingPage\LandingPageGenerateController;
 use App\Http\Controllers\API\LandingPage\LandingPageIndexController;
 use App\Http\Controllers\API\LandingPage\LandingPageShowController;
 use App\Http\Controllers\API\LandingPage\LandingPageStoreController;
 use App\Http\Controllers\API\LandingPage\LandingPageUpdateController;
-use App\Http\Controllers\API\LandingPage\LandingPageGenerateController;
 use App\Http\Controllers\API\Prompt\PromptCriteriaController;
 use App\Http\Controllers\API\Prompt\PromptDestroyController;
 use App\Http\Controllers\API\Prompt\PromptIndexController;
@@ -112,7 +114,6 @@ use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
-use App\Http\Controllers\API\Image\ImageGenerationController;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques
@@ -155,6 +156,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{id}', CampaignDestroyController::class);
         Route::get('/popular/content', PopularCampaignController::class);
         Route::post('/generate-name', CampaignGenerateNameController::class);
+        Route::post('/template/generate', CampaignStoreByTemplateController::class);
     });
 
     Route::prefix('socials')->group(function () {
@@ -209,7 +211,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', LandingPageStoreController::class);
         Route::put('/{id}', LandingPageUpdateController::class);
         Route::delete('/{id}', LandingPageDestroyController::class);
-        
+
         // role User
         Route::post('/generate', LandingPageGenerateController::class);
     });

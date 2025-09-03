@@ -16,19 +16,21 @@ class LandingPageGenerateController extends Controller
     {
         $data = $request->validate([
             'prompt' => 'required|string',
-            'campaign_id' => 'required|integer'
+            'campaign_id' => 'required|integer',
         ]);
 
         try {
             $result = $this->service->generate($data);
+
             return response()->json([
                 'success' => true,
                 'data' => $result,
             ], 201);
         } catch (\Exception $e) {
             Log::error('Error generating landing page', ['error' => $e->getMessage()]);
+
             return response()->json([
-                'error' => 'Failed to generate landing page'
+                'error' => 'Failed to generate landing page',
             ], 500);
         }
     }

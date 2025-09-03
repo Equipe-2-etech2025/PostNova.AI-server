@@ -26,6 +26,7 @@ use App\Repositories\Interfaces\TarifFeatureRepositoryInterface;
 use App\Repositories\Interfaces\TarifRepositoryInterface;
 use App\Repositories\Interfaces\TarifUserRepositoryInterface;
 use App\Repositories\Interfaces\TemplateRatingRepositoryInterface;
+use App\Repositories\Interfaces\TemplateUseRepositoryInterface;
 use App\Repositories\Interfaces\TypeCampaignRepositoryInterface;
 use App\Repositories\LandingPageRepository;
 use App\Repositories\PromptRepository;
@@ -35,6 +36,7 @@ use App\Repositories\TarifFeatureRepository;
 use App\Repositories\TarifRepository;
 use App\Repositories\TarifUserRepository;
 use App\Repositories\TemplateRatingRepository;
+use App\Repositories\TemplateUseRepository;
 use App\Repositories\TypeCampaignRepository;
 use App\Services\CampaignCreateService\CampaignDescriptionGeneratorService;
 use App\Services\CampaignCreateService\CampaignNameGeneratorService;
@@ -65,6 +67,7 @@ use App\Services\Interfaces\TarifFeatureServiceInterface;
 use App\Services\Interfaces\TarifServiceInterface;
 use App\Services\Interfaces\TarifUserServiceInterface;
 use App\Services\Interfaces\TemplateRatingServiceInterface;
+use App\Services\Interfaces\TemplateUseServiceInterface;
 use App\Services\Interfaces\TypeCampaignServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\LandingPage\LandingPageService;
@@ -83,6 +86,7 @@ use App\Services\TarifFeatureService;
 use App\Services\TarifService;
 use App\Services\TarifUserService;
 use App\Services\TemplateRatingService;
+use App\Services\TemplateUseService;
 use App\Services\TypeCampaignService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\URL;
@@ -148,6 +152,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CampaignTemplateServiceInterface::class, CampaignTemplateService::class);
         $this->app->bind(TemplateRatingRepositoryInterface::class, TemplateRatingRepository::class);
         $this->app->bind(TemplateRatingServiceInterface::class, TemplateRatingService::class);
+
+        // Ajout des bindings pour TemplateUse
+        $this->app->bind(TemplateUseRepositoryInterface::class, TemplateUseRepository::class);
+        $this->app->bind(TemplateUseServiceInterface::class, TemplateUseService::class);
+
         $this->app->singleton(SocialPostPlatformManager::class);
         $this->app->singleton(SocialPostValidationService::class);
 
