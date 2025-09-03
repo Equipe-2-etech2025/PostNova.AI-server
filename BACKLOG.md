@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+- [EPA-92] Configurer la permission de storage sur render (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `chore/EPA-92-permissions-storage-render`
+  Commit: `EPA-92: chore, mise à jour de dockerfile pour la permission storage, ajout de render-build-sh`    
+
 - [EPA-88] Fix php-stan, pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `fix/EPA-88-fix-stan-pint-securitycheck`
   Commit: `EPA-88: run et fix pint, phpStan security check, fix test`
