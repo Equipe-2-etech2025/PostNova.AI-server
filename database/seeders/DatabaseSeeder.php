@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             CampaignFeatureSeeder::class,
             SocialSeeder::class,
             SocialPostSeeder::class,
-            LandingPageSeeder::class,
+            // LandingPageSeeder::class,
             ImageSeeder::class,
             PromptSeeder::class,
             FeatureSeeder::class,
@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             TemplateTagsSeeder::class,
             TemplateRatingsSeeder::class,
             TemplateUsesSeeder::class,
+            TemplateSocialPostSeeder::class,
             CampaignInteractionSeeder::class,
         ]);
     }

@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+-[EPA-87] Utiliser templates (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-87-utiliser-template`
+  Commit:  `EPA-87: fonctionnalité utiliser template`
+
 - [EPA-88] Fix php-stan, pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `fix/EPA-88-fix-stan-pint-securitycheck`
   Commit: `EPA-88: run et fix pint, phpStan security check, fix test`
