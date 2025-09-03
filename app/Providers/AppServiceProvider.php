@@ -170,9 +170,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(SocialPostCreateService::class, function ($app) {
             return new SocialPostCreateService(
-                $app->make(SocialPostRepository::class),
-                $app->make(CampaignRepositoryInterface::class),
+                $app->make(SocialPostRepositoryInterface::class),
                 $app->make(SocialPostGeneratorService::class),
+                $app->make(SocialPostValidationService::class)
             );
         });
 
