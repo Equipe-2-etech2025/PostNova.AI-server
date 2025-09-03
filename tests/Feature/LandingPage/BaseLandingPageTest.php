@@ -44,7 +44,6 @@ abstract class BaseLandingPageTest extends TestCase
     protected function validLandingPageData($campaignId = null): array
     {
         return [
-            'path' => 'test/path/landing-page',
             'content' => ['key' => 'value'],
             'is_published' => false,
             'campaign_id' => $campaignId ?? $this->campaign->id,

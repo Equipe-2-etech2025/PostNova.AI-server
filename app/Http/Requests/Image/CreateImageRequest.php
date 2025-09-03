@@ -85,8 +85,8 @@ class CreateImageRequest extends FormRequest
             null,
             path: $this->input('path'),
             campaign_id: $this->input('campaign_id'),
-            prompt_id:  $this->input('prompt_id'),
-            is_published:  $this->input('is_published', false)
+            prompt_id: $this->input('prompt_id'),
+            is_published: $this->input('is_published', false),
         );
     }
 }

@@ -52,6 +52,9 @@ class UpdateImageRequest extends FormRequest
             null,
             path: $this->input('path', $image->path ?? null),
             campaign_id: $this->input('campaign_id', $image->campaign_id ?? null),
+            prompt_id: $this->input('prompt_id', $image->prompt),
+            is_published: $this->input('is_published', $image->is_published),
+
         );
     }
 }

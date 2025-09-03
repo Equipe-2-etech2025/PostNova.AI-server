@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
+// test réel avec api gemini
 class CampaignCreatorServiceIntegrationTest extends TestCase
 {
     //    use RefreshDatabase;
