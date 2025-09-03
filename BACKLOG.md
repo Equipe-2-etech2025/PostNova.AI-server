@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+-[EPA-93] Configurer la permission de storage sur render, configuration dockerfile (Assigné à: Mialisoa Lisa Rasoanirina)
+ Branche: `chore/EPA-93-permisson-storage-render`
+ Commit:  `EPA-93: mise à jour de dockerfile, creation de render-build-sh`
+
 -[EPA-87] Utiliser templates (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-87-utiliser-template`
   Commit:  `EPA-87: fonctionnalité utiliser template`
