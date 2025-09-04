@@ -89,6 +89,8 @@ class LandingPageGenerateService
 
     private function generateLandingPage(array $params): array
     {
+        $startTime = microtime(true);
+
         try {
             $campaign = $this->campaignRepository->find($params['campaign_id']);
             $currentPrompt = $this->promptRepository->find($params['prompt_id']);
