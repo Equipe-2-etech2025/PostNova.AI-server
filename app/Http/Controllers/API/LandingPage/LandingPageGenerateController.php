@@ -17,6 +17,7 @@ class LandingPageGenerateController extends Controller
         $data = $request->validate([
             'prompt' => 'required|string',
             'campaign_id' => 'required|integer',
+            'prompt_id' => 'required|integer'
         ]);
 
         try {
