@@ -232,14 +232,38 @@ PROMPT;
         $sections = $this->extractJsonBlock($content, 'SECTIONS');
         $footer = $this->extractJsonBlock($content, 'FOOTER');
 
-        // Log pour déboguer le parsing
-        Log::info('Parsed content blocks', [
-            'html_length' => strlen($html),
-            'hero_found' => $hero !== null,
-            'sections_found' => $sections !== null,
-            'footer_found' => $footer !== null,
-            'html_preview' => substr($html, 0, 200) . '...',
-        ]);
+        // Fallbacks par défaut si les blocs ne sont pas trouvés
+        if ($hero === null) {
+            $hero = [
+                'title' => 'Titre par défaut',
+                'subtitle' => 'Sous-titre par défaut',
+                'cta' => ['text' => 'Cliquez ici', 'link' => '#'],
+                'backgroundImage' => '',
+                'backgroundColor' => '#E41B17',
+            ];
+            Log::info('Utilisation du fallback HERO par défaut');
+        }
+
+        if ($sections === null) {
+            $sections = [
+                [
+                    'id' => 1,
+                    'type' => 'text-section',
+                    'title' => 'Section par défaut',
+                    'text' => 'Contenu de la section par défaut',
+                    'backgroundColor' => '#FFFFFF'
+                ]
+            ];
+            Log::info('Utilisation du fallback SECTIONS par défaut');
+        }
+
+        if ($footer === null) {
+            $footer = [
+                'text' => '© ' . date('Y'),
+                'links' => [['text' => 'Accueil', 'link' => '#']]
+            ];
+            Log::info('Utilisation du fallback FOOTER par défaut');
+        }
 
         return [
             'template' => [
@@ -317,26 +341,138 @@ PROMPT;
 
     private function extractJsonBlock(string $content, string $blockName): ?array
     {
+        // Cas 1: Format standard avec pattern strict
         $pattern = '/' . preg_quote($blockName) . ':\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*(?=\n[A-Z]+:|$)/';
-
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
-
-            try {
-                $decoded = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
-
+            $decoded = $this->parseJsonString($jsonString, $blockName);
+            if ($decoded !== null) {
                 return $decoded;
-            } catch (\JsonException $e) {
-                Log::error("Failed to parse JSON for {$blockName}", [
-                    'json_string' => $jsonString,
-                    'error' => $e->getMessage(),
-                ]);
-
-                return null;
             }
         }
 
+        // Cas 2: Format avec sauts de ligne supplémentaires
+        $pattern = '/' . preg_quote($blockName) . ':\s*\n+(\{[\s\S]*?\}|\[[\s\S]*?\])/';
+        if (preg_match($pattern, $content, $matches)) {
+            $jsonString = trim($matches[1]);
+            $decoded = $this->parseJsonString($jsonString, $blockName);
+            if ($decoded !== null) {
+                return $decoded;
+            }
+        }
+
+        // Cas 3: Format avec guillemets triples autour du JSON
+        $pattern = '/' . preg_quote($blockName) . ':\s*```json\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*```/';
+        if (preg_match($pattern, $content, $matches)) {
+            $jsonString = trim($matches[1]);
+            $decoded = $this->parseJsonString($jsonString, $blockName);
+            if ($decoded !== null) {
+                return $decoded;
+            }
+        }
+
+        // Cas 4: Format avec backticks simples
+        $pattern = '/' . preg_quote($blockName) . ':\s*`(\{[\s\S]*?\}|\[[\s\S]*?\])`/';
+        if (preg_match($pattern, $content, $matches)) {
+            $jsonString = trim($matches[1]);
+            $decoded = $this->parseJsonString($jsonString, $blockName);
+            if ($decoded !== null) {
+                return $decoded;
+            }
+        }
+
+        // Cas 5: Format avec guillemets doubles autour du JSON complet
+        $pattern = '/' . preg_quote($blockName) . ':\s*"(\{[\s\S]*?\}|\[[\s\S]*?\])"/';
+        if (preg_match($pattern, $content, $matches)) {
+            $jsonString = str_replace('\\"', '"', trim($matches[1]));
+            $jsonString = str_replace('\\n', "\n", $jsonString);
+            $decoded = $this->parseJsonString($jsonString, $blockName);
+            if ($decoded !== null) {
+                return $decoded;
+            }
+        }
+
+        // Cas 6: Recherche flexible - bloc JSON après le nom sans délimiteurs stricts
+        $pattern = '/' . preg_quote($blockName) . '\s*:?\s*(\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\])/';
+        if (preg_match($pattern, $content, $matches)) {
+            $jsonString = trim($matches[1]);
+            $decoded = $this->parseJsonString($jsonString, $blockName);
+            if ($decoded !== null) {
+                return $decoded;
+            }
+        }
+
+        // Cas 7: Recherche très flexible - tout JSON valide après le nom de bloc
+        if (preg_match_all('/(\{[\s\S]*?\}|\[[\s\S]*?\])/', $content, $allMatches)) {
+            $blockPosition = strpos(strtolower($content), strtolower($blockName));
+            if ($blockPosition !== false) {
+                foreach ($allMatches[1] as $match) {
+                    $matchPosition = strpos($content, $match);
+                    if ($matchPosition > $blockPosition) {
+                        $decoded = $this->parseJsonString(trim($match), $blockName);
+                        if ($decoded !== null) {
+                            return $decoded;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Si aucun bloc n'est trouvé, log pour debug
+        Log::warning("Aucun bloc JSON trouvé pour {$blockName}", [
+            'content_preview' => substr($content, 0, 1000) . '...',
+            'block_search' => $blockName
+        ]);
+
         return null;
+    }
+
+    private function parseJsonString(string $jsonString, string $blockName): ?array
+    {
+        try {
+            // Nettoyer le JSON des caractères d'échappement courants
+            $cleanJson = $this->cleanJsonString($jsonString);
+            
+            $decoded = json_decode($cleanJson, true, 512, JSON_THROW_ON_ERROR);
+            
+            // Vérifier que le résultat n'est pas vide
+            if (empty($decoded)) {
+                Log::warning("JSON décodé vide pour {$blockName}", ['json' => $cleanJson]);
+                return null;
+            }
+
+            return $decoded;
+        } catch (\JsonException $e) {
+            Log::error("Failed to parse JSON for {$blockName}", [
+                'json_string' => $jsonString,
+                'clean_json' => $cleanJson ?? 'failed to clean',
+                'error' => $e->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    private function cleanJsonString(string $json): string
+    {
+        // Supprimer les caractères de contrôle invisibles
+        $json = preg_replace('/[\x00-\x1F\x7F]/', '', $json);
+        
+        // Nettoyer les échappements doubles
+        $json = str_replace('\\\\', '\\', $json);
+        
+        // Nettoyer les guillemets échappés
+        $json = str_replace('\\"', '"', $json);
+        
+        // Nettoyer les slashes échappés
+        $json = str_replace('\\/', '/', $json);
+        
+        // Nettoyer les sauts de ligne échappés
+        $json = str_replace('\\n', "\n", $json);
+        $json = str_replace('\\r', "\r", $json);
+        $json = str_replace('\\t', "\t", $json);
+        
+        // Supprimer les espaces en début et fin
+        return trim($json);
     }
 
     private function generateFallback(array $params): array
