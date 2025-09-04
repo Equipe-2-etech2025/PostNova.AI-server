@@ -261,43 +261,63 @@ PROMPT;
 
     private function extractHtmlBlock(string $content): string
     {
-        // Extraire le format HTML: `...` avec caractères Unicode échappés
+        // Cas 1: HTML: `...` (backticks)
         if (preg_match('/HTML:\s*`([^`]+)`/s', $content, $matches)) {
             $html = $matches[1];
-
-            // Décoder les caractères Unicode échappés (\u003c devient <, etc.)
             $decodedHtml = json_decode('"' . $html . '"');
-
             if ($decodedHtml !== null) {
-                // Nettoyer les échappements supplémentaires
                 $decodedHtml = str_replace('\\\\', '\\', $decodedHtml);
                 $decodedHtml = str_replace('\\"', '"', $decodedHtml);
-
                 return trim($decodedHtml);
             }
-
-            // Si le décodage JSON échoue, essayer de remplacer manuellement
-            $html = str_replace('\\u003c', '<', $html);
-            $html = str_replace('\\u003e', '>', $html);
-            $html = str_replace('\\n', "\n", $html);
-            $html = str_replace('\\"', '"', $html);
-            $html = str_replace('\\/', '/', $html);
-            $html = str_replace('\\\\', '\\', $html);
-
+            $html = str_replace(['\\u003c', '\\u003e', '\\n', '\\"', '\\/', '\\\\'], ['<', '>', "\n", '"', '/', '\\'], $html);
             return trim($html);
         }
 
-        // Fallback pour format avec guillemets doubles
+        // Cas 2: HTML: "..." (guillemets doubles)
         if (preg_match('/HTML:\s*"([^"]+)"/s', $content, $matches)) {
             $html = $matches[1];
-            $html = str_replace('\\"', '"', $html);
-            $html = str_replace('\\n', "\n", $html);
-            $html = str_replace('\\/', '/', $html);
-            $html = str_replace('\\\\', '\\', $html);
-
+            $html = str_replace(['\\"', '\\n', '\\/', '\\\\'], ['"', "\n", '/', '\\'], $html);
             return trim($html);
         }
 
+        // Cas 3: HTML: '''...''' (guillemets triples)
+        if (preg_match("/HTML:\s*'''([\s\S]+?)'''/s", $content, $matches)) {
+            $html = $matches[1];
+            $html = str_replace(['\\"', '\\n', '\\/', '\\\\'], ['"', "\n", '/', '\\'], $html);
+            return trim($html);
+        }
+
+        // Cas 4: HTML: <...> (direct sans délimiteur)
+        if (preg_match('/HTML:\s*(<!DOCTYPE html>[\s\S]+)/i', $content, $matches)) {
+            $html = $matches[1];
+            return trim($html);
+        }
+
+        // Cas 5: Bloc HTML sans préfixe strict (fallback)
+        if (preg_match('/<!DOCTYPE html>[\s\S]+?<\/html>/i', $content, $matches)) {
+            return trim($matches[0]);
+        }
+
+        // Cas 6: HTML dans un bloc markdown (rare)
+        if (preg_match('/```html([\s\S]+?)```/i', $content, $matches)) {
+            return trim($matches[1]);
+        }
+
+        // Cas 7: HTML dans un bloc code sans balise (rare)
+        if (preg_match('/```([\s\S]+?)```/i', $content, $matches)) {
+            return trim($matches[1]);
+        }
+
+        // Cas 8: Recherche d'une balise <html> dans tout le contenu
+        if (preg_match('/<!DOCTYPE html>[\s\S]+?<\/html>/i', $content, $matches)) {
+            return trim($matches[0]);
+        }
+
+        // Si rien trouvé, log le contenu pour debug
+        Log::warning('Aucun bloc HTML trouvé dans le contenu généré', [
+            'content_preview' => substr($content, 0, 500) . '...'
+        ]);
         return '';
     }
 
@@ -327,7 +347,36 @@ PROMPT;
 
     private function generateFallback(array $params): array
     {
-        return [
+        $fallbackHtml = '<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .hero { background: ${hero.backgroundColor}; color: white; padding: 80px 20px; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; margin-bottom: 30px; }
+        .btn { display: inline-block; background: #fff; color: #333; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn:hover { background: #f0f0f0; }
+        .footer { background: #333; color: white; text-align: center; padding: 40px 20px; }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>${hero.title}</h1>
+        <p>${hero.subtitle}</p>
+        <a href="${hero.cta.link}" class="btn">${hero.cta.text}</a>
+    </section>
+    <footer class="footer">
+        <p>${footer.text}</p>
+    </footer>
+</body>
+</html>';
+
+        $fallbackData = [
             'hero' => [
                 'title' => 'Bienvenue',
                 'subtitle' => 'Découvrez nos produits et services',
@@ -341,5 +390,26 @@ PROMPT;
                 'links' => [],
             ],
         ];
+
+        // Créer un DTO avec le fallback
+        $dto = new LandingPageDto(
+            id: null,
+            content: [
+                'template' => [
+                    'html' => $fallbackHtml,
+                    'data' => $fallbackData,
+                ],
+            ],
+            campaign_id: $params['campaign_id']
+        );
+
+        // Sauvegarder le fallback en base
+        try {
+            $this->landingPageRepository->create($dto);
+        } catch (\Exception $e) {
+            Log::warning('Failed to save fallback landing page', ['error' => $e->getMessage()]);
+        }
+
+        return $dto->toArray();
     }
 }
