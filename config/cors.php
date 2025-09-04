@@ -24,6 +24,9 @@ return [
         'http://127.0.0.1:3000',
         'http://localhost:5173',
         'http://postnova-web:5173',
+        'https://prod-postnova-web.netlify.app',
+        'https://dev-postnova-web.netlify.app'
+
     ],
 
     'allowed_origins_patterns' => [],
