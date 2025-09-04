@@ -12,10 +12,6 @@ class LandingPageShowController extends Controller
 {
     use AuthorizesRequests;
 
-    public function __construct(
-        private readonly LandingPageServiceInterface $service
-    ) {}
-
     public function __invoke(LandingPage $landingPage)
     {
         try {

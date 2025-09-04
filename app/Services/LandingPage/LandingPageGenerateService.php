@@ -64,11 +64,6 @@ class LandingPageGenerateService
                 throw new \RuntimeException('Parsed HTML content is empty');
             }
 
-            if (! $parsedContent) {
-                Log::error('Failed to parse generated content');
-                throw new \RuntimeException('Failed to parse generated content');
-            }
-
             $dto = new LandingPageDto(
                 id: null,
                 content: $parsedContent,
@@ -89,6 +84,7 @@ class LandingPageGenerateService
 
     private function generateLandingPage(array $params): array
     {
+        $startTime = microtime(true);
         try {
             $campaign = $this->campaignRepository->find($params['campaign_id']);
             $currentPrompt = $this->promptRepository->find($params['prompt_id']);
@@ -101,8 +97,6 @@ class LandingPageGenerateService
             }
 
             $prompt = $this->buildPrompt($params['prompt'], $campaign);
-
-            $startTime = microtime(true);
 
             $response = Http::timeout(120)
                 ->connectTimeout(30)
