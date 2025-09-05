@@ -15,7 +15,6 @@ class CampaignSeeder extends Seeder
     public function run(): void
     {
         $userIds = User::pluck('id')->toArray();
-
         $typeCampaignIds = TypeCampaign::pluck('id')->toArray();
 
         $campaigns = [
@@ -75,6 +74,7 @@ class CampaignSeeder extends Seeder
             Campaign::create(array_merge($data, [
                 'user_id' => fake()->randomElement($userIds),
                 'type_campaign_id' => fake()->randomElement($typeCampaignIds),
+                'is_published' => fake()->boolean(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
