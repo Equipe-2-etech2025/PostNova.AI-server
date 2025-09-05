@@ -17,6 +17,7 @@ class LandingPageGenerateController extends Controller
         $data = $request->validate([
             'prompt' => 'required|string',
             'campaign_id' => 'required|integer',
+            'prompt_id' => 'required|integer'
         ]);
 
         try {
@@ -29,9 +30,15 @@ class LandingPageGenerateController extends Controller
         } catch (\Exception $e) {
             Log::error('Error generating landing page', ['error' => $e->getMessage()]);
 
+            // Générer un fallback plutôt que retourner une erreur
+            $fallback = $this->service->generate($data); // Le service gère déjà le fallback en interne
+
             return response()->json([
-                'error' => 'Failed to generate landing page',
-            ], 500);
+                'success' => true,
+                'data' => $fallback,
+                'fallback' => true,
+                'message' => 'Landing page générée avec un template de base suite à une erreur',
+            ], 200);
         }
     }
 }

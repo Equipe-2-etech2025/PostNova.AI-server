@@ -26,7 +26,6 @@ return [
         'http://postnova-web:5173',
         'https://prod-postnova-web.netlify.app',
         'https://dev-postnova-web.netlify.app'
-
     ],
 
     'allowed_origins_patterns' => [],

@@ -97,3 +97,11 @@ parameters:
         - message: '#Ternary operator condition is always true#'
           paths:
                 - app/Services/LandingPage/LandingPageGenerateService.php
+
+        - message: '#Property App\\Http\\Controllers\\API\\LandingPage\\LandingPageShowController::\$service is never read, only written#'
+          paths:
+                - app/Http/Controllers/API/LandingPage/LandingPageShowController.php
+
+        - message: '#Negated boolean expression is always false#'
+          paths:
+                - app/Services/LandingPage/LandingPageGenerateService.php

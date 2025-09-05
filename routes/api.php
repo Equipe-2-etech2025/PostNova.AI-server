@@ -207,7 +207,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('landing-pages')->group(function () {
         Route::get('/', LandingPageIndexController::class);
         Route::get('/search', LandingPageCriteriaController::class);
-        Route::get('/{id}', LandingPageShowController::class);
+        Route::get('/{landingPage}', LandingPageShowController::class);
         Route::post('/', LandingPageStoreController::class);
         Route::put('/{id}', LandingPageUpdateController::class);
         Route::delete('/{id}', LandingPageDestroyController::class);
