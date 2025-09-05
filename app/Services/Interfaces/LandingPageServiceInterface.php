@@ -14,7 +14,7 @@ interface LandingPageServiceInterface
 
     public function createLandingPage(LandingPageDto $landingPageDto);
 
-    public function updateLandingPage(int $id, LandingPageDto $landingPageDto);
+    public function updateLandingPage(int $id, array $content);
 
     public function deleteLandingPage(int $id);
 

@@ -4,6 +4,7 @@ namespace App\Services\LandingPage;
 
 use App\DTOs\LandingPage\LandingPageDto;
 use App\Models\Campaign;
+use App\Models\LandingPage;
 use App\Repositories\CampaignRepository;
 use App\Repositories\LandingPageRepository;
 use App\Repositories\PromptRepository;
@@ -208,7 +209,8 @@ SECTIONS:
     "title": "Titre section",
     "text": "Contenu de la section",
     "backgroundColor": "#FFFFFF"
-  }
+  },
+  ...
 ]
 
 FOOTER:
@@ -264,6 +266,17 @@ PROMPT;
             ];
             Log::info('Utilisation du fallback FOOTER par défaut');
         }
+
+        // Log pour déboguer le parsing
+        Log::info('Parsed content blocks', [
+            'html_length' => strlen($html),
+            'hero_found' => $hero !== null,
+            'sections_found' => $sections !== null,
+            'footer_found' => $footer !== null,
+            'html_preview' => substr($html, 0, 200) . '...',
+            'hero_preview' => is_array($hero) ? json_encode(array_slice($hero, 0, 2)) : 'null',
+            'sections_count' => is_array($sections) ? count($sections) : 0,
+        ]);
 
         return [
             'template' => [
