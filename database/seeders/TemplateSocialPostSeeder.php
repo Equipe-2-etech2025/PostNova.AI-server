@@ -14,30 +14,26 @@ class TemplateSocialPostSeeder extends Seeder
         // Récupérer un template existant (par ex. le premier)
         $template = CampaignTemplate::first();
 
-        // Récupérer ou créer quelques réseaux sociaux existants
-        $tiktok = Social::firstOrCreate(['name' => 'TikTok']);
-        $twitter = Social::firstOrCreate(['name' => 'X']);
-        $linkedIn = Social::firstOrCreate(['name' => 'LinkedIn']);
+        // Récupérer quelques réseaux sociaux existants
+        $facebook = Social::firstOrCreate(['name' => 'Facebook']);
+        $twitter = Social::firstOrCreate(['name' => 'Twitter']);
 
         if ($template) {
-            // TikTok : ton fun, court, accroche visuelle
             TemplateSocialPost::create([
-                'content' => "🔥 Ne ratez pas notre promo flash ! 🎉\n🎵 Swipez pour découvrir l’offre avant qu’elle disparaisse ⏳",
-                'social_id' => $tiktok->id,
+                'content' => 'Découvrez notre promo de l\'été 🌞',
+                'social_id' => $facebook->id,
                 'template_id' => $template->id,
             ]);
 
-            // X (Twitter) : message concis, hashtags
             TemplateSocialPost::create([
-                'content' => "🚀 Offre spéciale disponible dès aujourd’hui !\n#Promo #BonPlan #Nouveauté",
+                'content' => 'Nouvelle offre exclusive 🚀',
                 'social_id' => $twitter->id,
                 'template_id' => $template->id,
             ]);
 
-            // LinkedIn : ton plus professionnel
             TemplateSocialPost::create([
-                'content' => "📢 Nous lançons une nouvelle campagne exclusive pour accompagner nos clients vers encore plus de réussite. 🚀\nDécouvrez tous les détails sur notre site",
-                'social_id' => $linkedIn->id,
+                'content' => 'Restez connectés pour plus de surprises 🎁',
+                'social_id' => $facebook->id,
                 'template_id' => $template->id,
             ]);
         }

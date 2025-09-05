@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\LandingPage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LandingPage\LandingPageResource;
-use App\Models\LandingPage;
 use App\Services\Interfaces\LandingPageServiceInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -16,20 +15,11 @@ class LandingPageShowController extends Controller
         private readonly LandingPageServiceInterface $service
     ) {}
 
-    public function __invoke(LandingPage $landingPage)
+    public function __invoke(int $id)
     {
-        try {
-            $this->authorize('viewAny', $landingPage);
+        $landingPage = $this->service->getLandingPageById($id);
+        $this->authorize('view', $landingPage);
 
-            return response()->json([
-                'success' => true,
-                'data' => new LandingPageResource($landingPage)
-            ], 200);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        return new LandingPageResource($landingPage);
     }
 }

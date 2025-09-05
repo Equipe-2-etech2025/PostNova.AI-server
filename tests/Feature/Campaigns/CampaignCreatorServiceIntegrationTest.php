@@ -69,8 +69,6 @@ class CampaignCreatorServiceIntegrationTest extends TestCase
     //        ];
     //
     //        $campaign = $service->createCampaignFromDescription($data);
-    //
-    //        dump($campaign);
     //        $this->assertNotEmpty($campaign->name);
     //        $this->assertEquals('Nom de campagne mocké', $campaign->name);
     //        $this->assertEquals('Une campagne pour promouvoir un nouveau produit tech', $campaign->description);

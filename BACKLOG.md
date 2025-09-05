@@ -1,11 +1,4 @@
 # 📝 Backlog Jira Sync
-- [EPA-91] Mise à jour des contenus Landing Page
-  Branche: `EPA-91-landing-page-edit-content`
-  Commit: `EPA-91: Refactor LandingPage controllers and service for improved validation and error handling`
-
--[EPA-87] Utiliser templates (Assigné à: Nathan Rakotoarimanana)
-  Branche: `feature/EPA-87-utiliser-template`
-  Commit:  `EPA-87: fonctionnalité utiliser template`
 
 - [EPA-88] Fix php-stan, pint et security-check (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `fix/EPA-88-fix-stan-pint-securitycheck`

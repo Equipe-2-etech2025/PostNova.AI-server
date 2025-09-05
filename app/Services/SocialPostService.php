@@ -32,7 +32,8 @@ class SocialPostService implements SocialPostServiceInterface
 
     public function createSocialPost(SocialPostDto $socialPostDto)
     {
-        if (empty($socialPostDto->content) || stripos($socialPostDto->content, 'aucun contenu disponible') !== false) {
+        if (empty($socialPostDto->content)
+            || stripos($socialPostDto->content, 'aucun contenu disponible') !== false) {
             throw new \InvalidArgumentException('Le contenu du post ne peut pas être vide');
         }
 

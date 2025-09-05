@@ -17,7 +17,6 @@ class CreateCampaignRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'social_posts' => 'sometimes|array',
             'name' => 'required|string|max:255',
             'status' => ['nullable', Rule::in(StatusEnum::values())],
             'description' => 'required|string|max:1000',

@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             TemplateTagsSeeder::class,
             TemplateRatingsSeeder::class,
             TemplateUsesSeeder::class,
-            TemplateSocialPostSeeder::class,
             CampaignInteractionSeeder::class,
         ]);
     }
