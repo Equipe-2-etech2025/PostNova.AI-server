@@ -16,6 +16,7 @@ use App\Http\Controllers\API\Campaign\CampaignDestroyController;
 use App\Http\Controllers\API\Campaign\CampaignGenerateNameController;
 use App\Http\Controllers\API\Campaign\CampaignIndexController;
 use App\Http\Controllers\API\Campaign\CampaignShowController;
+use App\Http\Controllers\API\Campaign\CampaignStoreByTemplateController;
 use App\Http\Controllers\API\Campaign\CampaignStoreController;
 use App\Http\Controllers\API\Campaign\CampaignUpdateController;
 use App\Http\Controllers\API\Campaign\CampaignUserController;
@@ -155,6 +156,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{id}', CampaignDestroyController::class);
         Route::get('/popular/content', PopularCampaignController::class);
         Route::post('/generate-name', CampaignGenerateNameController::class);
+        Route::post('/template/generate', CampaignStoreByTemplateController::class);
     });
 
     Route::prefix('socials')->group(function () {
