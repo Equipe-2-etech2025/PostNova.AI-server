@@ -114,6 +114,8 @@ use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
+use App\Http\Controllers\API\Mvola\PaymentController;
+use App\Http\Controllers\API\Mvola\AdminPaymentController;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques
@@ -277,6 +279,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/{interactionId}/like', CampaignInteractionLikeController::class);
         Route::post('/dislike', CampaignInteractionDestroyByCampaignAndUserController::class);
     });
+
+    Route::prefix('mvola')->group(function () {
+        Route::post('/payments', [PaymentController::class, 'store']);
+        
+    });
+    
+    Route::middleware(['auth:sanctum', 'role:admin'])
+    ->get('/admin/payments', [AdminPaymentController::class, 'listAllPayments']);
+    
+    Route::get('/user/payments', [PaymentController::class, 'listUserPayments']);
 
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 
