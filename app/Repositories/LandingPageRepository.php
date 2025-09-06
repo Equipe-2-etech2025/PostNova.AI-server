@@ -60,10 +60,11 @@ class LandingPageRepository implements LandingPageRepositoryInterface
         return $this->model->create($landingPageDto->toArray());
     }
 
-    public function update(int $id, LandingPageDto $landingPageDto): LandingPage
+    public function update(int $id, array $content): LandingPage
     {
         $landingPage = $this->model->findOrFail($id);
-        $landingPage->update($landingPageDto->toArray());
+        $landingPage->content = $content['content'];
+        $landingPage->save();
 
         return $landingPage;
     }
