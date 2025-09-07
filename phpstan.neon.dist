@@ -9,8 +9,7 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     ignoreErrors:
         - message: '#Negated boolean expression is always false#'
-          paths:
-              - app/Http/Requests/Image/CreateImageRequest.php
+          path: app/Http/Requests/Image/CreateImageRequest.php
 
         - message: '#Access to property \$id on an unknown class#'
           paths:
@@ -19,36 +18,28 @@ parameters:
               - tests/Feature/CampaignFeatures/CampaignFeaturesSearchTest.php
 
         - message: "#Relation 'tags' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
+          path: app/Repositories/CampaignTemplateRepository.php
 
         - message: "#Relation 'typeCampaign' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
+          path: app/Repositories/CampaignTemplateRepository.php
 
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\SocialPost model#"
-          paths:
-              - app/Repositories/SocialPostRepository.php
+          path: app/Repositories/SocialPostRepository.php
 
         - message: "#Relation 'category' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
+          path: app/Repositories/CampaignTemplateRepository.php
 
         - message: "#Relation 'socialPosts' is not found in App\\\\Models\\\\CampaignTemplate model#"
-          paths:
-              - app/Repositories/CampaignTemplateRepository.php
+          path: app/Repositories/CampaignTemplateRepository.php
 
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\LandingPage model#"
-          paths:
-              - app/Repositories/LandingPageRepository.php
+          path: app/Repositories/LandingPageRepository.php
 
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\Prompt model#"
-          paths:
-              - app/Repositories/PromptRepository.php
+          path: app/Repositories/PromptRepository.php
 
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\Image model#"
-          paths:
-              - app/Repositories/ImageRepository.php
+          path: app/Repositories/ImageRepository.php
 
         - message: "#Relation 'campaign' is not found in App\\\\Models\\\\CampaignInteraction model#"
           paths:
@@ -63,7 +54,6 @@ parameters:
 
         - message: '#Call to method PHPUnit\\Framework\\Assert::assertTrue\(\) with true will always evaluate to true#'
           path: tests/Unit/ExampleTest.php
-
 
         - message: '#Access to an undefined property App\\Models\\CampaignTemplate::\$category#'
           path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
@@ -95,13 +85,36 @@ parameters:
           path: app/Http/Resources/CampaignTemplate/CampaignTemplateResource.php
 
         - message: '#Ternary operator condition is always true#'
-          paths:
-                - app/Services/LandingPage/LandingPageGenerateService.php
+          path: app/Services/LandingPage/LandingPageGenerateService.php
 
         - message: '#Property App\\Http\\Controllers\\API\\LandingPage\\LandingPageShowController::\$service is never read, only written#'
-          paths:
-                - app/Http/Controllers/API/LandingPage/LandingPageShowController.php
+          path: app/Http/Controllers/API/LandingPage/LandingPageShowController.php
 
         - message: '#Negated boolean expression is always false#'
-          paths:
-                - app/Services/LandingPage/LandingPageGenerateService.php
+          path: app/Services/LandingPage/LandingPageGenerateService.php
+
+        - message: "#Relation 'user' is not found in App\\\\Models\\\\Payment model#"
+          path: app/Http/Controllers/API/Mvola/AdminPaymentController.php
+
+        - message: "#Strict comparison using !== between array and null will always evaluate to true#"
+          path: app/Services/LandingPage/LandingPageGenerateService.php
+          count: 3
+
+        - message: "#Call to function is_array\\(\\) with array will always evaluate to true#"
+          path: app/Services/LandingPage/LandingPageGenerateService.php
+          count: 2
+
+        - message: "#Variable \\$cleanJson on left side of \\?\\? always exists and is not nullable#"
+          path: app/Services/LandingPage/LandingPageGenerateService.php
+
+        - message: "#Property App\\\\Services\\\\MvolaService::\\$partnerMsisdn is never read, only written#"
+          path: app/Services/MvolaService.php
+
+        - message: "#Array has 2 duplicate keys with value 'debitParty'#"
+          path: app/Services/MvolaService.php
+
+        - message: "#Array has 2 duplicate keys with value 'creditParty'#"
+          path: app/Services/MvolaService.php
+
+        - message: "#Array has 2 duplicate keys with value 'metadata'#"
+          path: app/Services/MvolaService.php

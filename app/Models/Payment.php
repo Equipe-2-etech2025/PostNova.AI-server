@@ -20,6 +20,7 @@ class Payment extends Model
         'server_correlation_id',
         'transaction_reference',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\Mvola;
 
-use App\Http\Controllers\Controller;
 use App\DTOs\Payment\PaymentDTO;
+use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Services\MvolaService;
 use Illuminate\Http\Request;
@@ -42,13 +42,13 @@ class PaymentController extends Controller
 
             return response()->json($payment);
         } catch (\Exception $e) {
-            \Log::error("Payment error: " . $e->getMessage());
+            \Log::error('Payment error: '.$e->getMessage());
+
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
     public function listUserPayments(Request $request)
-    
     {
         $user = $request->user();
 

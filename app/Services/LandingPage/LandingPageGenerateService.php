@@ -4,7 +4,6 @@ namespace App\Services\LandingPage;
 
 use App\DTOs\LandingPage\LandingPageDto;
 use App\Models\Campaign;
-use App\Models\LandingPage;
 use App\Repositories\CampaignRepository;
 use App\Repositories\LandingPageRepository;
 use App\Repositories\PromptRepository;
@@ -89,11 +88,11 @@ class LandingPageGenerateService
         try {
             $campaign = $this->campaignRepository->find($params['campaign_id']);
             $currentPrompt = $this->promptRepository->find($params['prompt_id']);
-            if (!$campaign) {
+            if (! $campaign) {
                 throw new \InvalidArgumentException('Invalid campaign ID');
             }
 
-            if (!$currentPrompt) {
+            if (! $currentPrompt) {
                 throw new \InvalidArgumentException('Invalid prompt ID');
             }
 
@@ -102,7 +101,7 @@ class LandingPageGenerateService
             $response = Http::timeout(120)
                 ->connectTimeout(30)
                 ->retry(3, 2000)
-                ->post(config('services.gemini.api_url') . '?key=' . config('services.gemini.api_key'), [
+                ->post(config('services.gemini.api_url').'?key='.config('services.gemini.api_key'), [
                     'contents' => [['parts' => [['text' => $prompt]]]],
                     'generationConfig' => ['maxOutputTokens' => 10000],
                 ]);
@@ -124,7 +123,7 @@ class LandingPageGenerateService
             $endTime = microtime(true);
             $duration = round(($endTime - $startTime) * 1000, 2);
 
-            throw new \RuntimeException('API connection timeout after ' . $duration . 'ms');
+            throw new \RuntimeException('API connection timeout after '.$duration.'ms');
         } catch (RequestException $e) {
             $endTime = microtime(true);
             $duration = round(($endTime - $startTime) * 1000, 2);
@@ -135,7 +134,7 @@ class LandingPageGenerateService
                 'response' => $e->response ? $e->response->body() : null,
             ]);
 
-            throw new \RuntimeException('API request failed: ' . $e->getMessage());
+            throw new \RuntimeException('API request failed: '.$e->getMessage());
         }
     }
 
@@ -253,16 +252,16 @@ PROMPT;
                     'type' => 'text-section',
                     'title' => 'Section par défaut',
                     'text' => 'Contenu de la section par défaut',
-                    'backgroundColor' => '#FFFFFF'
-                ]
+                    'backgroundColor' => '#FFFFFF',
+                ],
             ];
             Log::info('Utilisation du fallback SECTIONS par défaut');
         }
 
         if ($footer === null) {
             $footer = [
-                'text' => '© ' . date('Y'),
-                'links' => [['text' => 'Accueil', 'link' => '#']]
+                'text' => '© '.date('Y'),
+                'links' => [['text' => 'Accueil', 'link' => '#']],
             ];
             Log::info('Utilisation du fallback FOOTER par défaut');
         }
@@ -273,7 +272,7 @@ PROMPT;
             'hero_found' => $hero !== null,
             'sections_found' => $sections !== null,
             'footer_found' => $footer !== null,
-            'html_preview' => substr($html, 0, 200) . '...',
+            'html_preview' => substr($html, 0, 200).'...',
             'hero_preview' => is_array($hero) ? json_encode(array_slice($hero, 0, 2)) : 'null',
             'sections_count' => is_array($sections) ? count($sections) : 0,
         ]);
@@ -295,13 +294,15 @@ PROMPT;
         // Cas 1: HTML: `...` (backticks)
         if (preg_match('/HTML:\s*`([^`]+)`/s', $content, $matches)) {
             $html = $matches[1];
-            $decodedHtml = json_decode('"' . $html . '"');
+            $decodedHtml = json_decode('"'.$html.'"');
             if ($decodedHtml !== null) {
                 $decodedHtml = str_replace('\\\\', '\\', $decodedHtml);
                 $decodedHtml = str_replace('\\"', '"', $decodedHtml);
+
                 return trim($decodedHtml);
             }
             $html = str_replace(['\\u003c', '\\u003e', '\\n', '\\"', '\\/', '\\\\'], ['<', '>', "\n", '"', '/', '\\'], $html);
+
             return trim($html);
         }
 
@@ -309,6 +310,7 @@ PROMPT;
         if (preg_match('/HTML:\s*"([^"]+)"/s', $content, $matches)) {
             $html = $matches[1];
             $html = str_replace(['\\"', '\\n', '\\/', '\\\\'], ['"', "\n", '/', '\\'], $html);
+
             return trim($html);
         }
 
@@ -316,12 +318,14 @@ PROMPT;
         if (preg_match("/HTML:\s*'''([\s\S]+?)'''/s", $content, $matches)) {
             $html = $matches[1];
             $html = str_replace(['\\"', '\\n', '\\/', '\\\\'], ['"', "\n", '/', '\\'], $html);
+
             return trim($html);
         }
 
         // Cas 4: HTML: <...> (direct sans délimiteur)
         if (preg_match('/HTML:\s*(<!DOCTYPE html>[\s\S]+)/i', $content, $matches)) {
             $html = $matches[1];
+
             return trim($html);
         }
 
@@ -347,15 +351,16 @@ PROMPT;
 
         // Si rien trouvé, log le contenu pour debug
         Log::warning('Aucun bloc HTML trouvé dans le contenu généré', [
-            'content_preview' => substr($content, 0, 500) . '...'
+            'content_preview' => substr($content, 0, 500).'...',
         ]);
+
         return '';
     }
 
     private function extractJsonBlock(string $content, string $blockName): ?array
     {
         // Cas 1: Format standard avec pattern strict
-        $pattern = '/' . preg_quote($blockName) . ':\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*(?=\n[A-Z]+:|$)/';
+        $pattern = '/'.preg_quote($blockName).':\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*(?=\n[A-Z]+:|$)/';
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
             $decoded = $this->parseJsonString($jsonString, $blockName);
@@ -365,7 +370,7 @@ PROMPT;
         }
 
         // Cas 2: Format avec sauts de ligne supplémentaires
-        $pattern = '/' . preg_quote($blockName) . ':\s*\n+(\{[\s\S]*?\}|\[[\s\S]*?\])/';
+        $pattern = '/'.preg_quote($blockName).':\s*\n+(\{[\s\S]*?\}|\[[\s\S]*?\])/';
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
             $decoded = $this->parseJsonString($jsonString, $blockName);
@@ -375,7 +380,7 @@ PROMPT;
         }
 
         // Cas 3: Format avec guillemets triples autour du JSON
-        $pattern = '/' . preg_quote($blockName) . ':\s*```json\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*```/';
+        $pattern = '/'.preg_quote($blockName).':\s*```json\s*(\{[\s\S]*?\}|\[[\s\S]*?\])\s*```/';
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
             $decoded = $this->parseJsonString($jsonString, $blockName);
@@ -385,7 +390,7 @@ PROMPT;
         }
 
         // Cas 4: Format avec backticks simples
-        $pattern = '/' . preg_quote($blockName) . ':\s*`(\{[\s\S]*?\}|\[[\s\S]*?\])`/';
+        $pattern = '/'.preg_quote($blockName).':\s*`(\{[\s\S]*?\}|\[[\s\S]*?\])`/';
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
             $decoded = $this->parseJsonString($jsonString, $blockName);
@@ -395,7 +400,7 @@ PROMPT;
         }
 
         // Cas 5: Format avec guillemets doubles autour du JSON complet
-        $pattern = '/' . preg_quote($blockName) . ':\s*"(\{[\s\S]*?\}|\[[\s\S]*?\])"/';
+        $pattern = '/'.preg_quote($blockName).':\s*"(\{[\s\S]*?\}|\[[\s\S]*?\])"/';
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = str_replace('\\"', '"', trim($matches[1]));
             $jsonString = str_replace('\\n', "\n", $jsonString);
@@ -406,7 +411,7 @@ PROMPT;
         }
 
         // Cas 6: Recherche flexible - bloc JSON après le nom sans délimiteurs stricts
-        $pattern = '/' . preg_quote($blockName) . '\s*:?\s*(\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\])/';
+        $pattern = '/'.preg_quote($blockName).'\s*:?\s*(\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}|\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\])/';
         if (preg_match($pattern, $content, $matches)) {
             $jsonString = trim($matches[1]);
             $decoded = $this->parseJsonString($jsonString, $blockName);
@@ -433,8 +438,8 @@ PROMPT;
 
         // Si aucun bloc n'est trouvé, log pour debug
         Log::warning("Aucun bloc JSON trouvé pour {$blockName}", [
-            'content_preview' => substr($content, 0, 1000) . '...',
-            'block_search' => $blockName
+            'content_preview' => substr($content, 0, 1000).'...',
+            'block_search' => $blockName,
         ]);
 
         return null;
@@ -445,12 +450,13 @@ PROMPT;
         try {
             // Nettoyer le JSON des caractères d'échappement courants
             $cleanJson = $this->cleanJsonString($jsonString);
-            
+
             $decoded = json_decode($cleanJson, true, 512, JSON_THROW_ON_ERROR);
-            
+
             // Vérifier que le résultat n'est pas vide
             if (empty($decoded)) {
                 Log::warning("JSON décodé vide pour {$blockName}", ['json' => $cleanJson]);
+
                 return null;
             }
 
@@ -461,6 +467,7 @@ PROMPT;
                 'clean_json' => $cleanJson ?? 'failed to clean',
                 'error' => $e->getMessage(),
             ]);
+
             return null;
         }
     }
@@ -469,21 +476,21 @@ PROMPT;
     {
         // Supprimer les caractères de contrôle invisibles
         $json = preg_replace('/[\x00-\x1F\x7F]/', '', $json);
-        
+
         // Nettoyer les échappements doubles
         $json = str_replace('\\\\', '\\', $json);
-        
+
         // Nettoyer les guillemets échappés
         $json = str_replace('\\"', '"', $json);
-        
+
         // Nettoyer les slashes échappés
         $json = str_replace('\\/', '/', $json);
-        
+
         // Nettoyer les sauts de ligne échappés
         $json = str_replace('\\n', "\n", $json);
         $json = str_replace('\\r', "\r", $json);
         $json = str_replace('\\t', "\t", $json);
-        
+
         // Supprimer les espaces en début et fin
         return trim($json);
     }
@@ -529,7 +536,7 @@ PROMPT;
             ],
             'sections' => [],
             'footer' => [
-                'text' => '© ' . date('Y'),
+                'text' => '© '.date('Y'),
                 'links' => [],
             ],
         ];

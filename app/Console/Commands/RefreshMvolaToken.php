@@ -32,21 +32,23 @@ class RefreshMvolaToken extends Command
         $scope = config('services.mvola.scope');
 
         $response = Http::asForm()->post("{$baseUrl}/oauth2/token", [
-            "grant_type" => "client_credentials",
-            "client_id" => $clientId,
-            "client_secret" => $clientSecret,
-            "scope" => $scope,
+            'grant_type' => 'client_credentials',
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'scope' => $scope,
         ]);
 
         if ($response->failed()) {
-            $this->error("MVola authentication failed: " . $response->body());
+            $this->error('MVola authentication failed: '.$response->body());
+
             return 1;
         }
 
         $data = $response->json();
         cache()->put('mvola_access_token', $data['access_token'], $data['expires_in'] - 60);
 
-        $this->info("✅ MVola token refreshed successfully");
+        $this->info('✅ MVola token refreshed successfully');
+
         return 0;
     }
 }

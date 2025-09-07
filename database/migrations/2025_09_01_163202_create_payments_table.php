@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')
-                  ->constrained('users')
-                  ->onDelete('cascade');
+                ->constrained('users')
+                ->onDelete('cascade');
             $table->string('amount');
             $table->string('currency')->default('Ar');
             $table->string('description')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('server_correlation_id');
             $table->string('transaction_reference');
             $table->timestamps();
-                  
+
         });
     }
 

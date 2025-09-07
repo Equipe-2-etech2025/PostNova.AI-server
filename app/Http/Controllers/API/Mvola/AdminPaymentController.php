@@ -1,13 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\API\Mvola;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
-use Illuminate\Http\Request;
 
 class AdminPaymentController extends Controller
 {
-   
     public function listAllPayments()
     {
         $payments = Payment::with('user:id,name,email')

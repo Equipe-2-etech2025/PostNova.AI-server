@@ -61,6 +61,8 @@ use App\Http\Controllers\API\LandingPage\LandingPageIndexController;
 use App\Http\Controllers\API\LandingPage\LandingPageShowController;
 use App\Http\Controllers\API\LandingPage\LandingPageStoreController;
 use App\Http\Controllers\API\LandingPage\LandingPageUpdateController;
+use App\Http\Controllers\API\Mvola\AdminPaymentController;
+use App\Http\Controllers\API\Mvola\PaymentController;
 use App\Http\Controllers\API\Prompt\PromptCriteriaController;
 use App\Http\Controllers\API\Prompt\PromptDestroyController;
 use App\Http\Controllers\API\Prompt\PromptIndexController;
@@ -114,8 +116,6 @@ use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
-use App\Http\Controllers\API\Mvola\PaymentController;
-use App\Http\Controllers\API\Mvola\AdminPaymentController;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques
@@ -127,6 +127,8 @@ Route::prefix('auth')->group(function () {
     Route::match(['get', 'post'], '/email/verify', VerifyEmailController::class)
         ->name('verification.verify');
 });
+
+Route::get('/campaigns/popular/content', PopularCampaignController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('auth')->group(function () {
@@ -156,7 +158,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', CampaignShowController::class);
         Route::put('/{id}', CampaignUpdateController::class);
         Route::delete('/{id}', CampaignDestroyController::class);
-        Route::get('/popular/content', PopularCampaignController::class);
         Route::post('/generate-name', CampaignGenerateNameController::class);
         Route::post('/template/generate', CampaignStoreByTemplateController::class);
     });
@@ -282,12 +283,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('mvola')->group(function () {
         Route::post('/payments', [PaymentController::class, 'store']);
-        
+
     });
-    
+
     Route::middleware(['auth:sanctum', 'role:admin'])
-    ->get('/admin/payments', [AdminPaymentController::class, 'listAllPayments']);
-    
+        ->get('/admin/payments', [AdminPaymentController::class, 'listAllPayments']);
+
     Route::get('/user/payments', [PaymentController::class, 'listUserPayments']);
 
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
