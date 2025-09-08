@@ -150,7 +150,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendPasswordResetNotification($token)
     {
-        $url = "http://localhost:5173/reset-password?token={$token}&email=".urlencode($this->email);
+        $url = "hhttps://dev-postnova-web.netlify.app/reset-password?token={$token}&email=".urlencode($this->email);
         $this->notify(new ResetPasswordWithFrontendUrl($url));
     }
 
