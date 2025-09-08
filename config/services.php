@@ -44,4 +44,14 @@ return [
         'api_key' => env('HUGGINGFACE_API_KEY'),
     ],
 
+    'mvola' => [
+        'auth_url' => env('MVOLA_AUTH_URL', 'https://developer.mvola.mg'),
+        'base_url' => env('MVOLA_BASE_URL', 'https://devapi.mvola.mg'),
+        'partner_name' => env('MVOLA_PARTNER_NAME', 'PostNova.AI'),
+        'partner_msisdn' => env('MVOLA_PARTNER_MSISDN'),
+        'client_id' => env('MVOLA_CLIENT_ID'),
+        'client_secret' => env('MVOLA_CLIENT_SECRET'),
+        'scope' => env('MVOLA_SCOPE', 'EXT_INT_MVOLA_SCOPE'),
+    ],
+
 ];

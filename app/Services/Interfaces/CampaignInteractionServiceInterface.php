@@ -15,13 +15,13 @@ interface CampaignInteractionServiceInterface
     public function deleteInteraction(int $id): bool;
 
     public function getInteractionsByCriteria(array $criteria);
-  
+
     // public function update(int $id, CampaignInteractionDto $dto): CampaignInteraction;
-    
+
     // public function getInteractionsByCampaignId(int $campaignId);
-    
-    //public function getInteractionsByCampaignId(int $campaignId);
-    
+
+    // public function getInteractionsByCampaignId(int $campaignId);
+
     public function getCampaignTotalLikes(int $campaignId): int;
 
     public function getCampaignTotalViews(int $campaignId): int;

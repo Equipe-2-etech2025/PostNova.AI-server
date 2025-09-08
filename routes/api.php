@@ -61,6 +61,8 @@ use App\Http\Controllers\API\LandingPage\LandingPageIndexController;
 use App\Http\Controllers\API\LandingPage\LandingPageShowController;
 use App\Http\Controllers\API\LandingPage\LandingPageStoreController;
 use App\Http\Controllers\API\LandingPage\LandingPageUpdateController;
+use App\Http\Controllers\API\Mvola\AdminPaymentController;
+use App\Http\Controllers\API\Mvola\PaymentController;
 use App\Http\Controllers\API\Prompt\PromptCriteriaController;
 use App\Http\Controllers\API\Prompt\PromptDestroyController;
 use App\Http\Controllers\API\Prompt\PromptIndexController;
@@ -126,6 +128,8 @@ Route::prefix('auth')->group(function () {
         ->name('verification.verify');
 });
 
+Route::get('/campaigns/popular/content', PopularCampaignController::class);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/logout', LogoutController::class);
@@ -154,7 +158,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/{id}', CampaignShowController::class);
         Route::put('/{id}', CampaignUpdateController::class);
         Route::delete('/{id}', CampaignDestroyController::class);
-        Route::get('/popular/content', PopularCampaignController::class);
         Route::post('/generate-name', CampaignGenerateNameController::class);
         Route::post('/template/generate', CampaignStoreByTemplateController::class);
     });
@@ -277,6 +280,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/{interactionId}/like', CampaignInteractionLikeController::class);
         Route::post('/dislike', CampaignInteractionDestroyByCampaignAndUserController::class);
     });
+
+    Route::prefix('mvola')->group(function () {
+        Route::post('/payments', [PaymentController::class, 'store']);
+
+    });
+
+    Route::middleware(['auth:sanctum', 'role:admin'])
+        ->get('/admin/payments', [AdminPaymentController::class, 'listAllPayments']);
+
+    Route::get('/user/payments', [PaymentController::class, 'listUserPayments']);
 
     Route::get('/dashboard/indicators/{userId}', [DashboardController::class, 'indicators']);
 

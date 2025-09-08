@@ -1,10 +1,8 @@
 # Étape de construction
-FROM php:8.4.2-fpm as builder
+FROM php:8.4.2-fpm AS builder
 
-# 1. Créez d'abord les répertoires avec les bonnes permissions
-RUN mkdir -p /var/www/bootstrap/cache /var/www/storage/framework/{sessions,views,cache} \
-    && chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/bootstrap/cache /var/www/storage
+# 1. Créer les répertoires avec les bonnes permissions
+RUN mkdir -p /var/www/bootstrap/cache /var/www/storage/framework/{sessions,views,cache}
 
 # 2. Installer les dépendances système
 RUN apt-get update && apt-get install -y \
@@ -13,21 +11,20 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-
-# 3. Installer Composer (en tant qu'utilisateur non-root)
+# 3. Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# 4. Configurer l'application
+# 4. Copier l’application
 WORKDIR /var/www
 COPY . .
 
-# 5. Installer les dépendances avec le bon utilisateur
-USER www-data
-RUN if [ "$APP_ENV" = "production" ]; then \
-    composer install --optimize-autoloader --no-dev --no-interaction; \
-    else \
-    composer install --no-interaction; \
-    fi
+# 5. Installer les dépendances PHP
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# 6. Créer le lien storage et ajuster les permissions (root)
+RUN php artisan storage:link \
+    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 777 /var/www/storage /var/www/bootstrap/cache
 
 # Étape finale
 FROM webdevops/php:8.2-alpine
@@ -40,8 +37,8 @@ COPY --from=builder /usr/local/bin/composer /usr/local/bin/composer
 ENV PORT=10000
 EXPOSE $PORT
 
-# Configurez le répertoire de travail une seconde fois avant CMD
+# Répertoire de travail
 WORKDIR /var/www
 
-# Commande optimisée pour Render
+# Commande pour Render
 CMD ["sh", "-c", "php artisan optimize && php artisan serve --host=0.0.0.0 --port=${PORT}"]

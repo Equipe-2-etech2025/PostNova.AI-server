@@ -35,9 +35,9 @@ class LandingPageService implements LandingPageServiceInterface
         return $this->repository->create($landingPageDto);
     }
 
-    public function updateLandingPage(int $id, LandingPageDto $landingPageDto)
+    public function updateLandingPage(int $id, array $content)
     {
-        return $this->repository->update($id, $landingPageDto);
+        return $this->repository->update($id, $content);
     }
 
     public function deleteLandingPage(int $id)

@@ -21,7 +21,7 @@ class CampaignShowController extends Controller
     public function __invoke(int $id)
     {
         $campaign = $this->campaignService->getCampaignById($id);
-        $this->authorize('view', $campaign);
+        //$this->authorize('view', $campaign);
 
         return new CampaignResource($campaign);
     }

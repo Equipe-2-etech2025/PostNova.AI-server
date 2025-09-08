@@ -22,9 +22,7 @@ class ImageIndexController extends Controller
         $user = Auth::user();
         $this->authorize('viewAny', Campaign::class);
 
-        $images = $user->hasRole('admin')
-            ? $this->service->getAllImages()
-            : $this->service->getImageByUserId($user->id);
+        $images = $this->service->getAllImages();
 
         return new ImageCollection($images);
     }
