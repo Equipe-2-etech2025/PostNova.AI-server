@@ -22,9 +22,7 @@ class SocialPostIndexController extends Controller
         $user = Auth::user();
         $this->authorize('viewAny', SocialPost::class);
 
-        $socialPosts = $user->hasRole('admin')
-            ? $this->service->getAllSocialPosts()
-            : $this->service->getSocialPostsByUserId($user->id);
+        $socialPosts = $this->service->getAllSocialPosts();
 
         return new SocialPostCollection($socialPosts);
     }

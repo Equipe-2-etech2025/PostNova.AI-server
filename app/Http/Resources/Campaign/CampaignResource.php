@@ -24,13 +24,13 @@ class CampaignResource extends JsonResource
             'is_published' => $this->is_published,
             'description' => $this->resource->description,
 
-            'user' => $this->whenLoaded('user', function () {
-                return $this->resource->user ? [
+            'user' => $this->when($this->resource->user, function () {
+                return [
                     'id' => $this->resource->user->id,
                     'name' => $this->resource->user->name,
-                    'avatar' => $this->resource->user->avatar_url ?? null,
-                ] : null;
+                ];
             }),
+            
 
             'user_has_liked' => $this->when((bool) $request->user(), function () use ($request) {
                 return $this->resource->interactions()

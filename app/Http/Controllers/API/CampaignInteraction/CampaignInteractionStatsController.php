@@ -18,7 +18,7 @@ class CampaignInteractionStatsController extends Controller
     public function __invoke(int $campaignId)
     {
         $interaction = CampaignInteraction::where('campaign_id', $campaignId)->first();
-        $this->authorize('view', $interaction);
+        //$this->authorize('view', $interaction);
 
         return response()->json([
             'likes' => $this->service->getCampaignTotalLikes($campaignId),
