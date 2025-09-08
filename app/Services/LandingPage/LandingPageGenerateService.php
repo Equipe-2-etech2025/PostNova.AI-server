@@ -106,7 +106,6 @@ class LandingPageGenerateService
                     'generationConfig' => ['maxOutputTokens' => 10000],
                 ]);
 
-
             if (! $response->successful()) {
                 Log::error('API request failed', [
                     'status' => $response->status(),
@@ -497,7 +496,7 @@ PROMPT;
         $campaign = null;
         $campaignTitle = 'Page';
         $campaignDescription = 'Découvrez nos produits et services';
-        
+
         try {
             $campaign = $this->campaignRepository->find($params['campaign_id']);
             if ($campaign) {
@@ -513,7 +512,7 @@ PROMPT;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>' . htmlspecialchars($campaignTitle) . '</title>
+    <title>'.htmlspecialchars($campaignTitle).'</title>
     <style>
         * { 
             margin: 0; 
@@ -709,8 +708,8 @@ PROMPT;
                 'title' => $campaignTitle,
                 'subtitle' => $campaignDescription,
                 'cta' => [
-                    'text' => 'Découvrir maintenant', 
-                    'link' => $params['cta_url'] ?? 'https://example.com'
+                    'text' => 'Découvrir maintenant',
+                    'link' => $params['cta_url'] ?? 'https://example.com',
                 ],
                 'backgroundImage' => '',
                 'backgroundColor' => $params['primary_color'] ?? '#667eea',
@@ -722,14 +721,14 @@ PROMPT;
                     'title' => 'Pourquoi nous choisir ?',
                     'text' => 'Nous offrons des solutions innovantes et personnalisées pour répondre à tous vos besoins. Notre expertise et notre engagement vous garantissent des résultats exceptionnels.',
                     'backgroundColor' => '#f8f9fa',
-                ]
+                ],
             ],
             'footer' => [
-                'text' => '© ' . date('Y') . ' - Tous droits réservés',
+                'text' => '© '.date('Y').' - Tous droits réservés',
                 'links' => [
                     ['text' => 'Contact', 'link' => '#contact'],
                     ['text' => 'Mentions légales', 'link' => '#mentions'],
-                    ['text' => 'Confidentialité', 'link' => '#confidentialite']
+                    ['text' => 'Confidentialité', 'link' => '#confidentialite'],
                 ],
             ],
         ];
@@ -756,7 +755,7 @@ PROMPT;
             Log::error('Failed to save fallback landing page to database', [
                 'error' => $e->getMessage(),
                 'campaign_id' => $params['campaign_id'],
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
         }
 
