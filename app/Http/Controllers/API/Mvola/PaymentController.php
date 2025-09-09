@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\API\Mvola;
 
 use App\DTOs\Payment\PaymentDTO;
+use App\DTOs\TarifUser\TarifUserDto;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
+use App\Services\Interfaces\TarifUserServiceInterface;
 use App\Services\MvolaService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\DTOs\TarifUser\TarifUserDto;
-use App\Services\Interfaces\TarifUserServiceInterface;
-use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
     private MvolaService $mvola;
+
     private TarifUserServiceInterface $tarifUserService;
 
     public function __construct(MvolaService $mvola, TarifUserServiceInterface $tarifUserService)
@@ -48,14 +49,13 @@ class PaymentController extends Controller
             $now = Carbon::now();
             $tarifUserDto = new TarifUserDto(
                 id: null,
-                tarif_id: 2, //Pro
+                tarif_id: 2, // Pro
                 user_id: $userId,
                 created_at: $now,
                 expired_at: $now->copy()->addMonth()
             );
 
             $this->tarifUserService->createTarifUser($tarifUserDto);
-
 
             return response()->json($payment);
         } catch (\Exception $e) {

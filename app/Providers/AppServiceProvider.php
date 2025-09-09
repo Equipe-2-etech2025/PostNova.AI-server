@@ -44,6 +44,7 @@ use App\Services\CampaignFeaturesService;
 use App\Services\CampaignInteractionService;
 use App\Services\CampaignService;
 use App\Services\CampaignTemplateService;
+use App\Services\CloudinaryService;
 use App\Services\ContentService;
 use App\Services\DashboardService;
 use App\Services\FeaturesService;
@@ -194,6 +195,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(SocialPostRepositoryInterface::class, SocialPostRepository::class);
+
+        $this->app->singleton(CloudinaryService::class, function ($app) {
+            return new CloudinaryService;
+        });
     }
 
     /**

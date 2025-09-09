@@ -54,4 +54,11 @@ return [
         'scope' => env('MVOLA_SCOPE', 'EXT_INT_MVOLA_SCOPE'),
     ],
 
+    'cloudinary' => [
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+        'api_key' => env('CLOUDINARY_API_KEY'),
+        'api_secret' => env('CLOUDINARY_API_SECRET'),
+        'url' => env('CLOUDINARY_URL'),
+    ],
+
 ];
