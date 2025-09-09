@@ -25,7 +25,7 @@ class LandingPageIndexController extends Controller
 
         if ($campaignId) {
             $campaign = Campaign::findOrFail($campaignId);
-            //$this->authorize('view', $campaign);
+            // $this->authorize('view', $campaign);
 
             $landingPages = $this->service->getLandingPageByCriteria(['campaign_id' => $campaignId]);
         }

@@ -30,7 +30,6 @@ class CampaignResource extends JsonResource
                     'name' => $this->resource->user->name,
                 ];
             }),
-            
 
             'user_has_liked' => $this->when((bool) $request->user(), function () use ($request) {
                 return $this->resource->interactions()
