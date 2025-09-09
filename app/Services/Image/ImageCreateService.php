@@ -4,6 +4,7 @@ namespace App\Services\Image;
 
 use App\DTOs\Image\ImageDto;
 use App\Repositories\ImageRepository;
+use App\Services\CloudinaryService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +15,8 @@ class ImageCreateService
     private const MODEL_ID = 'stabilityai/stable-diffusion-xl-base-1.0';
 
     public function __construct(
-        private readonly ImageRepository $imageRepository
+        private readonly ImageRepository $imageRepository,
+        private readonly CloudinaryService $cloudinaryService
     ) {}
 
     /**
@@ -29,10 +31,9 @@ class ImageCreateService
             throw new \RuntimeException($generatedImage['error']);
         }
 
-        // $generatedImage['path'] contient maintenant l'URL complète
         $dto = new ImageDto(
             null,
-            path: $generatedImage['path'], // URL complète stockée en base
+            path: $generatedImage['path'], // URL Cloudinary stockée en base
             campaign_id: $params['campaign_id'],
             prompt_id: $params['prompt_id'],
             is_published: $params['is_published'] ?? false
@@ -40,15 +41,15 @@ class ImageCreateService
 
         $createdImage = $this->imageRepository->create($dto);
 
-        // Retourner un tableau avec l'URL déjà complète
+        // Retourner un tableau avec l'URL Cloudinary
         return [
             'id' => $createdImage->id,
-            'path' => $createdImage->path, // Maintenant c'est une URL complète
+            'path' => $createdImage->path,
             'campaign_id' => $createdImage->campaign_id,
             'is_published' => $createdImage->is_published,
             'created_at' => $createdImage->created_at,
             'updated_at' => $createdImage->updated_at,
-            'url' => $createdImage->path, // Même chose que path maintenant
+            'url' => $createdImage->path,
             'prompt' => $generatedImage['prompt'],
             'enhanced_prompt' => $generatedImage['enhanced_prompt'] ?? null,
             'model_used' => $generatedImage['model_used'] ?? self::DEFAULT_MODEL,
@@ -167,15 +168,24 @@ class ImageCreateService
             throw new \RuntimeException('Aucune donnée image reçue');
         }
 
-        // Sauvegarder l'image
-        $imagePath = $this->saveImageLocally($imageData, $campaignId, $prompt);
+        // Sauvegarder l'image sur Cloudinary au lieu du stockage local
+        $uploadResult = $this->cloudinaryService->uploadImage(
+            $imageData,
+            'ai-images/campaign_'.$campaignId,
+            'campaign_'.$campaignId.'_'.time()
+        );
+
+        if (! $uploadResult['success']) {
+            throw new \RuntimeException('Échec de l\'upload Cloudinary: '.$uploadResult['error']);
+        }
 
         return [
-            'path' => $imagePath, // Maintenant c'est une URL complète
+            'path' => $uploadResult['url'],
             'prompt' => $prompt,
             'enhanced_prompt' => $enhancedPrompt,
             'campaign_id' => $campaignId,
             'model_used' => self::DEFAULT_MODEL,
+            'cloudinary_public_id' => $uploadResult['public_id'],
         ];
     }
 
@@ -188,34 +198,6 @@ class ImageCreateService
         ];
 
         return $prompt.', '.implode(', ', $qualityKeywords);
-    }
-
-    private function saveImageLocally(string $imageData, int $campaignId, string $prompt): string
-    {
-        $filename = 'campaign_'.$campaignId.'_'.time().'.jpg';
-
-        // Chemin absolu pour forcer la création
-        $absoluteDirectory = storage_path('app/public/images/campaigns/'.$campaignId);
-        $relativePath = 'images/campaigns/'.$campaignId.'/'.$filename;
-
-        // Créer le dossier avec mkdir PHP natif
-        if (! file_exists($absoluteDirectory)) {
-            mkdir($absoluteDirectory, 0755, true);
-            Log::info('Created directory', ['path' => $absoluteDirectory]);
-        }
-
-        // Sauvegarder avec file_put_contents
-        $absoluteFilePath = $absoluteDirectory.'/'.$filename;
-        $bytes = file_put_contents($absoluteFilePath, $imageData);
-
-        Log::info('Image saved', [
-            'path' => $absoluteFilePath,
-            'bytes' => $bytes,
-            'exists' => file_exists($absoluteFilePath),
-        ]);
-
-        // Retourner l'URL complète au lieu du chemin relatif
-        return config('app.url').'/storage/'.$relativePath;
     }
 
     /**
