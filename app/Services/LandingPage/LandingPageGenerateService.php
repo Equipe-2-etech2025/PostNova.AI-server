@@ -106,14 +106,10 @@ class LandingPageGenerateService
                     'generationConfig' => ['maxOutputTokens' => 10000],
                 ]);
 
-            $endTime = microtime(true);
-            $duration = round(($endTime - $startTime) * 1000, 2);
-
             if (! $response->successful()) {
                 Log::error('API request failed', [
                     'status' => $response->status(),
                     'body' => $response->body(),
-                    'duration_ms' => $duration,
                 ]);
                 throw new \RuntimeException("API request failed with status: {$response->status()}");
             }
@@ -497,51 +493,246 @@ PROMPT;
 
     private function generateFallback(array $params): array
     {
+        $campaign = null;
+        $campaignTitle = 'Page';
+        $campaignDescription = 'Découvrez nos produits et services';
+
+        try {
+            $campaign = $this->campaignRepository->find($params['campaign_id']);
+            if ($campaign) {
+                $campaignTitle = $campaign->name ?? 'Page';
+                $campaignDescription = $campaign->description ?? 'Découvrez nos produits et services';
+            }
+        } catch (\Exception $e) {
+            Log::warning('Could not fetch campaign for fallback', ['error' => $e->getMessage()]);
+        }
+
         $fallbackHtml = '<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page</title>
+    <title>'.htmlspecialchars($campaignTitle).'</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; line-height: 1.6; }
-        .hero { background: ${hero.backgroundColor}; color: white; padding: 80px 20px; text-align: center; }
-        .hero h1 { font-size: 3rem; margin-bottom: 20px; }
-        .hero p { font-size: 1.2rem; margin-bottom: 30px; }
-        .btn { display: inline-block; background: #fff; color: #333; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .btn:hover { background: #f0f0f0; }
-        .footer { background: #333; color: white; text-align: center; padding: 40px 20px; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        .hero { 
+            background: linear-gradient(135deg, ${hero.backgroundColor}, rgba(0,0,0,0.1));
+            background-image: url("${hero.backgroundImage}");
+            background-size: cover;
+            background-position: center;
+            color: white; 
+            padding: 120px 20px; 
+            text-align: center; 
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 { 
+            font-size: 3.5rem; 
+            margin-bottom: 24px; 
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+        .hero p { 
+            font-size: 1.4rem; 
+            margin-bottom: 40px; 
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .btn { 
+            display: inline-block; 
+            background: #fff; 
+            color: #333; 
+            padding: 18px 36px; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn:hover { 
+            background: #f8f9fa; 
+            transform: translateY(-2px);
+            box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+        }
+        .content-section {
+            padding: 80px 20px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        .content-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .content-section p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+            padding: 0 20px;
+        }
+        .feature {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .feature:hover {
+            transform: translateY(-4px);
+        }
+        .feature h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .feature p {
+            color: #666;
+            margin: 0;
+        }
+        .footer { 
+            background: #2c3e50; 
+            color: white; 
+            text-align: center; 
+            padding: 60px 20px;
+            margin-top: 0;
+        }
+        .footer p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        .footer-links {
+            margin-top: 20px;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            .hero { padding: 80px 20px; }
+            .content-section h2 { font-size: 2rem; }
+            .features { grid-template-columns: 1fr; gap: 30px; }
+        }
     </style>
 </head>
 <body>
     <section class="hero">
-        <h1>${hero.title}</h1>
-        <p>${hero.subtitle}</p>
-        <a href="${hero.cta.link}" class="btn">${hero.cta.text}</a>
+        <div class="hero-content">
+            <h1>${hero.title}</h1>
+            <p>${hero.subtitle}</p>
+            <a href="${hero.cta.link}" class="btn">${hero.cta.text}</a>
+        </div>
     </section>
+    
+    <section class="content-section">
+        <h2>${sections[0].title}</h2>
+        <p>${sections[0].text}</p>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>Qualité Premium</h3>
+                <p>Des solutions de haute qualité adaptées à vos besoins spécifiques.</p>
+            </div>
+            <div class="feature">
+                <h3>Support Expert</h3>
+                <p>Une équipe d\'experts à votre disposition pour vous accompagner.</p>
+            </div>
+            <div class="feature">
+                <h3>Innovation Continue</h3>
+                <p>Des technologies de pointe pour rester à l\'avant-garde de votre secteur.</p>
+            </div>
+        </div>
+    </section>
+    
     <footer class="footer">
         <p>${footer.text}</p>
+        <div class="footer-links">
+            <a href="#contact">Contact</a>
+            <a href="#mentions">Mentions légales</a>
+            <a href="#confidentialite">Confidentialité</a>
+        </div>
     </footer>
 </body>
 </html>';
 
         $fallbackData = [
             'hero' => [
-                'title' => 'Bienvenue',
-                'subtitle' => 'Découvrez nos produits et services',
-                'cta' => ['text' => 'En savoir plus', 'link' => 'https://example.com'],
+                'title' => $campaignTitle,
+                'subtitle' => $campaignDescription,
+                'cta' => [
+                    'text' => 'Découvrir maintenant',
+                    'link' => $params['cta_url'] ?? 'https://example.com',
+                ],
                 'backgroundImage' => '',
-                'backgroundColor' => $params['colors']['primary'] ?? '#E41B17',
+                'backgroundColor' => $params['primary_color'] ?? '#667eea',
             ],
-            'sections' => [],
+            'sections' => [
+                [
+                    'id' => 1,
+                    'type' => 'text-section',
+                    'title' => 'Pourquoi nous choisir ?',
+                    'text' => 'Nous offrons des solutions innovantes et personnalisées pour répondre à tous vos besoins. Notre expertise et notre engagement vous garantissent des résultats exceptionnels.',
+                    'backgroundColor' => '#f8f9fa',
+                ],
+            ],
             'footer' => [
-                'text' => '© '.date('Y'),
-                'links' => [],
+                'text' => '© '.date('Y').' - Tous droits réservés',
+                'links' => [
+                    ['text' => 'Contact', 'link' => '#contact'],
+                    ['text' => 'Mentions légales', 'link' => '#mentions'],
+                    ['text' => 'Confidentialité', 'link' => '#confidentialite'],
+                ],
             ],
         ];
 
-        // Créer un DTO avec le fallback
         $dto = new LandingPageDto(
             id: null,
             content: [
@@ -549,15 +740,23 @@ PROMPT;
                     'html' => $fallbackHtml,
                     'data' => $fallbackData,
                 ],
+                'fallback' => true, // Mark as fallback
             ],
             campaign_id: $params['campaign_id']
         );
 
-        // Sauvegarder le fallback en base
         try {
             $this->landingPageRepository->create($dto);
+            Log::info('Fallback landing page created successfully', [
+                'campaign_id' => $params['campaign_id'],
+                'campaign_title' => $campaignTitle,
+            ]);
         } catch (\Exception $e) {
-            Log::warning('Failed to save fallback landing page', ['error' => $e->getMessage()]);
+            Log::error('Failed to save fallback landing page to database', [
+                'error' => $e->getMessage(),
+                'campaign_id' => $params['campaign_id'],
+                'trace' => $e->getTraceAsString(),
+            ]);
         }
 
         return $dto->toArray();
