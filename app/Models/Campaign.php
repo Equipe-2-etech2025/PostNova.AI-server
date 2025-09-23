@@ -30,6 +30,20 @@ class Campaign extends Model
         'user_id',
         'type_campaign_id',
         'is_published',
+
+        'business_name',
+        'email',
+        'phone_numbers',
+        'company',
+        'website',
+        'industry',
+        'location',
+        'target_audience',
+        'goals',
+        'budget',
+        'keywords',
+        'additional_notes',
+        'preferred_style'
     ];
 
     protected $casts = [
@@ -42,6 +56,20 @@ class Campaign extends Model
         'user_id' => 'integer',
         'type_campaign_id' => 'integer',
         'is_published' => 'boolean',
+
+        'business_name' => 'string',
+        'email' => 'string',
+        'phone_numbers' => 'string',
+        'company' => 'string',
+        'website' => 'string',
+        'industry' => 'string',
+        'location' => 'string',
+        'target_audience' => 'string',
+        'goals' => 'string',
+        'budget' => 'string',
+        'keywords' => 'string',
+        'additional_notes' => 'string',
+        'preferred_style' => 'string'
     ];
 
     public function user()

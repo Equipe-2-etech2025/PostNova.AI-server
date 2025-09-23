@@ -26,6 +26,21 @@ class UpdatePromptRequest extends FormRequest
         return [
             'content' => ['sometimes', 'string'],
             'campaign_id' => ['sometimes', 'exists:campaigns,id'],
+            'business_name' => ['sometimes', 'string'],
+            'email' => ['sometimes', 'string', 'email'],
+            'phone_numbers' => ['sometimes', 'array'],
+            'phone_numbers.*' => ['string'],
+            'company' => ['sometimes', 'string'],
+            'website' => ['sometimes', 'string'],
+            'industry' => ['sometimes', 'string'],
+            'location' => ['sometimes', 'string'],
+            'target_audience' => ['sometimes', 'string'],
+            'goals' => ['sometimes', 'string'],
+            'budget' => ['sometimes', 'string'],
+            'keywords' => ['sometimes', 'array'],
+            'keywords.*' => ['string'],
+            'additional_notes' => ['sometimes', 'string'],
+            'preferred_style' => ['sometimes', 'string'],
         ];
     }
 
@@ -52,6 +67,19 @@ class UpdatePromptRequest extends FormRequest
             null,
             content: $this->input('content', $prompt->content ?? null),
             campaign_id: $this->input('campaign_id', $prompt->campaign_id ?? null),
+            business_name: $this->input('business_name', $prompt->business_name ?? null),
+            email: $this->input('email', $prompt->email ?? null),
+            phone_numbers: $this->input('phone_numbers', $prompt->phone_numbers ?? null),
+            company: $this->input('company', $prompt->company ?? null),
+            website: $this->input('website', $prompt->website ?? null),
+            industry: $this->input('industry', $prompt->industry ?? null),
+            location: $this->input('location', $prompt->location ?? null),
+            target_audience: $this->input('target_audience', $prompt->target_audience ?? null),
+            goals: $this->input('goals', $prompt->goals ?? null),
+            budget: $this->input('budget', $prompt->budget ?? null),
+            keywords: $this->input('keywords', $prompt->keywords ?? null),
+            additional_notes: $this->input('additional_notes', $prompt->additional_notes ?? null),
+            preferred_style: $this->input('preferred_style', $prompt->preferred_style ?? null),
         );
     }
 }

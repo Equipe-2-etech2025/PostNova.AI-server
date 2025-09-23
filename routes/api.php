@@ -116,6 +116,10 @@ use App\Http\Controllers\API\User\UserIndexController;
 use App\Http\Controllers\API\User\UserShowController;
 use App\Http\Controllers\API\User\UserStoreController;
 use App\Http\Controllers\API\User\UserUpdateController;
+use App\Http\Controllers\API\v2\Campaign\CampaignGenerateController as CampaignGenerateControllerV2;
+use App\Http\Controllers\API\v2\LandingPage\LandingPageGenerateController as LPGenarateControllerV2;
+use App\Http\Controllers\API\v2\LandingPage\LandingPageShowController as LPShowControllerV2;
+use App\Http\Controllers\API\v2\LandingPage\LandingPageDestroyController as LPDestroyControllerV2;
 use Illuminate\Support\Facades\Route;
 
 // Routes publiques
@@ -304,4 +308,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('campaign-templates/ratings/{templateId}', TemplateRatingController::class);
 
     Route::post('/generate-images', [ImageGenerationController::class, 'generateImage']);
+
+    // API version 2
+    Route::prefix('v2')->group(function () {
+        Route::prefix('campaign')->group(function () {
+            Route::post('/generate', CampaignGenerateControllerV2::class);
+        });
+        Route::prefix('landing-page')->group(function () {
+            Route::post('/generate', LPGenarateControllerV2::class);
+            Route::get('/{landingPage}', LPShowControllerV2::class);
+            Route::delete('/{landingPage}', LPDestroyControllerV2::class);
+        });
+    });
 });

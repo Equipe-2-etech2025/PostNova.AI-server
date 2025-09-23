@@ -2,16 +2,22 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiResponse;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponse;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -46,7 +52,7 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (\Throwable $e) {
+        $this->reportable(function (Throwable $e) {
             //
         });
     }
@@ -58,8 +64,46 @@ class Handler extends ExceptionHandler
      * @param  \Throwable  $e
      * @return Response
      */
-    public function render($request, $e)
+    public function render($request, Throwable $e)
     {
+        if ($request->is('api/*') && $request->expectsJson()) {
+
+            if ($e instanceof TarifException) {
+                return $this->fail(
+                    message: $e->getMessage(),
+                    code: $e->getCode(),
+                );
+            }
+
+            if ($e instanceof ValidationException) {
+                return $this->fail(
+                    message: $e->getMessage(),
+                    code: Response::HTTP_UNPROCESSABLE_ENTITY,
+                    errors: $e->errors()
+                );
+            }
+
+            if ($e instanceof AuthorizationException) {
+                return $this->fail(
+                    message: $e->getMessage(),
+                    code: Response::HTTP_FORBIDDEN
+                );
+            }
+
+            if ($e instanceof ModelNotFoundException) {
+                return $this->fail(
+                    message: $e->getMessage(),
+                    code: Response::HTTP_NOT_FOUND
+                );
+            }
+
+            return $this->fail(
+                message: $e->getMessage(),
+                code: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+            
+        }
+
         return parent::render($request, $e);
     }
 
@@ -71,7 +115,10 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return response()->json(['message' => 'Unauthenticated.'], 401);
+        return $this->fail(
+            message: "Unauthenticated.",
+            code: Response::HTTP_UNAUTHORIZED
+        );
     }
 
     /**

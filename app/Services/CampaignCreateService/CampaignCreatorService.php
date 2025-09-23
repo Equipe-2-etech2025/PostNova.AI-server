@@ -43,7 +43,20 @@ class CampaignCreatorService
             type_campaign_id: $data['type_campaign_id'],
             user_id: $data['user_id'],
             status: $status,
-            is_published: false
+            is_published: false,
+            business_name: "",
+            email: "",
+            phone_numbers: "",
+            company: "",
+            website: "",
+            industry: "",
+            location: "",
+            target_audience: "",
+            goals: "",
+            budget: "",
+            keywords: "",
+            additional_notes: "",
+            preferred_style: ""
         );
 
         return $this->campaignRepository->create($campaignDto);

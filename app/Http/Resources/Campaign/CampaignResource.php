@@ -24,6 +24,20 @@ class CampaignResource extends JsonResource
             'is_published' => $this->is_published,
             'description' => $this->resource->description,
 
+            'business_name' => $this->resource->business_name,
+            'email' => $this->resource->email,
+            'phone_numbers' => $this->resource->phone_numbers,
+            'company' => $this->resource->company,
+            'website' => $this->resource->website,
+            'industry' => $this->resource->industry,
+            'location' => $this->resource->location,
+            'target_audience' => $this->resource->target_audience,
+            'goals' => $this->resource->goals,
+            'budget' => $this->resource->budget,
+            'keywords' => $this->resource->keywords,
+            'additional_notes' => $this->resource->additional_notes,
+            'preferred_style' => $this->resource->preferred_style,
+
             'user' => $this->when($this->resource->user, function () {
                 return [
                     'id' => $this->resource->user->id,

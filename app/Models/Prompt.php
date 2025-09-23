@@ -35,6 +35,21 @@ class Prompt extends Model
         'id' => 'string',
         'content' => 'string',
         'campaign_id' => 'string',
+        
+        'business_name' => 'string',
+        'email' => 'string',
+        'phone_numbers' => 'array',
+        'company' => 'string',
+        'website' => 'string',
+        'industry' => 'string',
+        'location' => 'string',
+        'target_audience' => 'string',
+        'goals' => 'string',
+        'budget' => 'string',
+        'keywords' => 'array',
+        'additional_notes' => 'string',
+        'preferred_style' => 'string',
+
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

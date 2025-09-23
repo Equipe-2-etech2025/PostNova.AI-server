@@ -28,7 +28,7 @@ class LandingPagePolicy
      */
     public function view(User $user, LandingPage $landingPage): bool
     {
-        return $landingPage->campaign->user_id === $user->id;
+        return $landingPage->campaign->user_id === $user->id || $landingPage->campaign->is_published;
     }
 
     /**
