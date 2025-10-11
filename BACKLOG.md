@@ -3,7 +3,7 @@
   Branche: `feature/EPA-103-openApi`
   Commit: `EPA-91: Ajout de document de spéficition openAPI`
   Commit: `EPA-91: fix(openapi), corrige le schéma JSON du endpoint DELETE /api/campaign-interactions/{id}`
-
+  Commit: `EPA-91: docs(openapi) corriger la documentation du endpoint /dislike pour correspondre à la route POST`
 - [EPA-91] Mise à jour des contenus Landing Page
   Branche: `EPA-91-landing-page-edit-content`
   Commit: `EPA-91: Refactor LandingPage controllers and service for improved validation and error handling`
