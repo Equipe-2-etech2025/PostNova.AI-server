@@ -2,7 +2,7 @@
 
 namespace App\DTOs\CampaignTemplate;
 
-class CampaignTemplateDto
+class CampaignTemplate
 {
     public function __construct(
         public ?int $id,

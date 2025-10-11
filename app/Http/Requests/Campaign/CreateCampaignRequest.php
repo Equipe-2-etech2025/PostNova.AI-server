@@ -30,7 +30,7 @@ class CreateCampaignRequest extends FormRequest
     {
         return [
             'name.required' => 'Le nom de la campaign est obligatoire.',
-            'description.required' => 'La description de la campaign kkkkkk est obligatoire.',
+            'description.required' => 'La description de la campaign est obligatoire.',
             'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
             'type_campaign_id.exists' => 'Type de campaign invalide.',
 
