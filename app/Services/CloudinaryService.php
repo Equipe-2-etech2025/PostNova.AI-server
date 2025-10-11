@@ -14,19 +14,18 @@ class CloudinaryService
         $this->cloudinary = new Cloudinary([
             'cloud' => [
                 'cloud_name' => config('services.cloudinary.cloud_name'),
-                'api_key'    => config('services.cloudinary.api_key'),
+                'api_key' => config('services.cloudinary.api_key'),
                 'api_secret' => config('services.cloudinary.api_secret'),
-            ]
+            ],
         ]);
     }
 
     /**
      * Upload une image vers Cloudinary.
      *
-     * @param string|mixed $imageData Chemin, base64 ou données binaires
-     * @param string $folder Dossier Cloudinary
-     * @param string|null $publicId Identifiant personnalisé
-     * @return array
+     * @param  string|mixed  $imageData  Chemin, base64 ou données binaires
+     * @param  string  $folder  Dossier Cloudinary
+     * @param  string|null  $publicId  Identifiant personnalisé
      */
     public function uploadImage($imageData, string $folder = 'ai-images', ?string $publicId = null): array
     {
@@ -43,24 +42,24 @@ class CloudinaryService
             } elseif (is_string($imageData) && str_starts_with($imageData, 'data:image')) {
                 $file = $imageData;
             } else {
-                $file = 'data:image/jpeg;base64,' . base64_encode($imageData);
+                $file = 'data:image/jpeg;base64,'.base64_encode($imageData);
             }
 
             $result = $this->cloudinary->uploadApi()->upload($file, $options);
 
             return [
-                'success'   => true,
-                'url'       => $result['secure_url'],
+                'success' => true,
+                'url' => $result['secure_url'],
                 'public_id' => $result['public_id'],
-                'format'    => $result['format'],
-                'bytes'     => $result['bytes']
+                'format' => $result['format'],
+                'bytes' => $result['bytes'],
             ];
         } catch (\Exception $e) {
-            Log::error('Cloudinary upload failed: ' . $e->getMessage());
+            Log::error('Cloudinary upload failed: '.$e->getMessage());
 
             return [
                 'success' => false,
-                'error'   => $e->getMessage()
+                'error' => $e->getMessage(),
             ];
         }
     }
