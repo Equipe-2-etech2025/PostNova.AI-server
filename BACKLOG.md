@@ -2,6 +2,7 @@
 - [EPA-103] Création de document OpenApi Swagger (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-103-openApi`
   Commit: `EPA-91: Ajout de document de spéficition openAPI`
+  Commit: `EPA-91: fix(openapi), corrige le schéma JSON du endpoint DELETE /api/campaign-interactions/{id}`
 
 - [EPA-91] Mise à jour des contenus Landing Page
   Branche: `EPA-91-landing-page-edit-content`
