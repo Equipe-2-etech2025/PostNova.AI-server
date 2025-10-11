@@ -163,6 +163,9 @@ TIKTOK_CLIENT_SECRET=your_tiktok_secret
 
 ## 📚 API Documentation
 
+Vous pouvez consulter la documentation interactive de l'API via Swagger UI :  
+[PostNova.AI API Docs](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/Equipe-2-etech2025/PostNova.AI-server/refs/heads/dev/docs/api-docs.yaml)
+
 ### Authentification
 
 ```bash

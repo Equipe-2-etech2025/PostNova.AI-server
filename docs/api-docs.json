@@ -2257,14 +2257,14 @@
                 ]
             }
         },
-        "/api/campaign-interactions/delete": {
-            "delete": {
+        "/api/campaign-interactions/dislike": {
+            "post": {
                 "tags": [
                     "Campaign Interactions"
                 ],
                 "summary": "Supprimer une interaction par campagne et utilisateur",
-                "description": "Supprime une interaction spécifique associée à un utilisateur et une campagne.\n *     Nécessite que la combinaison (campaign_id, user_id) existe.",
-                "operationId": "d21496e4340a1f41529e73c251a69be8",
+                "description": "Supprime une interaction spécifique associée à un utilisateur et une campagne.\n *     Cette opération nécessite que la combinaison (campaign_id, user_id) existe.",
+                "operationId": "23c2f658be0ff9345db9e7b42492fc7d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -2300,6 +2300,7 @@
                                     "type": "object"
                                 },
                                 "example": {
+                                    "success": true,
                                     "message": "Interaction supprimée avec succès"
                                 }
                             }
@@ -2313,6 +2314,7 @@
                                     "type": "object"
                                 },
                                 "example": {
+                                    "success": false,
                                     "message": "Aucune interaction trouvée pour ce couple campaign_id / user_id"
                                 }
                             }
@@ -2326,6 +2328,7 @@
                                     "type": "object"
                                 },
                                 "example": {
+                                    "success": false,
                                     "error": "Le champ campaign_id est requis et doit être un entier valide"
                                 }
                             }
@@ -2339,6 +2342,7 @@
                                     "type": "object"
                                 },
                                 "example": {
+                                    "success": false,
                                     "error": "Unauthenticated"
                                 }
                             }
@@ -2352,6 +2356,7 @@
                                     "type": "object"
                                 },
                                 "example": {
+                                    "success": false,
                                     "error": "Vous n’avez pas la permission de supprimer cette interaction"
                                 }
                             }
@@ -2365,6 +2370,7 @@
                                     "type": "object"
                                 },
                                 "example": {
+                                    "success": false,
                                     "error": "Erreur interne du serveur, veuillez réessayer plus tard"
                                 }
                             }
@@ -2595,9 +2601,18 @@
                         "description": "Interaction supprimée avec succès",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "message": "Interaction supprimée avec succès"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Interaction supprimée avec succès"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2606,9 +2621,18 @@
                         "description": "Interaction non trouvée",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Aucune interaction trouvée avec cet identifiant"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Aucune interaction trouvée avec cet identifiant"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2617,9 +2641,18 @@
                         "description": "Utilisateur non authentifié",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Unauthenticated"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2628,9 +2661,18 @@
                         "description": "Accès refusé",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Vous n’avez pas la permission de supprimer cette interaction"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Vous n’avez pas la permission de supprimer cette interaction"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2639,9 +2681,18 @@
                         "description": "Erreur interne du serveur",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Erreur interne du serveur, veuillez réessayer plus tard"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erreur interne du serveur, veuillez réessayer plus tard"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -4235,9 +4286,18 @@
                         "description": "Supprimé avec succès",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "message": "Supprimé avec succès."
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -10375,7 +10435,7 @@
                     "TarifUsers"
                 ],
                 "summary": "Récupérer le dernier TarifUser pour un utilisateur",
-                "description": "Retourne le dernier TarifUser actif pour l'utilisateur spécifié. Si aucun tarif n'est trouvé, renvoie null.",
+                "description": "Retourne le dernier TarifUser actif pour l'utilisateur spécifié. Si aucun tarif n'est trouvé, `data` est null.",
                 "operationId": "2507531ba3b17911a2243a25a2a6e49b",
                 "parameters": [
                     {
@@ -10391,32 +10451,30 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Dernier TarifUser récupéré avec succès",
+                        "description": "Dernier TarifUser récupéré",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "oneOf": [
-                                        {
-                                            "$ref": "#/components/schemas/TarifUserResource"
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
-                                        {
-                                            "properties": {
-                                                "success": {
-                                                    "type": "boolean",
-                                                    "example": true
-                                                },
-                                                "data": {
-                                                    "type": "null",
-                                                    "example": null
-                                                },
-                                                "message": {
-                                                    "type": "string",
-                                                    "example": "Aucun tarif trouvé pour cet utilisateur."
+                                        "data": {
+                                            "oneOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/TarifUserResource"
                                                 }
-                                            },
+                                            ],
+                                            "nullable": true,
                                             "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dernier tarif récupéré avec succès"
                                         }
-                                    ]
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
