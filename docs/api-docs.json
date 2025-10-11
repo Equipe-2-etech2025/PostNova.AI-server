@@ -2595,9 +2595,18 @@
                         "description": "Interaction supprimée avec succès",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "message": "Interaction supprimée avec succès"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Interaction supprimée avec succès"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2606,9 +2615,18 @@
                         "description": "Interaction non trouvée",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Aucune interaction trouvée avec cet identifiant"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Aucune interaction trouvée avec cet identifiant"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2617,9 +2635,18 @@
                         "description": "Utilisateur non authentifié",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Unauthenticated"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2628,9 +2655,18 @@
                         "description": "Accès refusé",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Vous n’avez pas la permission de supprimer cette interaction"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Vous n’avez pas la permission de supprimer cette interaction"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -2639,9 +2675,18 @@
                         "description": "Erreur interne du serveur",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "error": "Erreur interne du serveur, veuillez réessayer plus tard"
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erreur interne du serveur, veuillez réessayer plus tard"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
