@@ -1473,13 +1473,13 @@ paths:
       security:
         -
           bearerAuth: []
-  /api/campaign-interactions/delete:
-    delete:
+  /api/campaign-interactions/dislike:
+    post:
       tags:
         - 'Campaign Interactions'
       summary: 'Supprimer une interaction par campagne et utilisateur'
-      description: "Supprime une interaction spécifique associée à un utilisateur et une campagne.\n *     Nécessite que la combinaison (campaign_id, user_id) existe."
-      operationId: d21496e4340a1f41529e73c251a69be8
+      description: "Supprime une interaction spécifique associée à un utilisateur et une campagne.\n *     Cette opération nécessite que la combinaison (campaign_id, user_id) existe."
+      operationId: 23c2f658be0ff9345db9e7b42492fc7d
       requestBody:
         required: true
         content:
@@ -1506,6 +1506,7 @@ paths:
               schema:
                 type: object
               example:
+                success: true
                 message: 'Interaction supprimée avec succès'
         404:
           description: 'Aucune interaction trouvée pour ce couple campaign_id / user_id'
@@ -1514,6 +1515,7 @@ paths:
               schema:
                 type: object
               example:
+                success: false
                 message: 'Aucune interaction trouvée pour ce couple campaign_id / user_id'
         400:
           description: 'Requête invalide (paramètres manquants ou invalides)'
@@ -1522,6 +1524,7 @@ paths:
               schema:
                 type: object
               example:
+                success: false
                 error: 'Le champ campaign_id est requis et doit être un entier valide'
         401:
           description: 'Utilisateur non authentifié'
@@ -1530,6 +1533,7 @@ paths:
               schema:
                 type: object
               example:
+                success: false
                 error: Unauthenticated
         403:
           description: 'Accès refusé'
@@ -1538,6 +1542,7 @@ paths:
               schema:
                 type: object
               example:
+                success: false
                 error: 'Vous n’avez pas la permission de supprimer cette interaction'
         500:
           description: 'Erreur interne du serveur'
@@ -1546,6 +1551,7 @@ paths:
               schema:
                 type: object
               example:
+                success: false
                 error: 'Erreur interne du serveur, veuillez réessayer plus tard'
   '/api/campaign-interactions/{id}':
     get:
@@ -2794,9 +2800,15 @@ paths:
           description: 'Supprimé avec succès'
           content:
             application/json:
-              schema: []
-              example:
-                message: 'Supprimé avec succès.'
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'Supprimé avec succès.'
+                type: object
         401:
           description: 'Non authentifié'
           content:
@@ -6815,7 +6827,7 @@ paths:
       tags:
         - TarifUsers
       summary: 'Récupérer le dernier TarifUser pour un utilisateur'
-      description: "Retourne le dernier TarifUser actif pour l'utilisateur spécifié. Si aucun tarif n'est trouvé, renvoie null."
+      description: "Retourne le dernier TarifUser actif pour l'utilisateur spécifié. Si aucun tarif n'est trouvé, `data` est null."
       operationId: 2507531ba3b17911a2243a25a2a6e49b
       parameters:
         -
@@ -6828,25 +6840,24 @@ paths:
             example: 5
       responses:
         200:
-          description: 'Dernier TarifUser récupéré avec succès'
+          description: 'Dernier TarifUser récupéré'
           content:
             application/json:
               schema:
-                oneOf:
-                  -
-                    $ref: '#/components/schemas/TarifUserResource'
-                  -
-                    properties:
-                      success:
-                        type: boolean
-                        example: true
-                      data:
-                        type: 'null'
-                        example: null
-                      message:
-                        type: string
-                        example: 'Aucun tarif trouvé pour cet utilisateur.'
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    oneOf:
+                      -
+                        $ref: '#/components/schemas/TarifUserResource'
+                    nullable: true
                     type: object
+                  message:
+                    type: string
+                    example: 'Dernier tarif récupéré avec succès'
+                type: object
         401:
           description: 'Utilisateur non authentifié'
           content:
