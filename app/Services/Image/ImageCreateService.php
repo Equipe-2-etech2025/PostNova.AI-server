@@ -95,7 +95,7 @@ class ImageCreateService
             ->withHeaders([
                 'Authorization' => 'Bearer '.config('services.huggingface.api_key'),
             ])
-            ->post('https://api-inference.huggingface.co/models/'.self::MODEL_ID, [
+            ->post('https://router.huggingface.co/hf-inference/models/'.self::MODEL_ID, [
                 'inputs' => $enhancedPrompt,
                 'parameters' => [
                     'num_inference_steps' => 20,
