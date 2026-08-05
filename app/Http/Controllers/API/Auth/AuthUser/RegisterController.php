@@ -31,23 +31,32 @@ class RegisterController extends Controller
                 'role' => User::ROLE_USER,
             ]);
 
-            event(new Registered($user));
             $token = $user->createToken('auth_token')->plainTextToken;
 
             $tarifUserDto = new TarifUserDto(
                 null,
-                1, // ID du tarif par défaut ("Free")
+                1,
                 $user->id,
                 now(),
                 null,
             );
             $this->tarifUserService->createTarifUser($tarifUserDto);
 
+            try {
+                event(new Registered($user));
+                Log::info('Email de vérification envoyé', ['user_id' => $user->id]);
+            } catch (\Exception $emailError) {
+                Log::warning('Email de vérification non envoyé', [
+                    'user_id' => $user->id,
+                    'error' => $emailError->getMessage()
+                ]);
+            }
+
             Log::info('Nouvel utilisateur inscrit', ['user_id' => $user->id]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Inscription réussie. Veuillez vérifier votre email.',
+                'message' => 'Inscription réussie. Un email de vérification vous a été envoyé.',
                 'data' => [
                     'user' => new UserResource($user),
                     'token' => $token,

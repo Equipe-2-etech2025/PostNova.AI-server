@@ -45,8 +45,19 @@ return [
             'port' => env('MAIL_PORT', 2525),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            'timeout' => 120, // ⚠️ Augmenté de null à 120 secondes
+            'local_domain' => env('MAIL_EHLO_DOMAIN', 'render.com'), // ⚠️ Changé pour Render
+            'verify_peer' => false, // ⚠️ AJOUTÉ - Important pour Render
+            'verify_peer_name' => false, // ⚠️ AJOUTÉ
+            'auth_mode' => 'login', // ⚠️ AJOUTÉ - Force le mode d'authentification
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
         'ses' => [
@@ -83,7 +94,7 @@ return [
             'transport' => 'failover',
             'mailers' => [
                 'smtp',
-                'log',
+                'log', // ⚠️ AJOUTÉ - Fallback sur log si SMTP échoue
             ],
             'retry_after' => 60,
         ],
