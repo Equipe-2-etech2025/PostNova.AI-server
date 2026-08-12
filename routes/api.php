@@ -128,6 +128,15 @@ Route::prefix('auth')->group(function () {
         ->name('verification.verify');
 });
 
+Route::get('/mail-test', function () {
+    Mail::raw('Render test', function ($message) {
+        $message->to('hei.lisa.30@gmail.com')
+                ->subject('Render SMTP Test');
+    });
+
+    return 'OK';
+});
+
 Route::get('/campaigns/popular/content', PopularCampaignController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
