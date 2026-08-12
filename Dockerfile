@@ -41,4 +41,4 @@ EXPOSE $PORT
 WORKDIR /var/www
 
 # Commande pour Render
-CMD ["sh", "-c", "php artisan optimize && php artisan serve --host=0.0.0.0 --port=${PORT}"]
+CMD ["sh", "-c", "php artisan optimize:clear && php artisan serve --host=0.0.0.0 --port=${PORT}"]
