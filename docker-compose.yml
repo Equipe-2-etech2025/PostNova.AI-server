@@ -7,7 +7,7 @@ services:
         volumes:
             - .:/var/www
         environment:
-            - DB_HOST=db
+            - DB_HOST=postnova-db
             - DB_PORT=5432
             - DB_DATABASE=${DB_DATABASE}
             - DB_USERNAME=${DB_USERNAME}
@@ -40,8 +40,6 @@ services:
             POSTGRES_DB: ${DB_DATABASE}
             POSTGRES_USER: ${DB_USERNAME}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-        ports:
-            - "5432:5432"
         volumes:
             - postgres_data:/var/lib/postgresql/data
         healthcheck:
